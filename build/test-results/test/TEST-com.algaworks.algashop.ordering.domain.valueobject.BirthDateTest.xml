@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.algaworks.algashop.ordering.domain.valueobject.BirthDateTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2025-07-13T13:55:21.849Z" hostname="efratec" time="0.007">
+  <properties/>
+  <testcase name="given_birthDateIsNull_whenCreate_shouldGenerateException()" classname="com.algaworks.algashop.ordering.domain.valueobject.BirthDateTest" time="0.002"/>
+  <testcase name="given_birthDateValid_whenCreate_shouldSetValue()" classname="com.algaworks.algashop.ordering.domain.valueobject.BirthDateTest" time="0.002"/>
+  <testcase name="given_birthDateIsAfterCurrentDate_whenCreate_shouldGenerateException()" classname="com.algaworks.algashop.ordering.domain.valueobject.BirthDateTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

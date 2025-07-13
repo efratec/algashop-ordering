@@ -1,0 +1,30 @@
+package com.algaworks.algashop.ordering.domain.valueobject;
+
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+import java.time.LocalDate;
+
+class BirthDateTest {
+
+    @Test
+    void given_birthDateIsNull_whenCreate_shouldGenerateException() {
+        Assertions.assertThatExceptionOfType(NullPointerException.class)
+                .isThrownBy(()-> new BirthDate(null));
+    }
+
+    @Test
+    void given_birthDateIsAfterCurrentDate_whenCreate_shouldGenerateException() {
+        var dateAfterCurrentDate = LocalDate.of(2025, 8, 1);
+        Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(()-> new BirthDate(dateAfterCurrentDate));
+    }
+
+    @Test
+    void given_birthDateValid_whenCreate_shouldSetValue() {
+        LocalDate inputDate = LocalDate.of(2025, 5, 1); // exemplo
+        BirthDate birthDate = new BirthDate(inputDate);
+        Assertions.assertThat(inputDate).isEqualTo(birthDate.value());
+    }
+
+}

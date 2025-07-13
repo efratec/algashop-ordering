@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.algaworks.algashop.ordering.domain.valueobject.PhoneTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2025-07-13T13:55:21.880Z" hostname="efratec" time="0.005">
+  <properties/>
+  <testcase name="given_phoneValid_whenCreate_shouldSetValue()" classname="com.algaworks.algashop.ordering.domain.valueobject.PhoneTest" time="0.001"/>
+  <testcase name="given_phoneIsBlak_whenCreate_shouldGenerateException()" classname="com.algaworks.algashop.ordering.domain.valueobject.PhoneTest" time="0.002"/>
+  <testcase name="given_phoneIsNull_whenCreate_shouldGenerateException()" classname="com.algaworks.algashop.ordering.domain.valueobject.PhoneTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
