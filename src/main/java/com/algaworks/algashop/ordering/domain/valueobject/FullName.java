@@ -4,16 +4,17 @@ import java.util.Objects;
 
 public record FullName(String firstName, String lastName) {
 
-    public FullName(String firstName, String lastName) {
+    public FullName {
         Objects.requireNonNull(firstName);
         Objects.requireNonNull(lastName);
 
         if (firstName.isBlank() || lastName.isBlank()) {
             throw new IllegalArgumentException();
         }
+    }
 
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public static FullName of(String firstName, String lastName) {
+        return new FullName(firstName, lastName);
     }
 
     @Override

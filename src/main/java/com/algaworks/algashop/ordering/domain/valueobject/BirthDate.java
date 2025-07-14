@@ -6,12 +6,15 @@ import java.util.Objects;
 
 public record BirthDate(LocalDate value) {
 
-    public BirthDate(LocalDate value) {
+    public BirthDate {
         Objects.requireNonNull(value);
         if (value.isAfter(LocalDate.now())) {
             throw new IllegalArgumentException();
         }
-        this.value = value;
+    }
+
+    public static BirthDate of(LocalDate value) {
+        return new BirthDate(value);
     }
 
     public Integer getAge() {

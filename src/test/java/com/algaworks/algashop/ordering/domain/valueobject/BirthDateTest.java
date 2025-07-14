@@ -10,20 +10,20 @@ class BirthDateTest {
     @Test
     void given_birthDateIsNull_whenCreate_shouldGenerateException() {
         Assertions.assertThatExceptionOfType(NullPointerException.class)
-                .isThrownBy(()-> new BirthDate(null));
+                .isThrownBy(()-> BirthDate.of(null));
     }
 
     @Test
     void given_birthDateIsAfterCurrentDate_whenCreate_shouldGenerateException() {
         var dateAfterCurrentDate = LocalDate.of(2025, 8, 1);
         Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
-                .isThrownBy(()-> new BirthDate(dateAfterCurrentDate));
+                .isThrownBy(()-> BirthDate.of(dateAfterCurrentDate));
     }
 
     @Test
     void given_birthDateValid_whenCreate_shouldSetValue() {
         LocalDate inputDate = LocalDate.of(2025, 5, 1); // exemplo
-        BirthDate birthDate = new BirthDate(inputDate);
+        BirthDate birthDate = BirthDate.of(inputDate);
         Assertions.assertThat(inputDate).isEqualTo(birthDate.value());
     }
 

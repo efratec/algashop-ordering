@@ -8,20 +8,20 @@ class PhoneTest {
     @Test
     void given_phoneIsNull_whenCreate_shouldGenerateException() {
         Assertions.assertThatExceptionOfType(NullPointerException.class)
-                .isThrownBy(()-> new Phone(null));
+                .isThrownBy(()-> Phone.of(null));
     }
 
     @Test
-    void given_phoneIsBlak_whenCreate_shouldGenerateException() {
+    void given_phoneIsBlank_whenCreate_shouldGenerateException() {
         var phoneBlank = "";
         Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
-                .isThrownBy(()-> new Phone(phoneBlank));
+                .isThrownBy(()-> Phone.of(phoneBlank));
     }
 
     @Test
     void given_phoneValid_whenCreate_shouldSetValue() {
         var phoneBlank = "82 9889900";
-        Assertions.assertThat(phoneBlank).isEqualTo(new Phone(phoneBlank).value());
+        Assertions.assertThat(phoneBlank).isEqualTo(Phone.of(phoneBlank).value());
     }
 
 }

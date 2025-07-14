@@ -10,12 +10,11 @@ public record LoyaltyPoints(Integer value) implements Comparable<LoyaltyPoints> 
         this(0);
     }
 
-    public LoyaltyPoints(Integer value) {
+    public LoyaltyPoints {
         Objects.requireNonNull(value);
         if (value < 0) {
             throw new IllegalArgumentException("Value cannot be negative");
         }
-        this.value = value;
     }
 
     public LoyaltyPoints add(Integer value) {

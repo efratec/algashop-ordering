@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.algaworks.algashop.ordering.domain.valueobject.EmailTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2025-07-13T13:55:21.858Z" hostname="efratec" time="0.009">
-  <properties/>
-  <testcase name="given_invalidEmail_whenCreate_shouldGenerateException()" classname="com.algaworks.algashop.ordering.domain.valueobject.EmailTest" time="0.002"/>
-  <testcase name="given_emailIsNull_whenCreate_shouldGenerateException()" classname="com.algaworks.algashop.ordering.domain.valueobject.EmailTest" time="0.001"/>
-  <testcase name="shouldSetEmailValue()" classname="com.algaworks.algashop.ordering.domain.valueobject.EmailTest" time="0.004"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

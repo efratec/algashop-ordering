@@ -6,7 +6,19 @@ import java.util.Objects;
 
 public class FieldValidations {
 
-    private FieldValidations(){}
+    private FieldValidations() {
+    }
+
+    public static void requiredNonBlank(String value) {
+        requiredNonBlank(value, "");
+    }
+
+    public static void requiredNonBlank(String value, String errorMessage) {
+        Objects.requireNonNull(value);
+        if (value.isBlank()) {
+            throw new IllegalArgumentException(errorMessage);
+        }
+    }
 
     public static void requiresValidEmail(String email) {
         requiresValidEmail(email, null);
