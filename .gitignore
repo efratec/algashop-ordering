@@ -1,0 +1,84 @@
+# === Java Class Files ===
+*.class
+*.jar
+*.war
+*.ear
+
+# === Build Output ===
+/target/
+/build/
+/out/
+/bin/
+/dist/
+
+# === Maven ===
+.mvn/
+!**/src/main/**
+!**/src/test/**
+dependency-reduced-pom.xml
+release.properties
+
+# === Gradle ===
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# === IntelliJ IDEA ===
+.idea/
+*.iml
+*.ipr
+*.iws
+*.bak
+*.swp
+*.orig
+
+# === Eclipse ===
+.project
+.classpath
+.settings/
+
+# === VS Code ===
+.vscode/
+
+# === Logs ===
+*.log
+
+# === OS-specific ===
+.DS_Store
+Thumbs.db
+
+# === Test Reports & Coverage ===
+/test-output/
+/surefire-reports/
+/jacoco.exec
+/coverage/
+
+# === Local Environment Files ===
+.env
+*.env
+.env.*
+*.local
+
+# === Git Temporary ===
+*.rej
+*.swo
+*.swn
+*.tmp
+*.pid
+
+# === Backup Files ===
+*.bak
+*.old
+*.orig
+
+# === Database or IDE Generated ===
+*.mv.db
+*.sqlite
+*.db
+*.h2.db
+*.lck
+
+# === Custom folders for modules ===
+*/target/
+*/build/
+*/out/

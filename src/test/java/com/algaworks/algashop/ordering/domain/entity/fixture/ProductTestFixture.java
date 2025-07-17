@@ -1,0 +1,45 @@
+package com.algaworks.algashop.ordering.domain.entity.fixture;
+
+import com.algaworks.algashop.ordering.domain.valueobject.Money;
+import com.algaworks.algashop.ordering.domain.valueobject.Product;
+import com.algaworks.algashop.ordering.domain.valueobject.ProductName;
+import com.algaworks.algashop.ordering.domain.valueobject.id.ProductId;
+
+public class ProductTestFixture {
+
+    private ProductTestFixture() {
+    }
+
+    public static Product.ProductBuilder aProduct() {
+        return Product.builder()
+                .id(ProductId.generate())
+                .inStock(true)
+                .name(ProductName.of("Notebook X11"))
+                .price(Money.of("3000"));
+    }
+
+    public static Product.ProductBuilder aProductUnavailable() {
+        return Product.builder()
+                .id(ProductId.generate())
+                .name(ProductName.of("Desktop FX9000"))
+                .price(Money.of("5000"))
+                .inStock(false);
+    }
+
+    public static Product.ProductBuilder aProductAltRamMemory() {
+        return Product.builder()
+                .id(ProductId.generate())
+                .name(ProductName.of("4GB RAM"))
+                .price(Money.of("200"))
+                .inStock(true);
+    }
+
+    public static Product.ProductBuilder aProductAltMousePad() {
+        return Product.builder()
+                .id(ProductId.generate())
+                .name(ProductName.of("Mouse Pad"))
+                .price(Money.of("100"))
+                .inStock(true);
+    }
+
+}

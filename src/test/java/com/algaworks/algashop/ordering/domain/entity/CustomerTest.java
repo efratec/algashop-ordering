@@ -1,5 +1,6 @@
 package com.algaworks.algashop.ordering.domain.entity;
 
+import com.algaworks.algashop.ordering.domain.entity.fixture.CustomerTestFixture;
 import com.algaworks.algashop.ordering.domain.exception.CustomerArchivedException;
 import com.algaworks.algashop.ordering.domain.valueobject.*;
 import org.assertj.core.api.Assertions;
@@ -13,14 +14,14 @@ class CustomerTest {
     @Test
     void given_invalidEmail_whenTryCreateCustomer_shouldGenerateException() {
         Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
-                .isThrownBy(()-> CustomerTestDataBuilder.brandNewCustomer()
+                .isThrownBy(()-> CustomerTestFixture.brandNewCustomer()
                         .email(Email.of("invalid")).build()
                 );
     }
 
     @Test
     void given_invalidEmail_whenTryUpdatedCustomerEmail_shouldGenerateException() {
-        Customer customer = CustomerTestDataBuilder.brandNewCustomer().build();
+        Customer customer = CustomerTestFixture.brandNewCustomer().build();
 
         Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
                 .isThrownBy(()-> customer.changeEmail(Email.of("invalid")));
@@ -28,7 +29,7 @@ class CustomerTest {
 
     @Test
     void given_unarchivedCustomer_whenArchive_shouldAnonymize() {
-        Customer customer = CustomerTestDataBuilder.existingCustomer().build();
+        Customer customer = CustomerTestFixture.existingCustomer().build();
 
         customer.archive();
 
@@ -56,7 +57,7 @@ class CustomerTest {
 
     @Test
     void given_archivedCustomer_whenTryToUpdate_shouldGenerateException() {
-        Customer customer = CustomerTestDataBuilder.existingAnonymizedCustomer().build();
+        Customer customer = CustomerTestFixture.existingAnonymizedCustomer().build();
 
         Assertions.assertThatExceptionOfType(CustomerArchivedException.class)
                 .isThrownBy(customer::archive);
@@ -76,7 +77,7 @@ class CustomerTest {
 
     @Test
     void given_brandNewCustomer_whenAddLoyaltyPoints_shouldSumPoints() {
-        Customer customer = CustomerTestDataBuilder.brandNewCustomer().build();
+        Customer customer = CustomerTestFixture.brandNewCustomer().build();
 
         customer.addLoyaltyPoints(new LoyaltyPoints(10));
         customer.addLoyaltyPoints(new LoyaltyPoints(20));
@@ -86,7 +87,7 @@ class CustomerTest {
 
     @Test
     void given_brandNewCustomer_whenAddInvalidLoyaltyPoints_shouldGenerateException() {
-        Customer customer = CustomerTestDataBuilder.brandNewCustomer().build();
+        Customer customer = CustomerTestFixture.brandNewCustomer().build();
 
         Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
                 .isThrownBy(()-> customer.addLoyaltyPoints(new LoyaltyPoints(0)));

@@ -1,13 +1,15 @@
-package com.algaworks.algashop.ordering.domain.entity;
+package com.algaworks.algashop.ordering.domain.entity.fixture;
 
+import com.algaworks.algashop.ordering.domain.entity.Customer;
 import com.algaworks.algashop.ordering.domain.valueobject.*;
+import com.algaworks.algashop.ordering.domain.valueobject.id.CustomerId;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
 import static com.algaworks.algashop.ordering.domain.entity.Customer.brandNew;
 
-public class CustomerTestDataBuilder {
+public class CustomerTestFixture {
 
     public static Customer.BrandNewCustomerBuild brandNewCustomer() {
         return brandNew()
@@ -30,7 +32,7 @@ public class CustomerTestDataBuilder {
 
     public static Customer.ExistingCustomerBuild existingCustomer() {
         return Customer.existing()
-                .id(new CustomerId())
+                .id(CustomerId.generate())
                 .registeredAt(OffsetDateTime.now())
                 .promotionNotificationsAllowed(true)
                 .archived(false)
@@ -56,7 +58,7 @@ public class CustomerTestDataBuilder {
 
     public static Customer.ExistingCustomerBuild existingAnonymizedCustomer() {
         return Customer.existing()
-                .id(new CustomerId())
+                .id(CustomerId.generate())
                 .fullName(FullName.of("Anonymous", "Anonymous"))
                 .birthDate(null)
                 .email(Email.of("anonymous@anonymous.com"))

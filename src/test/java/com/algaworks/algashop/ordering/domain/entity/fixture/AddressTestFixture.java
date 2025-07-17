@@ -1,9 +1,9 @@
-package com.algaworks.algashop.ordering.domain.entity;
+package com.algaworks.algashop.ordering.domain.entity.fixture;
 
 import com.algaworks.algashop.ordering.domain.valueobject.Address;
 import com.algaworks.algashop.ordering.domain.valueobject.ZipCode;
 
-public class AddressTestDataBuilder {
+public class AddressTestFixture {
 
     public static Address.AddressBuilder aAddress() {
         return Address.builder()

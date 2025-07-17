@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.algaworks.algashop.ordering.domain.valueobject.MoneyTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2025-07-14T21:38:33.381Z" hostname="efratec" time="0.037">
+<testsuite name="com.algaworks.algashop.ordering.domain.valueobject.MoneyTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2025-07-17T19:55:42.109Z" hostname="efratec" time="0.016">
   <properties/>
-  <testcase name="testToString()" classname="com.algaworks.algashop.ordering.domain.valueobject.MoneyTest" time="0.015"/>
+  <testcase name="testToString()" classname="com.algaworks.algashop.ordering.domain.valueobject.MoneyTest" time="0.001"/>
   <testcase name="givenTwoMoneyValues_whenAdd_thenShouldReturnSum()" classname="com.algaworks.algashop.ordering.domain.valueobject.MoneyTest" time="0.001"/>
   <testcase name="testCompareTo()" classname="com.algaworks.algashop.ordering.domain.valueobject.MoneyTest" time="0.001"/>
   <testcase name="givenZeroValue_whenCreate_thenShouldCreateQuantity()" classname="com.algaworks.algashop.ordering.domain.valueobject.MoneyTest" time="0.001"/>
-  <testcase name="givenValidValue_whenCreate_thenShouldCreateQuantity()" classname="com.algaworks.algashop.ordering.domain.valueobject.MoneyTest" time="0.002"/>
-  <testcase name="givenNull_whenMultiply_thenShouldThrowException()" classname="com.algaworks.algashop.ordering.domain.valueobject.MoneyTest" time="0.003"/>
+  <testcase name="givenValidValue_whenCreate_thenShouldCreateQuantity()" classname="com.algaworks.algashop.ordering.domain.valueobject.MoneyTest" time="0.0"/>
+  <testcase name="givenNull_whenMultiply_thenShouldThrowException()" classname="com.algaworks.algashop.ordering.domain.valueobject.MoneyTest" time="0.001"/>
   <testcase name="givenNull_whenAdd_thenShouldThrowException()" classname="com.algaworks.algashop.ordering.domain.valueobject.MoneyTest" time="0.001"/>
-  <testcase name="givenMoney_when_MultiplyByQuantity_thenShouldReturnMultiplied()" classname="com.algaworks.algashop.ordering.domain.valueobject.MoneyTest" time="0.002"/>
-  <testcase name="givenNegativeValue_whenCreate_thenShouldThrowException()" classname="com.algaworks.algashop.ordering.domain.valueobject.MoneyTest" time="0.001"/>
+  <testcase name="givenMoney_when_MultiplyByQuantity_thenShouldReturnMultiplied()" classname="com.algaworks.algashop.ordering.domain.valueobject.MoneyTest" time="0.001"/>
+  <testcase name="givenNegativeValue_whenCreate_thenShouldThrowException()" classname="com.algaworks.algashop.ordering.domain.valueobject.MoneyTest" time="0.002"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
