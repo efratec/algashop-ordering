@@ -108,6 +108,14 @@ public class Order {
         this.recalculateTotals();
     }
 
+    public void removeItem(OrderItemId orderItemId) {
+        requireNonNull(orderItemId);
+        verifyIfChangeable();
+        var orderItem = findOrderItem(orderItemId);
+        this.items.remove(orderItem);
+        this.recalculateTotals();
+    }
+
     public void place() {
         verifyIfCanChangeToPlaced();
         validate(() -> this.items().isEmpty(), NO_ITEMS, OrderCannotBePlacedException::new, this.id());
@@ -226,8 +234,8 @@ public class Order {
 
         var amountTotal = totalItemsAmount.add(shippingCost);
 
-        this.setTotalAmount(new Money(amountTotal));
-        this.setTotalItems(new Quantity(totalItemsQuantity));
+        this.setTotalAmount(Money.of(amountTotal));
+        this.setTotalItems(Quantity.of(totalItemsQuantity));
     }
 
     private void changeStatus(OrderStatusEnum newStatus) {
@@ -251,9 +259,7 @@ public class Order {
     private OrderItem findOrderItem(OrderItemId orderItemId) {
         return this.items().stream().filter(i -> i.id().equals(orderItemId))
                 .findFirst()
-                .orElseThrow(() -> OrderDoesNotContainOrderItemException.because(
-                        OrderDoesNotContainOrderItemException::new,
-                        NO_ORDER_DOES_NOT_CONTAIN_ITEM, this.id(), orderItemId));
+                .orElseThrow(() -> OrderDoesNotContainOrderItemException.because(this.id(), orderItemId));
     }
 
     private void setId(OrderId id) {

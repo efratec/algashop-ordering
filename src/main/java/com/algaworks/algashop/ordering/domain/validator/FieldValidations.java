@@ -13,10 +13,6 @@ public class FieldValidations {
     private FieldValidations() {
     }
 
-    public static void requiredNonBlank(String value) {
-        requiredNonBlank(value, "");
-    }
-
     public static void requiredNonBlank(String value, String errorMessage) {
         Objects.requireNonNull(value);
         if (value.isBlank()) {
@@ -60,7 +56,7 @@ public class FieldValidations {
             Object... args) {
 
         if (condition.getAsBoolean()) {
-            throw DomainException.because(exceptionFactory, reason, args);
+            throw DomainException.of(exceptionFactory, reason, args);
         }
     }
 

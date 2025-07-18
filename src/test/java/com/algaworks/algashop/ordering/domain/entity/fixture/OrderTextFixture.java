@@ -34,7 +34,7 @@ public class OrderTextFixture {
         order.changePaymentMethod(paymentMethod);
 
         if (this.withItems) {
-            order.addItem(ProductTestFixture.aProduct().build(),
+            order.addItem(ProductTestFixture.aProductAltMousePad().build(),
                     new Quantity(2)
             );
 

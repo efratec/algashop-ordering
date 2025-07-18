@@ -14,7 +14,7 @@ public class DomainException extends RuntimeException {
         super(message);
     }
 
-    public static <T extends DomainException> T because(
+    public static <T extends DomainException> T of(
             Function<String, T> exceptionCreator,
             ReasonMessage reason,
             Object... args) {
