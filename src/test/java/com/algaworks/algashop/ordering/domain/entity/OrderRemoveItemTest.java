@@ -43,10 +43,11 @@ class OrderRemoveItemTest {
     void givenPlacedOrder_whenTry_ToRemove_shouldThrowException() {
         final var order = OrderTextFixture.anOrder().build();
         final var orderItem = order.items().iterator().next();
+
         order.place();
+
         assertThatExceptionOfType(OrderCannotBeEditedException.class)
                 .isThrownBy(() -> order.removeItem(orderItem.id()));
-
     }
 
 }
