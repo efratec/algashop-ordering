@@ -116,6 +116,11 @@ public class Order {
         this.recalculateTotals();
     }
 
+    public void cancel() {
+        this.changeStatus(OrderStatusEnum.CANCELED);
+        this.setCanceledAt(OffsetDateTime.now());
+    }
+
     public void place() {
         verifyIfCanChangeToPlaced();
         validate(() -> this.items().isEmpty(), NO_ITEMS, OrderCannotBePlacedException::new, this.id());
@@ -169,6 +174,10 @@ public class Order {
 
     public boolean isReady() {
         return OrderStatusEnum.READY.equals(this.status());
+    }
+
+    public boolean isCanceled() {
+        return OrderStatusEnum.CANCELED.equals(this.status());
     }
 
     public boolean isPlaced() {

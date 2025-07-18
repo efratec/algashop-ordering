@@ -25,4 +25,27 @@ public enum OrderStatusEnum {
         return !canChangeTo(newStatus);
     }
 
+    public void applyTransition(Order order) {
+        switch (this) {
+            case DRAFT -> {}
+            case PLACED -> order.place();
+            case PAID -> {
+                order.place();
+                order.markAsPaid();
+            }
+            case READY -> {
+                order.place();
+                order.markAsPaid();
+                order.markAsReady();
+            }
+            case CANCELED -> {
+                order.place();
+                order.markAsPaid();
+                order.markAsReady();
+                order.cancel();
+            }
+            default -> throw new IllegalStateException("Transição não suportada para status: " + this);
+        }
+    }
+
 }

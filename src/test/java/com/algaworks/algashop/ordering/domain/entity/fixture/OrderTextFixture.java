@@ -28,38 +28,13 @@ public class OrderTextFixture {
     }
 
     public Order build() {
-        var order = Order.draft(customerId);
-        order.changeShipping(shipping);
-        order.changeBilling(billing);
-        order.changePaymentMethod(paymentMethod);
+        var order = Order.draft(this.customerId);
+        order.changeShipping(this.shipping);
+        order.changeBilling(this.billing);
+        order.changePaymentMethod(this.paymentMethod);
 
-        if (this.withItems) {
-            order.addItem(ProductTestFixture.aProductAltMousePad().build(),
-                    new Quantity(2)
-            );
-
-            order.addItem(ProductTestFixture.aProductAltRamMemory().build(),
-                    new Quantity(1)
-            );
-        }
-
-        switch (this.status) {
-            case PLACED -> {
-                order.place();
-            }
-            case PAID -> {
-                order.place();
-                order.markAsPaid();
-            }
-            case READY -> {
-                order.place();
-                order.markAsPaid();
-                order.markAsReady();
-            }
-            case CANCELED -> {
-            }
-        }
-
+        addDefaultsITems(order);
+        this.status.applyTransition(order);
         return order;
     }
 
@@ -115,5 +90,19 @@ public class OrderTextFixture {
         this.status = status;
         return this;
     }
+
+    private void addDefaultsITems(Order order) {
+        if (this.withItems) {
+            order.addItem(ProductTestFixture.aProductAltMousePad().build(),
+                    new Quantity(2)
+            );
+
+            order.addItem(ProductTestFixture.aProductAltRamMemory().build(),
+                    new Quantity(1)
+            );
+        }
+    }
+
+
 
 }
