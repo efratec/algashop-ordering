@@ -52,6 +52,9 @@ public class OrderTextFixture {
                 order.markAsPaid();
             }
             case READY -> {
+                order.place();
+                order.markAsPaid();
+                order.markAsReady();
             }
             case CANCELED -> {
             }

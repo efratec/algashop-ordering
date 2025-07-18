@@ -119,13 +119,18 @@ public class Order {
     public void place() {
         verifyIfCanChangeToPlaced();
         validate(() -> this.items().isEmpty(), NO_ITEMS, OrderCannotBePlacedException::new, this.id());
-        this.setPlacedAt(OffsetDateTime.now());
         this.changeStatus(OrderStatusEnum.PLACED);
+        this.setPlacedAt(OffsetDateTime.now());
     }
 
     public void markAsPaid() {
-        this.setPaidAt(OffsetDateTime.now());
         this.changeStatus(OrderStatusEnum.PAID);
+        this.setPaidAt(OffsetDateTime.now());
+    }
+
+    public void markAsReady() {
+        this.changeStatus(OrderStatusEnum.READY);
+        this.setReadyAt(OffsetDateTime.now());
     }
 
     public void changePaymentMethod(PaymentMethod paymentMethod) {
@@ -160,6 +165,10 @@ public class Order {
 
     public boolean isDraft() {
         return OrderStatusEnum.DRAFT.equals(this.status());
+    }
+
+    public boolean isReady() {
+        return OrderStatusEnum.READY.equals(this.status());
     }
 
     public boolean isPlaced() {

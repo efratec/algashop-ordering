@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class OrderChangingTest {
 
     @ParameterizedTest
-    @EnumSource(value = OrderStatusEnum.class, mode = EnumSource.Mode.INCLUDE, names = {"DRAFT", "PLACED", "PAID",})
+    @EnumSource(OrderStatusEnum.class)
     void givenOrderStatus_whenChangingFields_thenValidateEditPermission(OrderStatusEnum status) {
         var order = OrderTextFixture.anOrder().status(status).build();
 
@@ -35,11 +35,11 @@ class OrderChangingTest {
                 () -> order.changePaymentMethod(paymentMethod)
         );
 
-        for (Executable op : operations) {
+        for (Executable operation : operations) {
             if (OrderStatusEnum.DRAFT.equals(status)) {
-                assertThatCode(op::execute).doesNotThrowAnyException();
+                assertThatCode(operation::execute).doesNotThrowAnyException();
             } else {
-                assertThatThrownBy(op::execute).isInstanceOf(OrderCannotBeEditedException.class);
+                assertThatThrownBy(operation::execute).isInstanceOf(OrderCannotBeEditedException.class);
             }
         }
     }
