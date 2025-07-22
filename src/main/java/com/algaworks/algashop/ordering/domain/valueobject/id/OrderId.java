@@ -11,15 +11,15 @@ public record OrderId(TSID value) {
         Objects.requireNonNull(value);
     }
 
-    public static OrderId generate() {
+    public static OrderId of() {
         return new OrderId(GeneratorId.gererateTSID());
     }
 
-    public static OrderId of(Long value) {
+    public static OrderId from(Long value) {
         return new OrderId(TSID.from(value));
     }
 
-    public static OrderId of(String value) {
+    public static OrderId from(String value) {
         return new OrderId(TSID.from(value));
     }
 

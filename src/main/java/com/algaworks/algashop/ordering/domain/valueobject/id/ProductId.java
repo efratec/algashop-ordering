@@ -11,15 +11,15 @@ public record ProductId(UUID value) {
         Objects.requireNonNull(value, "Product id cannot be null");
     }
 
-    public static ProductId generate() {
+    public static ProductId of() {
         return new ProductId(GeneratorId.generateTimeBasedUUID());
     }
 
-    public static ProductId of(String value) {
+    public static ProductId from(String value) {
         return new ProductId(UUID.fromString(value));
     }
 
-    public static ProductId of(UUID value) {
+    public static ProductId from(UUID value) {
         return new ProductId(value);
     }
 

@@ -30,7 +30,7 @@ public class Customer {
     private static Customer createBrandNew(FullName fullName, BirthDate birthDate, Email email,
                                           Phone phone, Document document, Boolean promotionNotificationsAllowed,
                                           Address address) {
-        return new Customer(CustomerId.generate(),
+        return new Customer(CustomerId.of(),
                 fullName,
                 birthDate,
                 email,

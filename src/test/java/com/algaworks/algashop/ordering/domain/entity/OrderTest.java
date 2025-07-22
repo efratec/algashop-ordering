@@ -12,8 +12,6 @@ import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
-
 import static com.algaworks.algashop.ordering.domain.entity.fixture.ProductTestFixture.aProductAltMousePad;
 import static com.algaworks.algashop.ordering.domain.entity.fixture.ProductTestFixture.aProductUnavailable;
 import static com.algaworks.algashop.ordering.domain.entity.fixture.ShippingTestFixture.aShippingFull;
@@ -25,7 +23,7 @@ class OrderTest {
     public static final Quantity QUANTITY_2 = Quantity.of(2);
     public static final Quantity QUANTITY_3 = Quantity.of(3);
     public static final Quantity QUANTITY_5 = Quantity.of(5);
-    public static final CustomerId GENERATE_CUSTOMER_ID = CustomerId.generate();
+    public static final CustomerId GENERATE_CUSTOMER_ID = CustomerId.of();
 
     @Test
     void shouldGenerate() {
@@ -169,7 +167,7 @@ class OrderTest {
     @Test
     void givenDraftOrder_whenChangeBilling_shouldAllowChange() {
         Billing billing = OrderTextFixture.aBilling();
-        Order order = Order.draft(CustomerId.generate());
+        Order order = Order.draft(CustomerId.of());
         order.changeBilling(billing);
         Assertions.assertThat(order.billing()).isEqualTo(billing);
     }

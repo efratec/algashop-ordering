@@ -32,7 +32,7 @@ public class CustomerTestFixture {
 
     public static Customer.ExistingCustomerBuild existingCustomer() {
         return Customer.existing()
-                .id(CustomerId.generate())
+                .id(CustomerId.of())
                 .registeredAt(OffsetDateTime.now())
                 .promotionNotificationsAllowed(true)
                 .archived(false)
@@ -58,7 +58,7 @@ public class CustomerTestFixture {
 
     public static Customer.ExistingCustomerBuild existingAnonymizedCustomer() {
         return Customer.existing()
-                .id(CustomerId.generate())
+                .id(CustomerId.of())
                 .fullName(FullName.of("Anonymous", "Anonymous"))
                 .birthDate(null)
                 .email(Email.of("anonymous@anonymous.com"))

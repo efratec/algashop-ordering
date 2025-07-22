@@ -11,7 +11,7 @@ public record CustomerId(UUID value) {
         Objects.requireNonNull(value);
     }
 
-    public static CustomerId generate() {
+    public static CustomerId of() {
         return new CustomerId(GeneratorId.generateTimeBasedUUID());
     }
 

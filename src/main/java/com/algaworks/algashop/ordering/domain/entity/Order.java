@@ -72,7 +72,7 @@ public class Order {
 
     public static Order draft(CustomerId customerId) {
         return new Order(
-                OrderId.generate(),
+                OrderId.of(),
                 customerId,
                 Money.ZERO(),
                 Quantity.ZERO,

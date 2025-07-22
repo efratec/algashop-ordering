@@ -19,7 +19,7 @@ class OrderRemoveItemTest {
 
     @Test
     void given_an_order_in_draft_when_remove_order_item_then_item_should_be_removed() {
-        final var order = Order.draft(CustomerId.generate());
+        final var order = Order.draft(CustomerId.of());
 
         order.addItem(aProductAltMousePad().build(), Quantity.of(2));
 

@@ -8,7 +8,7 @@ import com.algaworks.algashop.ordering.domain.valueobject.id.CustomerId;
 
 public class OrderTextFixture {
 
-    private CustomerId customerId = CustomerId.generate();
+    private CustomerId customerId = CustomerId.of();
 
     private PaymentMethod paymentMethod = PaymentMethod.GATEWAY_BALANCE;
 

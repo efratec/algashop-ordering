@@ -13,7 +13,7 @@ class OrderItemTest {
         Assertions.assertNotNull(OrderItem.brandNew()
                 .product(ProductTestFixture.aProduct().build())
                 .quantity(Quantity.of(1))
-                .orderId(OrderId.generate())
+                .orderId(OrderId.of())
                 .build());
     }
 
