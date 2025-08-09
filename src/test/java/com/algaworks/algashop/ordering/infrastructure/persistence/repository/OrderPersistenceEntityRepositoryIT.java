@@ -26,19 +26,13 @@ class OrderPersistenceEntityRepositoryIT {
 
     @Test
     void shouldPersist() {
-        long orderId = GeneratorId.gererateTSID().toLong();
-        var entity = OrderPersistenceEntity.builder()
-                .id(orderId)
-                .customerId(GeneratorId.generateTimeBasedUUID())
-                .totalItems(2)
-                .totalAmount(new BigDecimal(1000))
-                .status("DRAFT")
-                .paymentMethod("CREDIT_CARD")
-                .placedAt(OffsetDateTime.now())
-                .build();
+        var entity = OrderPersistenceEntityTestFixture.existingOrder().build();
 
         orderPersistenceEntityRepository.saveAndFlush(entity);
-        assertThat(orderPersistenceEntityRepository.existsById(orderId)).isTrue();
+        assertThat(orderPersistenceEntityRepository.existsById(entity.getId())).isTrue();
+
+        var savedEntity = orderPersistenceEntityRepository.findById(entity.getId()).orElseThrow();
+        assertThat(savedEntity.getItems()).isNotEmpty();
     }
 
     @Test

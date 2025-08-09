@@ -1,19 +1,24 @@
 package com.algaworks.algashop.ordering.infrastructure.persistence.disassembler;
 
 import com.algaworks.algashop.ordering.domain.model.entity.Order;
+import com.algaworks.algashop.ordering.domain.model.entity.OrderItem;
 import com.algaworks.algashop.ordering.domain.model.entity.OrderStatusEnum;
 import com.algaworks.algashop.ordering.domain.model.entity.PaymentMethodEnum;
 import com.algaworks.algashop.ordering.domain.model.valueobject.*;
 import com.algaworks.algashop.ordering.domain.model.valueobject.id.CustomerId;
 import com.algaworks.algashop.ordering.domain.model.valueobject.id.OrderId;
+import com.algaworks.algashop.ordering.domain.model.valueobject.id.ProductId;
 import com.algaworks.algashop.ordering.infrastructure.persistence.embeddable.AddressEmbeddable;
 import com.algaworks.algashop.ordering.infrastructure.persistence.embeddable.BillingEmbeddable;
 import com.algaworks.algashop.ordering.infrastructure.persistence.embeddable.RecipientEmbeddable;
 import com.algaworks.algashop.ordering.infrastructure.persistence.embeddable.ShippingEmbeddable;
+import com.algaworks.algashop.ordering.infrastructure.persistence.entity.OrderItemPersistenceEntity;
 import com.algaworks.algashop.ordering.infrastructure.persistence.entity.OrderPersistenceEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class OrderPersistenceEntityDisassembler {
@@ -32,7 +37,7 @@ public class OrderPersistenceEntityDisassembler {
                 .readyAt(persistenceEntity.getReadyAt())
                 .shipping(convertShippingEmbeddableToShipping(persistenceEntity.getShipping()))
                 .billing(convertBillingEmbeddableToBilling(persistenceEntity.getBilling()))
-                .items(new HashSet<>())
+                .items(convertOrderItemPersistenceEntityToOrderItem(persistenceEntity.getItems()))
                 .version(persistenceEntity.getVersion())
                 .build();
     }
@@ -45,6 +50,20 @@ public class OrderPersistenceEntityDisassembler {
                 .phone(Phone.of(billingEmbeddable.getPhone()))
                 .address(convertAddressEmbeddableToAddress(billingEmbeddable.getAddress()))
                 .build();
+    }
+
+    private static Set<OrderItem> convertOrderItemPersistenceEntityToOrderItem(Set<OrderItemPersistenceEntity> orderItemPersistenceEntities) {
+        return orderItemPersistenceEntities.stream()
+                .map(item -> OrderItem.brandNew()
+                .orderId(OrderId.from(item.getOrderId()))
+                .product(Product.of(ProductId.from(item.getProductId()),
+                        ProductName.of(item.getProductName()),
+                        Money.of(item.getPrice()),
+                        null
+                ))
+                .quantity(Quantity.of(item.getQuantity()))
+                .build())
+                .collect(Collectors.toCollection(HashSet::new));
     }
 
     private static Address convertAddressEmbeddableToAddress(AddressEmbeddable addressEmbeddable) {
