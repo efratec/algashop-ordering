@@ -29,10 +29,11 @@ public class CustomerPersistenceEntityAssembler {
         customerPersistenceEntity.setDocument(customer.document().value());
         customerPersistenceEntity.setPromotionNotificationsAllowed(customer.isPromotionNotificationsAllowed());
         customerPersistenceEntity.setArchived(customer.isArchived());
-        customerPersistenceEntity.setArchivedAt(OffsetDateTime.now());
-        customerPersistenceEntity.setRegisteredAt(OffsetDateTime.now());
+        customerPersistenceEntity.setArchivedAt(customer.archivedAt());
+        customerPersistenceEntity.setRegisteredAt(customer.registeredAt());
         customerPersistenceEntity.setLoyaltyPoints(customer.loyaltyPoints().value());
         customerPersistenceEntity.setAddress(convertAddressToEmbeddable(customer.address()));
+        customerPersistenceEntity.setVersion(customer.version());
         return customerPersistenceEntity;
     }
 

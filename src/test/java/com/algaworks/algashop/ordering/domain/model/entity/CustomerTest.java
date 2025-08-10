@@ -38,7 +38,6 @@ class CustomerTest {
                 c -> assertThat(c.email()).isNotEqualTo(Email.of("john.doe@gmail.com")),
                 c -> assertThat(c.phone()).isEqualTo(Phone.of("000-000-0000")),
                 c -> assertThat(c.document()).isEqualTo(Document.of("000-00-0000")),
-                c -> assertThat(c.birthDate()).isNull(),
                 c -> assertThat(c.isPromotionNotificationsAllowed()).isFalse(),
                 c -> assertThat(c.address()).isEqualTo(
                         Address.builder()

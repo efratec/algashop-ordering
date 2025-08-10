@@ -5,6 +5,7 @@ import com.algaworks.algashop.ordering.domain.model.valueobject.FullName;
 import com.algaworks.algashop.ordering.infrastructure.persistence.assembler.CustomerPersistenceEntityAssembler;
 import com.algaworks.algashop.ordering.infrastructure.persistence.disassembler.CustomerPersistenceEntityDisassembler;
 import com.algaworks.algashop.ordering.infrastructure.persistence.provider.CustomersPersitenceProvider;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 class CustomersIT {
 
     private final Customers customers;
+    private final EntityManager entityManager;
 
     @Test
     void shouldPersistAndFind() {
