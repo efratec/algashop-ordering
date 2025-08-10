@@ -98,7 +98,7 @@ public class OrderPersistenceEntityAssembler {
                 .build();
     }
 
-    private static AddressEmbeddable convertAddressToEmbeddable(Address address) {
+    public static AddressEmbeddable convertAddressToEmbeddable(Address address) {
         if (address == null) return null;
         return AddressEmbeddable.builder()
                 .city(address.city())

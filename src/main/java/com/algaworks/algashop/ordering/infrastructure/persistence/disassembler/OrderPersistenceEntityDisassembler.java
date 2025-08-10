@@ -66,7 +66,7 @@ public class OrderPersistenceEntityDisassembler {
                 .collect(Collectors.toCollection(HashSet::new));
     }
 
-    private static Address convertAddressEmbeddableToAddress(AddressEmbeddable addressEmbeddable) {
+    public static Address convertAddressEmbeddableToAddress(AddressEmbeddable addressEmbeddable) {
         if (addressEmbeddable == null) return null;
         return Address.builder()
                 .state(addressEmbeddable.getState())

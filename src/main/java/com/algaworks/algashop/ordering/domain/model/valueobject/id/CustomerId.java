@@ -19,4 +19,8 @@ public record CustomerId(UUID value) {
         return new CustomerId(value);
     }
 
+    public static CustomerId from(Long id) {
+        return new CustomerId(UUID.fromString(id.toString()));
+    }
+
 }

@@ -36,7 +36,7 @@ public class CustomerTestFixture {
                 .registeredAt(OffsetDateTime.now())
                 .promotionNotificationsAllowed(true)
                 .archived(false)
-                .archivedAt(null)
+                .archivedAt(OffsetDateTime.now())
                 .fullName(FullName.of("John","Doe"))
                 .birthDate(BirthDate.of(LocalDate.of(1991, 7,5)))
                 .email(Email.of("johndoe@email.com"))
@@ -52,8 +52,7 @@ public class CustomerTestFixture {
                         .state("South California")
                         .zipCode(new ZipCode("12345"))
                         .complement("Apt. 114")
-                        .build())
-                ;
+                        .build());
     }
 
     public static Customer.ExistingCustomerBuild existingAnonymizedCustomer() {

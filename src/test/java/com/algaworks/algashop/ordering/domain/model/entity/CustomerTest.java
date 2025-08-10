@@ -21,7 +21,7 @@ class CustomerTest {
 
     @Test
     void given_invalidEmail_whenTryUpdatedCustomerEmail_shouldGenerateException() {
-        Customer customer = CustomerTestFixture.brandNewCustomer().build();
+        var customer = CustomerTestFixture.brandNewCustomer().build();
 
         Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
                 .isThrownBy(()-> customer.changeEmail(Email.of("invalid")));

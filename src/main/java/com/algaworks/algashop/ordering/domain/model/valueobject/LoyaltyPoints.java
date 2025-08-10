@@ -17,6 +17,10 @@ public record LoyaltyPoints(Integer value) implements Comparable<LoyaltyPoints> 
         }
     }
 
+    public static LoyaltyPoints of(Integer loyaltyPoints) {
+        return new LoyaltyPoints(loyaltyPoints);
+    }
+
     public LoyaltyPoints add(Integer value) {
         return add(new LoyaltyPoints(value));
     }

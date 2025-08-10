@@ -11,12 +11,14 @@ import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ReflectionUtils;
 
 import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class OrdersPersistenceProvider implements Orders {
 
     private final OrderPersistenceEntityRepository repository;
@@ -31,24 +33,24 @@ public class OrdersPersistenceProvider implements Orders {
 
     @Override
     public boolean exists(OrderId orderId) {
-        return false;
+        return repository.existsById(orderId.value().toLong());
     }
 
     @Override
+    @Transactional
     public void add(Order aggregateRoot) {
         persist(aggregateRoot);
     }
 
     @Override
-    public int count() {
-        return 0;
+    public Long count() {
+        return repository.count();
     }
 
     private void persist(Order aggregateRoot) {
         repository.findById(aggregateRoot.id().value().toLong())
                 .ifPresentOrElse(
-                        existing ->
-                                update(aggregateRoot, existing),
+                        existing -> update(aggregateRoot, existing),
                         () -> insert(aggregateRoot)
                 );
     }

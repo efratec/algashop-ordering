@@ -2,6 +2,7 @@ package com.algaworks.algashop.ordering.domain.model.repository;
 
 import com.algaworks.algashop.ordering.domain.model.entity.OrderStatusEnum;
 import com.algaworks.algashop.ordering.domain.model.entity.fixture.OrderTestFixture;
+import com.algaworks.algashop.ordering.domain.model.valueobject.id.OrderId;
 import com.algaworks.algashop.ordering.infrastructure.persistence.assembler.OrderPersistenceEntityAssembler;
 import com.algaworks.algashop.ordering.infrastructure.persistence.disassembler.OrderPersistenceEntityDisassembler;
 import com.algaworks.algashop.ordering.infrastructure.persistence.provider.OrdersPersistenceProvider;
@@ -83,6 +84,29 @@ class OrdersIT {
         var savedOrder = orders.ofId(order.id()).orElseThrow();
         assertThat(savedOrder.canceledAt()).isNull();
         assertThat(savedOrder.paidAt()).isNotNull();
+    }
+
+    @Test
+    void shouldCountExistingOrders() {
+        assertThat(orders.count()).isZero();
+
+        var order1 = OrderTestFixture.anOrder().build();
+        var order2 = OrderTestFixture.anOrder().build();
+
+        orders.add(order1);
+        orders.add(order2);
+
+        assertThat(orders.count()).isEqualTo(2L);
+    }
+
+    @Test
+    void shouldReturnIfOrderExists() {
+        var order = OrderTestFixture.anOrder().build();
+
+        orders.add(order);
+
+        assertThat(orders.exists(order.id())).isTrue();
+        assertThat(orders.exists(OrderId.of())).isFalse();
     }
 
 }

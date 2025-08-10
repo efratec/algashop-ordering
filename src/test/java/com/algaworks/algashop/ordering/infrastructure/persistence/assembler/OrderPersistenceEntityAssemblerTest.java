@@ -19,7 +19,7 @@ class OrderPersistenceEntityAssemblerTest {
         var order = OrderTestFixture.anOrder().build();
         var orderPersistenceEntity = assembler.fromDomain(order);
         assertThat(orderPersistenceEntity).satisfies(
-                p-> assertThat(p.getId()).isEqualTo(order.id().value().toLong()),
+                p -> assertThat(p.getId()).isEqualTo(order.id().value().toLong()),
                 p-> assertThat(p.getCustomerId()).isEqualTo(order.customerId().value()),
                 p -> assertThat(p.getTotalAmount()).isEqualTo(order.totalAmount().value()),
                 p -> assertThat(p.getTotalItems()).isEqualTo(order.totalItems().value()),
