@@ -7,14 +7,13 @@ import com.algaworks.algashop.ordering.domain.model.valueobject.id.CustomerId;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
-import static com.algaworks.algashop.ordering.domain.model.entity.Customer.brandNew;
 
 public class CustomerTestFixture {
 
     public static final CustomerId DEFAULT_CUSTOMER_ID = CustomerId.of();
 
     public static Customer.BrandNewCustomerBuild brandNewCustomer() {
-        return brandNew()
+        return Customer.brandNew()
                 .fullName(FullName.of("John","Doe"))
                 .birthDate(BirthDate.of(LocalDate.of(1991, 7,5)))
                 .email(Email.of("johndoe@email.com"))
