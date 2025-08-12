@@ -2,16 +2,21 @@ package com.algaworks.algashop.ordering.infrastructure.persistence.provider;
 
 import com.algaworks.algashop.ordering.domain.model.entity.OrderStatusEnum;
 import com.algaworks.algashop.ordering.domain.model.entity.fixture.OrderTestFixture;
+import com.algaworks.algashop.ordering.infrastructure.persistence.assembler.CustomerPersistenceEntityAssembler;
 import com.algaworks.algashop.ordering.infrastructure.persistence.assembler.OrderPersistenceEntityAssembler;
 import com.algaworks.algashop.ordering.infrastructure.persistence.config.SpringDataAuditingConfig;
+import com.algaworks.algashop.ordering.infrastructure.persistence.disassembler.CustomerPersistenceEntityDisassembler;
 import com.algaworks.algashop.ordering.infrastructure.persistence.disassembler.OrderPersistenceEntityDisassembler;
 import com.algaworks.algashop.ordering.infrastructure.persistence.repository.OrderPersistenceEntityRepository;
 import lombok.RequiredArgsConstructor;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 
+import static com.algaworks.algashop.ordering.domain.model.entity.fixture.CustomerTestFixture.DEFAULT_CUSTOMER_ID;
+import static com.algaworks.algashop.ordering.domain.model.entity.fixture.CustomerTestFixture.existingCustomer;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
@@ -19,6 +24,9 @@ import static org.assertj.core.api.Assertions.assertThat;
         OrdersPersistenceProvider.class,
         OrderPersistenceEntityAssembler.class,
         OrderPersistenceEntityDisassembler.class,
+        CustomersPersistenceProvider.class,
+        CustomerPersistenceEntityAssembler.class,
+        CustomerPersistenceEntityDisassembler.class,
         SpringDataAuditingConfig.class
 })
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
@@ -26,6 +34,14 @@ class OrdersPersistenceProviderIT {
 
     private final OrdersPersistenceProvider persistenceProvider;
     private final OrderPersistenceEntityRepository entityRepository;
+    private final CustomersPersistenceProvider customersPersistenceProvider;
+
+    @BeforeEach
+    void setup() {
+        if (!customersPersistenceProvider.exists(DEFAULT_CUSTOMER_ID)) {
+            customersPersistenceProvider.add(existingCustomer().build());
+        }
+    }
 
     @Test
     void shouldUpdateAndKeepPersistenceEntityState() {

@@ -4,8 +4,6 @@ import com.algaworks.algashop.ordering.domain.model.entity.Customer;
 import com.algaworks.algashop.ordering.infrastructure.persistence.entity.CustomerPersistenceEntity;
 import org.springframework.stereotype.Component;
 
-import java.time.OffsetDateTime;
-
 import static com.algaworks.algashop.ordering.infrastructure.persistence.assembler.OrderPersistenceEntityAssembler.convertAddressToEmbeddable;
 
 @Component

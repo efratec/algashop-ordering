@@ -11,6 +11,10 @@ import static com.algaworks.algashop.ordering.infrastructure.persistence.disasse
 @Component
 public class CustomerPersistenceEntityDisassembler {
 
+    public static CustomerPersistenceEntityDisassembler of(){
+        return new CustomerPersistenceEntityDisassembler();
+    }
+
     public Customer toDomainEntity(CustomerPersistenceEntity persistenceEntity) {
         return Customer.existing()
                 .id(CustomerId.from(persistenceEntity.getId()))

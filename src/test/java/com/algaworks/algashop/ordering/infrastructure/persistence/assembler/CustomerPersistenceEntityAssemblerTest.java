@@ -2,13 +2,18 @@ package com.algaworks.algashop.ordering.infrastructure.persistence.assembler;
 
 import com.algaworks.algashop.ordering.domain.model.entity.fixture.CustomerTestFixture;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static com.algaworks.algashop.ordering.infrastructure.persistence.assembler.OrderPersistenceEntityAssembler.convertAddressToEmbeddable;
 import static org.assertj.core.api.Assertions.assertThat;
 
+@ExtendWith(MockitoExtension.class)
 class CustomerPersistenceEntityAssemblerTest {
 
-    private final CustomerPersistenceEntityAssembler assembler =  new CustomerPersistenceEntityAssembler();
+    @InjectMocks
+    private CustomerPersistenceEntityAssembler assembler;
 
     @Test
     void shouldConvertToDomainCustomer() {

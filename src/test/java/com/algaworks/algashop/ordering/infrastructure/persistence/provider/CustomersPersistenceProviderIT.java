@@ -15,15 +15,15 @@ import org.springframework.context.annotation.Import;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
-@Import({CustomersPersitenceProvider.class,
+@Import({CustomersPersistenceProvider.class,
         CustomerPersistenceEntityAssembler.class,
         CustomerPersistenceEntityDisassembler.class,
         SpringDataAuditingConfig.class
 })
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-class CustomersPersitenceProviderIT {
+class CustomersPersistenceProviderIT {
 
-    private final CustomersPersitenceProvider persistenceProvider;
+    private final CustomersPersistenceProvider persistenceProvider;
     private final CustomerPersistenceEntityRepository repository;
 
     @Test

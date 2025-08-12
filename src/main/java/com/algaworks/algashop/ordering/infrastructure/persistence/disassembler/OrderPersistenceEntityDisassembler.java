@@ -55,14 +55,12 @@ public class OrderPersistenceEntityDisassembler {
     private static Set<OrderItem> convertOrderItemPersistenceEntityToOrderItem(Set<OrderItemPersistenceEntity> orderItemPersistenceEntities) {
         return orderItemPersistenceEntities.stream()
                 .map(item -> OrderItem.brandNew()
-                .orderId(OrderId.from(item.getOrderId()))
-                .product(Product.of(ProductId.from(item.getProductId()),
-                        ProductName.of(item.getProductName()),
-                        Money.of(item.getPrice()),
-                        null
-                ))
-                .quantity(Quantity.of(item.getQuantity()))
-                .build())
+                        .orderId(OrderId.from(item.getOrderId()))
+                        .productId(ProductId.from(item.getProductId()))
+                        .productName(ProductName.of(item.getProductName()))
+                        .price(Money.of(item.getPrice()))
+                        .quantity(Quantity.of(item.getQuantity()))
+                        .build())
                 .collect(Collectors.toCollection(HashSet::new));
     }
 

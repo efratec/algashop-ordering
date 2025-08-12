@@ -20,9 +20,8 @@ public record ShoppingCartId(UUID value) {
         return new ShoppingCartId(UUID.fromString(value));
     }
 
-    @Override
-    public String toString() {
-        return value.toString();
+    public static ShoppingCartId from(UUID value) {
+        return new ShoppingCartId(value);
     }
 
 }

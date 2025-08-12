@@ -2,28 +2,49 @@ package com.algaworks.algashop.ordering.domain.model.repository;
 
 import com.algaworks.algashop.ordering.domain.model.entity.OrderStatusEnum;
 import com.algaworks.algashop.ordering.domain.model.entity.fixture.OrderTestFixture;
+import com.algaworks.algashop.ordering.domain.model.valueobject.Money;
+import com.algaworks.algashop.ordering.domain.model.valueobject.id.CustomerId;
 import com.algaworks.algashop.ordering.domain.model.valueobject.id.OrderId;
+import com.algaworks.algashop.ordering.infrastructure.persistence.assembler.CustomerPersistenceEntityAssembler;
 import com.algaworks.algashop.ordering.infrastructure.persistence.assembler.OrderPersistenceEntityAssembler;
+import com.algaworks.algashop.ordering.infrastructure.persistence.disassembler.CustomerPersistenceEntityDisassembler;
 import com.algaworks.algashop.ordering.infrastructure.persistence.disassembler.OrderPersistenceEntityDisassembler;
+import com.algaworks.algashop.ordering.infrastructure.persistence.provider.CustomersPersistenceProvider;
 import com.algaworks.algashop.ordering.infrastructure.persistence.provider.OrdersPersistenceProvider;
 import lombok.RequiredArgsConstructor;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 
+import java.time.Year;
+
+import static com.algaworks.algashop.ordering.domain.model.entity.fixture.CustomerTestFixture.DEFAULT_CUSTOMER_ID;
+import static com.algaworks.algashop.ordering.domain.model.entity.fixture.CustomerTestFixture.existingCustomer;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 @DataJpaTest
 @Import({OrdersPersistenceProvider.class,
         OrderPersistenceEntityAssembler.class,
-        OrderPersistenceEntityDisassembler.class})
+        OrderPersistenceEntityDisassembler.class,
+        CustomersPersistenceProvider.class,
+        CustomerPersistenceEntityAssembler.class,
+        CustomerPersistenceEntityDisassembler.class})
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 class OrdersIT {
 
+    private final Customers customers;
     private final Orders orders;
+
+    @BeforeEach
+    void setup() {
+        if (!customers.exists(DEFAULT_CUSTOMER_ID)) {
+            customers.add(existingCustomer().build());
+        }
+    }
 
     @Test
     void shouldPersistAndFind() {
@@ -107,6 +128,59 @@ class OrdersIT {
 
         assertThat(orders.exists(order.id())).isTrue();
         assertThat(orders.exists(OrderId.of())).isFalse();
+    }
+
+    @Test
+    void shouldListExistingOrdersByYear() {
+        orders.add(OrderTestFixture.anOrder().status(OrderStatusEnum.PLACED).build());
+        orders.add(OrderTestFixture.anOrder().status(OrderStatusEnum.PLACED).build());
+        orders.add(OrderTestFixture.anOrder().status(OrderStatusEnum.CANCELED).build());
+        orders.add(OrderTestFixture.anOrder().status(OrderStatusEnum.DRAFT).build());
+
+        var customerId = DEFAULT_CUSTOMER_ID;
+
+        var ordersList = orders.placedByCustomerInYear(customerId, Year.now());
+        assertThat(ordersList).hasSize(2);
+
+        ordersList = orders.placedByCustomerInYear(customerId, Year.now().minusYears(1));
+        assertThat(ordersList).isEmpty();
+
+        ordersList = orders.placedByCustomerInYear(CustomerId.of(), Year.now());
+        assertThat(ordersList).isEmpty();
+    }
+
+    @Test
+    void shouldReturnTotalSoldByCustomer() {
+        var orderT1 = OrderTestFixture.anOrder().status(OrderStatusEnum.PAID).build();
+        var orderT2 = OrderTestFixture.anOrder().status(OrderStatusEnum.PAID).build();
+        orders.add(orderT1);
+        orders.add(orderT2);
+
+        orders.add(OrderTestFixture.anOrder().status(OrderStatusEnum.CANCELED).build());
+        orders.add(OrderTestFixture.anOrder().status(OrderStatusEnum.CANCELED).build());
+        orders.add(OrderTestFixture.anOrder().status(OrderStatusEnum.PLACED).build());
+
+        Money expectedTotalAmount = orderT1.totalAmount().add(orderT2.totalAmount());
+
+        assertThat(orders.totalSoldForCustomer(DEFAULT_CUSTOMER_ID)).isEqualTo(expectedTotalAmount);
+        assertThat(orders.totalSoldForCustomer(CustomerId.of())).isEqualTo(Money.ZERO());
+    }
+
+    @Test
+    void shouldReturnSalesQuantityByCustomerInYear() {
+        var orderT1 = OrderTestFixture.anOrder().status(OrderStatusEnum.PAID).build();
+        var orderT2 = OrderTestFixture.anOrder().status(OrderStatusEnum.PAID).build();
+        orders.add(orderT1);
+        orders.add(orderT2);
+
+        orders.add(OrderTestFixture.anOrder().status(OrderStatusEnum.CANCELED).build());
+        orders.add(OrderTestFixture.anOrder().status(OrderStatusEnum.CANCELED).build());
+        orders.add(OrderTestFixture.anOrder().status(OrderStatusEnum.PLACED).build());
+
+        var customerId = DEFAULT_CUSTOMER_ID;
+
+        assertThat(orders.salesQuantityByCustomerInYear(customerId, Year.now())).isEqualTo(2);
+        assertThat(orders.salesQuantityByCustomerInYear(customerId, Year.now().minusYears(1))).isZero();
     }
 
 }

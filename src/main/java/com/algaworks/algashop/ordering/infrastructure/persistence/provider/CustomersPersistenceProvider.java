@@ -2,6 +2,7 @@ package com.algaworks.algashop.ordering.infrastructure.persistence.provider;
 
 import com.algaworks.algashop.ordering.domain.model.entity.Customer;
 import com.algaworks.algashop.ordering.domain.model.repository.Customers;
+import com.algaworks.algashop.ordering.domain.model.valueobject.Email;
 import com.algaworks.algashop.ordering.domain.model.valueobject.id.CustomerId;
 import com.algaworks.algashop.ordering.infrastructure.persistence.assembler.CustomerPersistenceEntityAssembler;
 import com.algaworks.algashop.ordering.infrastructure.persistence.disassembler.CustomerPersistenceEntityDisassembler;
@@ -19,7 +20,7 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class CustomersPersitenceProvider implements Customers {
+public class CustomersPersistenceProvider implements Customers {
 
     private final CustomerPersistenceEntityRepository repository;
     private final CustomerPersistenceEntityAssembler assembler;
@@ -45,6 +46,16 @@ public class CustomersPersitenceProvider implements Customers {
     @Override
     public Long count() {
         return repository.count();
+    }
+
+    @Override
+    public Optional<Customer> ofEmail(Email email) {
+        return repository.findByEmail(email.value()).map(disassembler::toDomainEntity);
+    }
+
+    @Override
+    public boolean isEmailUnique(Email email, CustomerId exceptCustomerId) {
+        return !repository.existsByEmailAndIdNot(email.value(), exceptCustomerId.value());
     }
 
     private void persist(Customer aggregateRoot) {

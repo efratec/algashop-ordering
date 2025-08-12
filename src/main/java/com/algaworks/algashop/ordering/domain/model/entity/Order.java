@@ -99,7 +99,9 @@ public class Order implements AggregateRoot<OrderId> {
         var orderItem = OrderItem.brandNew()
                 .orderId(this.id())
                 .quantity(quantity)
-                .product(product)
+                .productId(product.id())
+                .productName(product.name())
+                .price(product.price())
                 .build();
 
         if (this.items == null) {

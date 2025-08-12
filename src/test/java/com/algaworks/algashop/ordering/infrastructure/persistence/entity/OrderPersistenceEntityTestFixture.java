@@ -1,13 +1,13 @@
-package com.algaworks.algashop.ordering.domain.model.entity.fixture;
+package com.algaworks.algashop.ordering.infrastructure.persistence.entity;
 
 import com.algaworks.algashop.ordering.domain.model.utility.GeneratorId;
-import com.algaworks.algashop.ordering.infrastructure.persistence.entity.OrderItemPersistenceEntity;
-import com.algaworks.algashop.ordering.infrastructure.persistence.entity.OrderPersistenceEntity;
 import com.algaworks.algashop.ordering.infrastructure.persistence.entity.OrderPersistenceEntity.OrderPersistenceEntityBuilder;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.Set;
+
+import static com.algaworks.algashop.ordering.infrastructure.persistence.entity.CustomerPersistenceEntityTestFixture.existingCustomer;
 
 public class OrderPersistenceEntityTestFixture {
 
@@ -17,7 +17,7 @@ public class OrderPersistenceEntityTestFixture {
     public static OrderPersistenceEntityBuilder existingOrder() {
         return OrderPersistenceEntity.builder()
                 .id(GeneratorId.gererateTSID().toLong())
-                .customerId(GeneratorId.generateTimeBasedUUID())
+                .customer(existingCustomer().build())
                 .totalItems(3)
                 .totalAmount(new BigDecimal(1000))
                 .status("DRAFT")

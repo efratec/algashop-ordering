@@ -10,9 +10,12 @@ class OrderItemTest {
 
     @Test
     void shouldGenerate() {
+        var product = ProductTestFixture.aProduct().build();
         Assertions.assertNotNull(OrderItem.brandNew()
-                .product(ProductTestFixture.aProduct().build())
+                .productId(product.id())
+                .productName(product.name())
                 .quantity(Quantity.of(1))
+                .price(product.price())
                 .orderId(OrderId.of())
                 .build());
     }

@@ -8,7 +8,7 @@ import com.algaworks.algashop.ordering.domain.model.valueobject.id.CustomerId;
 import com.algaworks.algashop.ordering.domain.model.valueobject.id.OrderId;
 import org.junit.jupiter.api.Test;
 
-import static com.algaworks.algashop.ordering.domain.model.entity.fixture.OrderPersistenceEntityTestFixture.existingOrder;
+import static com.algaworks.algashop.ordering.infrastructure.persistence.entity.OrderPersistenceEntityTestFixture.existingOrder;
 import static com.algaworks.algashop.ordering.infrastructure.persistence.disassembler.OrderPersistenceEntityDisassembler.convertBillingEmbeddableToBilling;
 import static com.algaworks.algashop.ordering.infrastructure.persistence.disassembler.OrderPersistenceEntityDisassembler.convertShippingEmbeddableToShipping;
 import static org.assertj.core.api.Assertions.assertThat;

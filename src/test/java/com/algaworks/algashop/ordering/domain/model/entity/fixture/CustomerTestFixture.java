@@ -11,6 +11,8 @@ import static com.algaworks.algashop.ordering.domain.model.entity.Customer.brand
 
 public class CustomerTestFixture {
 
+    public static final CustomerId DEFAULT_CUSTOMER_ID = CustomerId.of();
+
     public static Customer.BrandNewCustomerBuild brandNewCustomer() {
         return brandNew()
                 .fullName(FullName.of("John","Doe"))
@@ -32,7 +34,7 @@ public class CustomerTestFixture {
 
     public static Customer.ExistingCustomerBuild existingCustomer() {
         return Customer.existing()
-                .id(CustomerId.of())
+                .id(DEFAULT_CUSTOMER_ID)
                 .registeredAt(OffsetDateTime.now())
                 .promotionNotificationsAllowed(true)
                 .archived(false)

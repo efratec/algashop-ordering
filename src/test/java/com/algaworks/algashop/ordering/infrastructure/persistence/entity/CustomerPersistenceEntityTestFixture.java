@@ -1,21 +1,24 @@
-package com.algaworks.algashop.ordering.domain.model.entity.fixture;
+package com.algaworks.algashop.ordering.infrastructure.persistence.entity;
 
-import com.algaworks.algashop.ordering.domain.model.utility.GeneratorId;
 import com.algaworks.algashop.ordering.domain.model.valueobject.Address;
 import com.algaworks.algashop.ordering.domain.model.valueobject.ZipCode;
-import com.algaworks.algashop.ordering.infrastructure.persistence.entity.CustomerPersistenceEntity;
 import com.algaworks.algashop.ordering.infrastructure.persistence.entity.CustomerPersistenceEntity.CustomerPersistenceEntityBuilder;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
+import static com.algaworks.algashop.ordering.domain.model.entity.fixture.CustomerTestFixture.DEFAULT_CUSTOMER_ID;
 import static com.algaworks.algashop.ordering.infrastructure.persistence.assembler.OrderPersistenceEntityAssembler.convertAddressToEmbeddable;
 
 public class CustomerPersistenceEntityTestFixture {
 
+    public static CustomerPersistenceEntityBuilder aCustomer() {
+        return CustomerPersistenceEntity.builder();
+    }
+
     public static CustomerPersistenceEntityBuilder existingCustomer() {
         return CustomerPersistenceEntity.builder()
-                .id(GeneratorId.generateTimeBasedUUID())
+                .id(DEFAULT_CUSTOMER_ID.value())
                 .firstName("John")
                 .lastName("Smith")
                 .birthDate(LocalDate.now())

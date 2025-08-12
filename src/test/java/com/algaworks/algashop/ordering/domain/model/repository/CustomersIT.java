@@ -1,11 +1,12 @@
 package com.algaworks.algashop.ordering.domain.model.repository;
 
+import com.algaworks.algashop.ordering.domain.model.entity.fixture.CustomerTestFixture;
 import com.algaworks.algashop.ordering.domain.model.valueobject.Email;
 import com.algaworks.algashop.ordering.domain.model.valueobject.FullName;
+import com.algaworks.algashop.ordering.domain.model.valueobject.id.CustomerId;
 import com.algaworks.algashop.ordering.infrastructure.persistence.assembler.CustomerPersistenceEntityAssembler;
 import com.algaworks.algashop.ordering.infrastructure.persistence.disassembler.CustomerPersistenceEntityDisassembler;
-import com.algaworks.algashop.ordering.infrastructure.persistence.provider.CustomersPersitenceProvider;
-import jakarta.persistence.EntityManager;
+import com.algaworks.algashop.ordering.infrastructure.persistence.provider.CustomersPersistenceProvider;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +14,15 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 
+import java.util.UUID;
+
 import static com.algaworks.algashop.ordering.domain.model.entity.fixture.CustomerTestFixture.brandNewCustomer;
 import static com.algaworks.algashop.ordering.domain.model.entity.fixture.CustomerTestFixture.existingCustomer;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 @DataJpaTest
-@Import({CustomersPersitenceProvider.class,
+@Import({CustomersPersistenceProvider.class,
         CustomerPersistenceEntityAssembler.class,
         CustomerPersistenceEntityDisassembler.class
 })
@@ -27,7 +30,6 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 class CustomersIT {
 
     private final Customers customers;
-    private final EntityManager entityManager;
 
     @Test
     void shouldPersistAndFind() {
@@ -88,6 +90,31 @@ class CustomersIT {
         var savedCustomer = customers.ofId(customer.id()).orElseThrow();
         assertThat(savedCustomer.archivedAt()).isNotNull();
         assertThat(savedCustomer.isArchived()).isTrue();
+    }
+
+    @Test
+    void shouldFindByEmail() {
+        var customer = brandNewCustomer().build();
+        customers.add(customer);
+
+        var customerOptional = customers.ofEmail(customer.email());
+        assertThat(customerOptional).isPresent();
+    }
+
+    @Test
+    void shouldNotFindByEmailIfNoCustomerExistsWithEmail() {
+        var customerOptional = customers.ofEmail(Email.of(UUID.randomUUID() + "@gmail.com"));
+        assertThat(customerOptional).isNotPresent();
+    }
+
+    @Test
+    void shouldReturnIfEmailIsInUse() {
+                var customer = CustomerTestFixture.brandNewCustomer().build();
+        customers.add(customer);
+
+        assertThat(customers.isEmailUnique(customer.email(), customer.id())).isTrue();
+        assertThat(customers.isEmailUnique(customer.email(), CustomerId.of())).isFalse();
+        assertThat(customers.isEmailUnique(Email.of("teste@gmail.com"), CustomerId.of())).isTrue();
     }
 
 }

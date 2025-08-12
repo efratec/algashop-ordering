@@ -1,18 +1,42 @@
 package com.algaworks.algashop.ordering.infrastructure.persistence.assembler;
 
-import com.algaworks.algashop.ordering.domain.model.entity.fixture.OrderPersistenceEntityTestFixture;
+import com.algaworks.algashop.ordering.infrastructure.persistence.entity.CustomerPersistenceEntityTestFixture;
+import com.algaworks.algashop.ordering.infrastructure.persistence.entity.OrderPersistenceEntityTestFixture;
 import com.algaworks.algashop.ordering.domain.model.entity.fixture.OrderTestFixture;
+import com.algaworks.algashop.ordering.infrastructure.persistence.repository.CustomerPersistenceEntityRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.HashSet;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static com.algaworks.algashop.ordering.infrastructure.persistence.assembler.OrderPersistenceEntityAssembler.convertBillingToEmbeddable;
 import static org.assertj.core.api.Assertions.assertThat;
 
+@ExtendWith(MockitoExtension.class)
 class OrderPersistenceEntityAssemblerTest {
 
-    private final OrderPersistenceEntityAssembler assembler = new OrderPersistenceEntityAssembler();
+    @Mock
+    private CustomerPersistenceEntityRepository customerPersistenceEntityRepository;
+
+    @InjectMocks
+    private OrderPersistenceEntityAssembler assembler;
+
+    @BeforeEach
+    void setup() {
+        Mockito.when(customerPersistenceEntityRepository.getReferenceById(Mockito.any(UUID.class)))
+                .then(a -> {
+                    var customerId = a.getArgument(0, UUID.class);
+                    return CustomerPersistenceEntityTestFixture.aCustomer().id(customerId).build();
+                });
+    }
+
 
     @Test
     void shouldConvertToDomain() {
@@ -20,7 +44,7 @@ class OrderPersistenceEntityAssemblerTest {
         var orderPersistenceEntity = assembler.fromDomain(order);
         assertThat(orderPersistenceEntity).satisfies(
                 p -> assertThat(p.getId()).isEqualTo(order.id().value().toLong()),
-                p-> assertThat(p.getCustomerId()).isEqualTo(order.customerId().value()),
+                p -> assertThat(p.getCustomerId()).isEqualTo(order.customerId().value()),
                 p -> assertThat(p.getTotalAmount()).isEqualTo(order.totalAmount().value()),
                 p -> assertThat(p.getTotalItems()).isEqualTo(order.totalItems().value()),
                 p -> assertThat(p.getStatus()).isEqualTo(order.status().name()),
@@ -81,5 +105,5 @@ class OrderPersistenceEntityAssemblerTest {
         assembler.merge(orderPersistenceEntity, order);
 
     }
-    
+
 }

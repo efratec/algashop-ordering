@@ -4,10 +4,6 @@ import com.algaworks.algashop.ordering.infrastructure.persistence.embeddable.Bil
 import com.algaworks.algashop.ordering.infrastructure.persistence.embeddable.ShippingEmbeddable;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
@@ -21,16 +17,18 @@ import static java.util.Objects.requireNonNull;
 @Getter
 @Setter
 @NoArgsConstructor
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @ToString(of = "id")
 @Table(name = "tb_order")
-@EntityListeners(AuditingEntityListener.class)
-public class OrderPersistenceEntity {
+public class OrderPersistenceEntity extends AbstractAuditableEntity {
 
     @Id
     @EqualsAndHashCode.Include
-    private Long id; //TSID
-    private UUID customerId;
+    private Long id;
+
+    @JoinColumn
+    @ManyToOne(optional = false)
+    private CustomerPersistenceEntity customer;
 
     private BigDecimal totalAmount;
     private Integer totalItems;
@@ -41,18 +39,6 @@ public class OrderPersistenceEntity {
     private OffsetDateTime paidAt;
     private OffsetDateTime canceledAt;
     private OffsetDateTime readyAt;
-
-    @CreatedBy
-    private UUID createdByUserId;
-
-    @LastModifiedDate
-    private OffsetDateTime lastModifiedAt;
-
-    @LastModifiedBy
-    private UUID lastModifiedByUserId;
-
-    @Version
-    private Long version;
 
     @Embedded
     @AttributeOverrides({
@@ -92,16 +78,14 @@ public class OrderPersistenceEntity {
     private Set<OrderItemPersistenceEntity> items = new HashSet<>();
 
     @Builder
-    public OrderPersistenceEntity(Long id, UUID customerId, BigDecimal totalAmount,
+    public OrderPersistenceEntity(Long id, CustomerPersistenceEntity customer, BigDecimal totalAmount,
                                   Integer totalItems, String status, String paymentMethod,
                                   OffsetDateTime placedAt, OffsetDateTime paidAt,
                                   OffsetDateTime canceledAt, OffsetDateTime readyAt,
-                                  UUID createdByUserId, OffsetDateTime lastModifiedAt,
-                                  UUID lastModifiedByUserId, Long version,
                                   BillingEmbeddable billing, ShippingEmbeddable shipping,
                                   Set<OrderItemPersistenceEntity> items) {
         this.id = id;
-        this.customerId = customerId;
+        this.customer = customer;
         this.totalAmount = totalAmount;
         this.totalItems = totalItems;
         this.status = status;
@@ -110,10 +94,6 @@ public class OrderPersistenceEntity {
         this.paidAt = paidAt;
         this.canceledAt = canceledAt;
         this.readyAt = readyAt;
-        this.createdByUserId = createdByUserId;
-        this.lastModifiedAt = lastModifiedAt;
-        this.lastModifiedByUserId = lastModifiedByUserId;
-        this.version = version;
         this.billing = billing;
         this.shipping = shipping;
         this.replaceItems(items);
@@ -139,6 +119,13 @@ public class OrderPersistenceEntity {
 
         item.setOrder(this);
         this.getItems().add(item);
+    }
+
+    public UUID getCustomerId() {
+        if (this.customer == null) {
+            return null;
+        }
+        return this.customer.getId();
     }
 
 }

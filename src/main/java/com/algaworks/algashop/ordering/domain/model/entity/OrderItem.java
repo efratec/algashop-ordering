@@ -42,14 +42,16 @@ public class OrderItem {
 
     @Builder(builderClassName = "BrandNewOrderItemBuilder", builderMethodName = "brandNew")
     private static OrderItem createBrandNew(OrderId orderId,
-                                            Product product,
+                                            ProductId productId,
+                                            ProductName productName,
+                                            Money price,
                                             Quantity quantity) {
         var ordemItem = new OrderItem(
                 OrderItemId.of(),
                 orderId,
-                product.id(),
-                product.name(),
-                product.price(),
+                productId,
+                productName,
+                price,
                 quantity,
                 Money.ZERO());
 

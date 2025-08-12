@@ -6,9 +6,11 @@ import com.algaworks.algashop.ordering.domain.model.entity.PaymentMethodEnum;
 import com.algaworks.algashop.ordering.domain.model.valueobject.*;
 import com.algaworks.algashop.ordering.domain.model.valueobject.id.CustomerId;
 
+import static com.algaworks.algashop.ordering.domain.model.entity.fixture.CustomerTestFixture.DEFAULT_CUSTOMER_ID;
+
 public class OrderTestFixture {
 
-    private CustomerId customerId = CustomerId.of();
+    private CustomerId customerId = DEFAULT_CUSTOMER_ID;
 
     private PaymentMethodEnum paymentMethodEnum = PaymentMethodEnum.GATEWAY_BALANCE;
 

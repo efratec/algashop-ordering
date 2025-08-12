@@ -15,7 +15,7 @@ public record Product(ProductId id,
                       Boolean inStock) {
 
     public Product {
-        requireAllNonNull("Id", id, "Name", name, "Price", price);
+        requireAllNonNull("Id", id, "Name", name, "Price", price, "Stock", inStock);
     }
 
     public static Product of(ProductId id, ProductName name, Money price, Boolean isStock) {

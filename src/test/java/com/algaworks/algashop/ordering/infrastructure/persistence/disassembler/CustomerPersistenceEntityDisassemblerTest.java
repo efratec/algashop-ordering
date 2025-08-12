@@ -2,13 +2,13 @@ package com.algaworks.algashop.ordering.infrastructure.persistence.disassembler;
 
 import org.junit.jupiter.api.Test;
 
-import static com.algaworks.algashop.ordering.domain.model.entity.fixture.CustomerPersistenceEntityTestFixture.existingCustomer;
+import static com.algaworks.algashop.ordering.infrastructure.persistence.entity.CustomerPersistenceEntityTestFixture.existingCustomer;
 import static com.algaworks.algashop.ordering.infrastructure.persistence.disassembler.OrderPersistenceEntityDisassembler.convertAddressEmbeddableToAddress;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class CustomerPersistenceEntityDisassemblerTest {
 
-    private final CustomerPersistenceEntityDisassembler disassembler = new CustomerPersistenceEntityDisassembler();
+    private final CustomerPersistenceEntityDisassembler disassembler = CustomerPersistenceEntityDisassembler.of();
 
     @Test
     void shouldConvertFromPersistence() {
