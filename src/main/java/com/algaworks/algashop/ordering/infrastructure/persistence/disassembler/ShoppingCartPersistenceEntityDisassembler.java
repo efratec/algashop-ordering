@@ -33,6 +33,7 @@ public class ShoppingCartPersistenceEntityDisassembler {
                 .createdAt(cartPersistenceEntity.getCreatedAt())
                 .totalItems(Quantity.of(cartPersistenceEntity.getTotalItems()))
                 .items(toItemsDomainEntities(cartPersistenceEntity.getItems()))
+                .version(cartPersistenceEntity.getVersion())
                 .build();
     }
 

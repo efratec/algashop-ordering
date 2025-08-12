@@ -39,7 +39,7 @@ public class ShoppingCartPersistenceProvider implements ShoppingCarts {
 
     @Override
     public void remove(ShoppingCart shoppingCart) {
-        repository.delete(assembler.fromDomain(shoppingCart));
+        repository.deleteById(shoppingCart.id().value());
     }
 
     @Override

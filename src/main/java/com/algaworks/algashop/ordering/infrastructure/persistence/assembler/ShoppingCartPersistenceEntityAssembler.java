@@ -34,7 +34,7 @@ public class ShoppingCartPersistenceEntityAssembler {
         persistenceEntity.setCreatedAt(shoppingCart.createdAt());
         persistenceEntity.replaceItems(mergeItems(shoppingCart, persistenceEntity));
         persistenceEntity.setTotalItems(shoppingCart.totalItems().value());
-        persistenceEntity.setVersion(shoppingCart.version());
+        //persistenceEntity.setVersion(shoppingCart.version());
         return persistenceEntity;
     }
 
@@ -65,21 +65,6 @@ public class ShoppingCartPersistenceEntityAssembler {
                     return mergeItem(itemPersistence, shoppingCartItem);
                 }).collect(Collectors.toSet());
     }
-
-  /*  private ShoppingCartItemPersistenceEntity mergeItem(ShoppingCartItemPersistenceEntity persistenceItemEntity,
-                                                        ShoppingCartItem shoppingCartItem) {
-
-        persistenceItemEntity.setId(shoppingCartItem.id().value());
-        persistenceItemEntity.setProductId(shoppingCartItem.productId().value());
-        persistenceItemEntity.setName(shoppingCartItem.productName().value());
-        persistenceItemEntity.setPrice(shoppingCartItem.price().value());
-        persistenceItemEntity.setQuantity(shoppingCartItem.quantity().value());
-        persistenceItemEntity.setAvailable(shoppingCartItem.isAvailable());
-        persistenceItemEntity.setTotalAmount(shoppingCartItem.totalAmount().value());
-        persistenceItemEntity.setShoppingCart(ShoppingCartPersistenceEntity.builder()
-                .id(shoppingCartItem.id().value()).build());
-        return persistenceItemEntity;
-    }*/
 
     private ShoppingCartItemPersistenceEntity mergeItem(ShoppingCartItemPersistenceEntity shoppingCartItemPersistenceEntity,
                                                     ShoppingCartItem shoppingCartItem) {
