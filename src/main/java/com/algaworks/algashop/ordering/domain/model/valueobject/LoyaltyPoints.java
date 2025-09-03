@@ -6,7 +6,7 @@ public record LoyaltyPoints(Integer value) implements Comparable<LoyaltyPoints> 
 
     public static final LoyaltyPoints ZERO = of(0);
 
-    public LoyaltyPoints() {
+    LoyaltyPoints() {
         this(0);
     }
 
