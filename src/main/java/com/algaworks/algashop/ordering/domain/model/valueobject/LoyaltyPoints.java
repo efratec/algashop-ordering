@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public record LoyaltyPoints(Integer value) implements Comparable<LoyaltyPoints> {
 
-    public static final LoyaltyPoints ZERO = new LoyaltyPoints(0);
+    public static final LoyaltyPoints ZERO = of(0);
 
     public LoyaltyPoints() {
         this(0);
@@ -26,11 +26,11 @@ public record LoyaltyPoints(Integer value) implements Comparable<LoyaltyPoints> 
     }
 
     public LoyaltyPoints add(LoyaltyPoints loyaltyPoints) {
-        Objects.requireNonNull(value);
+        Objects.requireNonNull(loyaltyPoints);
         if (loyaltyPoints.value() <= 0) {
-            throw new IllegalArgumentException("Value cannot be negative");
+            throw new IllegalArgumentException("Value cannot be negative or zero");
         }
-        return new LoyaltyPoints(loyaltyPoints.value() + this.value);
+        return of(loyaltyPoints.value() + this.value);
     }
 
     @Override

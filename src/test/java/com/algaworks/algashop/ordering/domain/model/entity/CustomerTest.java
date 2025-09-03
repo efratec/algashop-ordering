@@ -88,11 +88,11 @@ class CustomerTest {
     void given_brandNewCustomer_whenAddInvalidLoyaltyPoints_shouldGenerateException() {
         Customer customer = CustomerTestFixture.brandNewCustomer().build();
 
-        Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
-                .isThrownBy(()-> customer.addLoyaltyPoints(new LoyaltyPoints(0)));
+        Assertions.assertThatNoException()
+                .isThrownBy(()-> customer.addLoyaltyPoints(LoyaltyPoints.of(0)));
 
         Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
-                .isThrownBy(()-> customer.addLoyaltyPoints(new LoyaltyPoints(-10)));
+                .isThrownBy(()-> customer.addLoyaltyPoints(LoyaltyPoints.of(-10)));
     }
 
 }

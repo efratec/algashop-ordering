@@ -42,6 +42,10 @@ public record Money(BigDecimal value) implements Comparable<Money> {
         return new Money(this.value.add(money.value));
     }
 
+    public Money divide(Money o) {
+        return new Money(this.value.divide(o.value, ROUNDING_MODE));
+    }
+
     @Override
     public int compareTo(Money money) {
         return this.value.compareTo(money.value);
@@ -51,4 +55,5 @@ public record Money(BigDecimal value) implements Comparable<Money> {
     public String toString() {
         return this.value.toString();
     }
+
 }

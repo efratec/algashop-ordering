@@ -95,7 +95,7 @@ public class OrderTestFixture {
 
     private void addDefaultsITems(Order order) {
         if (this.withItems) {
-            order.addItem(ProductTestFixture.aProductAltMousePad().build(),
+            order.addItem(ProductTestFixture.aProduct().build(),
                     new Quantity(2)
             );
 

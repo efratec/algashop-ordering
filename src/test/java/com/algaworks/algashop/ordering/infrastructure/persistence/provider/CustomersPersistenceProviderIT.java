@@ -5,7 +5,6 @@ import com.algaworks.algashop.ordering.domain.model.valueobject.FullName;
 import com.algaworks.algashop.ordering.infrastructure.persistence.assembler.CustomerPersistenceEntityAssembler;
 import com.algaworks.algashop.ordering.infrastructure.persistence.config.SpringDataAuditingConfig;
 import com.algaworks.algashop.ordering.infrastructure.persistence.disassembler.CustomerPersistenceEntityDisassembler;
-import com.algaworks.algashop.ordering.infrastructure.persistence.repository.CustomerPersistenceEntityRepository;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 class CustomersPersistenceProviderIT {
 
     private final CustomersPersistenceProvider persistenceProvider;
-    private final CustomerPersistenceEntityRepository repository;
 
     @Test
     void givenANewCustomer_shouldPersistEntity() {

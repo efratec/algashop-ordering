@@ -2,7 +2,6 @@ package com.algaworks.algashop.ordering.domain.model.entity;
 
 import com.algaworks.algashop.ordering.domain.model.exception.ShoppingCartDoesNotContainItemException;
 import com.algaworks.algashop.ordering.domain.model.exception.ShoppingCartDoesNotContainProductException;
-import com.algaworks.algashop.ordering.domain.model.validator.FieldValidations;
 import com.algaworks.algashop.ordering.domain.model.valueobject.Money;
 import com.algaworks.algashop.ordering.domain.model.valueobject.Product;
 import com.algaworks.algashop.ordering.domain.model.valueobject.Quantity;
@@ -17,6 +16,7 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.*;
 
+import static com.algaworks.algashop.ordering.domain.model.validator.FieldValidations.requireAllNonNull;
 import static java.util.Objects.requireNonNull;
 
 @EqualsAndHashCode(of = "id")
@@ -55,7 +55,7 @@ public class ShoppingCart implements AggregateRoot<ShoppingCartId> {
     }
 
     public void addItem(Product product, Quantity quantity) {
-        FieldValidations.requireAllNonNull("Product", product, "Quantity", quantity);
+        requireAllNonNull("Product", product, "Quantity", quantity);
 
         product.checkoutOfStock();
 
@@ -69,7 +69,8 @@ public class ShoppingCart implements AggregateRoot<ShoppingCartId> {
                 .build();
 
         searchItemByProduct(product.id())
-                .ifPresentOrElse(i -> updateItem(i, product, quantity), () -> insertItem(shoppingCartItem));
+                .ifPresentOrElse(i -> updateItem(i, product, quantity),
+                        () -> insertItem(shoppingCartItem));
 
         this.recalculateTotals();
     }

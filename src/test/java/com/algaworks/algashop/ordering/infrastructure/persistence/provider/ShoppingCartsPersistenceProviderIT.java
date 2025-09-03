@@ -92,5 +92,4 @@ class ShoppingCartsPersistenceProviderIT {
         assertThat(shoppingCartPersistenceProvider.exists(shoppingCart.id())).isFalse();
     }
 
-
 }

@@ -51,7 +51,7 @@ public class CustomerTestFixture {
                         .neighborhood("North Ville")
                         .city("York")
                         .state("South California")
-                        .zipCode(new ZipCode("12345"))
+                        .zipCode(ZipCode.of("12345"))
                         .complement("Apt. 114")
                         .build());
     }
@@ -68,14 +68,14 @@ public class CustomerTestFixture {
                 .archived(true)
                 .registeredAt(OffsetDateTime.now())
                 .archivedAt(OffsetDateTime.now())
-                .loyaltyPoints(new LoyaltyPoints(10))
+                .loyaltyPoints(LoyaltyPoints.of(10))
                 .address(Address.builder()
                         .street("Bourbon Street")
                         .number("1134")
                         .neighborhood("North Ville")
                         .city("York")
                         .state("South California")
-                        .zipCode(new ZipCode("12345"))
+                        .zipCode(ZipCode.of("12345"))
                         .complement("Apt. 114")
                         .build());
     }
