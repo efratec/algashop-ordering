@@ -1,6 +1,5 @@
 package com.algaworks.algashop.ordering.domain.model.valueobject;
 
-import com.algaworks.algashop.ordering.domain.model.valueobject.Quantity;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

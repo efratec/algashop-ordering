@@ -51,9 +51,4 @@ public record Money(BigDecimal value) implements Comparable<Money> {
         return this.value.compareTo(money.value);
     }
 
-    @Override
-    public String toString() {
-        return this.value.toString();
-    }
-
 }

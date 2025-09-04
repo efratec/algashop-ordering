@@ -68,10 +68,4 @@ class MoneyTest {
         assertTrue(money5.compareTo(money2) > 0);
     }
 
-    @Test
-    void testToString() {
-        final var quantity = Money.of(BigDecimal.valueOf(10));
-        assertEquals("10.00", quantity.toString());
-    }
-
 }

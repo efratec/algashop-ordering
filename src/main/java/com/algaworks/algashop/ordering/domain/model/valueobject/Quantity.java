@@ -20,7 +20,7 @@ public record Quantity(Integer value) implements Serializable, Comparable<Quanti
 
     public Quantity add(Quantity quantity) {
         Objects.requireNonNull(quantity);
-        return new Quantity(this.value + quantity.value);
+        return Quantity.of(this.value + quantity.value);
     }
 
     @Override

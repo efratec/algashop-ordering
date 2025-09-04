@@ -34,7 +34,7 @@ class CheckoutServiceTest {
         final var shipping = aShipping();
         final var paymentMethod = GATEWAY_BALANCE;
 
-        final var order = checkoutService.checkout(shoppingCart, aBilling(), aShipping(), paymentMethod);
+        final var order = checkoutService.checkout(shoppingCart, billing, shipping, paymentMethod);
 
         assertThat(order).isNotNull();
         assertThat(order.id()).isNotNull();
