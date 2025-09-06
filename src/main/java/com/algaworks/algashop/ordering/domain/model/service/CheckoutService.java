@@ -4,18 +4,15 @@ import com.algaworks.algashop.ordering.domain.model.entity.Order;
 import com.algaworks.algashop.ordering.domain.model.entity.PaymentMethodEnum;
 import com.algaworks.algashop.ordering.domain.model.entity.ShoppingCart;
 import com.algaworks.algashop.ordering.domain.model.entity.ShoppingCartItem;
-import com.algaworks.algashop.ordering.domain.model.exception.DomainException;
-import com.algaworks.algashop.ordering.domain.model.exception.OrderInvalidShippingDeliveryDateException;
 import com.algaworks.algashop.ordering.domain.model.exception.ShoppingCartCantProceedToCheckoutException;
 import com.algaworks.algashop.ordering.domain.model.utility.DomainService;
 import com.algaworks.algashop.ordering.domain.model.valueobject.Billing;
 import com.algaworks.algashop.ordering.domain.model.valueobject.Product;
 import com.algaworks.algashop.ordering.domain.model.valueobject.Shipping;
 
-import java.time.LocalDate;
 import java.util.Set;
 
-import static com.algaworks.algashop.ordering.domain.model.exception.enums.OrderReason.NO_ORDER_DELIVERY_DATE_CANNOT_BE_IN_THE_PAST;
+import static com.algaworks.algashop.ordering.domain.model.exception.enums.OrderReason.NO_SHOPPING_CART_IS_NOT_AVAILABLE;
 import static com.algaworks.algashop.ordering.domain.model.validator.FieldValidations.validate;
 
 @DomainService
@@ -26,7 +23,7 @@ public class CheckoutService {
                           PaymentMethodEnum paymentMethod) {
 
         validate(() -> (shoppingCart.isContainsUnavailableItems() || shoppingCart.isEmpty()),
-                NO_ORDER_DELIVERY_DATE_CANNOT_BE_IN_THE_PAST, ShoppingCartCantProceedToCheckoutException::new,
+                NO_SHOPPING_CART_IS_NOT_AVAILABLE, ShoppingCartCantProceedToCheckoutException::new,
                 shoppingCart.id());
 
         Set<ShoppingCartItem> items = shoppingCart.items();

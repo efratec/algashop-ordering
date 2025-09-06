@@ -12,7 +12,7 @@ public class OrderDoesNotContainOrderItemException extends DomainException {
     }
 
     public static OrderDoesNotContainOrderItemException because(OrderId id, OrderItemId itemId) {
-        return DomainException.of(OrderDoesNotContainOrderItemException::new,
+        return of(OrderDoesNotContainOrderItemException::new,
                 NO_ORDER_DOES_NOT_CONTAIN_ITEM, id, itemId);
     }
 

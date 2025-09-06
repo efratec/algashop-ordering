@@ -20,5 +20,8 @@ public class ErrorMessages {
     public static final String ERROR_SHOPPING_CART_DOES_NOT_CONTAIN_ITEM = "Shopping Cart %s does not contain item %s";
     public static final String ERROR_SHOPPING_CART_ITEM_INCOMPATIBLE_PRODUCT = "Shopping Cart %s cannot be updated, incompatible product %s";
     public static final String ERROR_SHOPPING_CART_NOT_AVAILABLE = "Shopping Cart %s is not available";
+    public static final String ERROR_ORDER_NOT_BELONS_TO_CUSTOMER = "Order not belongs to customer";
+    public static final String ERROR_CUSTOMER_NOT_FOUND = "Customer %s not found";
+    public static final String ERROR_CUSTOMER_ALREADY_HAVE_SHOPPING_EXISTS = "Customer %s already have shopping cart exists";
 
 }

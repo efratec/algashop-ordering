@@ -24,11 +24,6 @@ public record Quantity(Integer value) implements Serializable, Comparable<Quanti
     }
 
     @Override
-    public String toString() {
-        return String.valueOf(this.value);
-    }
-
-    @Override
     public int compareTo(Quantity quantity) {
         return this.value.compareTo(quantity.value);
     }

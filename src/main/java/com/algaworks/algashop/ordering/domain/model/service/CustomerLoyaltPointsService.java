@@ -8,7 +8,9 @@ import com.algaworks.algashop.ordering.domain.model.utility.DomainService;
 import com.algaworks.algashop.ordering.domain.model.valueobject.LoyaltyPoints;
 import com.algaworks.algashop.ordering.domain.model.valueobject.Money;
 
+import static com.algaworks.algashop.ordering.domain.model.exception.enums.OrderReason.NO_ORDER_NOT_BELONGS_TO_CUSTOMER;
 import static com.algaworks.algashop.ordering.domain.model.validator.FieldValidations.requireAllNonNull;
+import static com.algaworks.algashop.ordering.domain.model.validator.FieldValidations.validate;
 
 @DomainService
 public class CustomerLoyaltPointsService {
@@ -19,9 +21,8 @@ public class CustomerLoyaltPointsService {
     public void addPoints(Customer customer, Order order) {
         requireAllNonNull("Customer", customer, "Order", order);
 
-        if (!customer.id().equals(order.customerId())) {
-            throw new OrderNotBelongsToCustomerException();
-        }
+        validate(() -> (!customer.id().equals(order.customerId())), NO_ORDER_NOT_BELONGS_TO_CUSTOMER,
+                OrderNotBelongsToCustomerException::new);
 
         if (!order.isReady()) {
             throw new CanAddLoyaltyPointsOrderIsNotReady();
