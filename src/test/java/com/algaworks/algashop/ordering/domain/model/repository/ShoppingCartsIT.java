@@ -1,12 +1,14 @@
 package com.algaworks.algashop.ordering.domain.model.repository;
 
-import com.algaworks.algashop.ordering.domain.model.valueobject.Quantity;
-import com.algaworks.algashop.ordering.infrastructure.persistence.assembler.CustomerPersistenceEntityAssembler;
-import com.algaworks.algashop.ordering.infrastructure.persistence.assembler.ShoppingCartPersistenceEntityAssembler;
-import com.algaworks.algashop.ordering.infrastructure.persistence.disassembler.CustomerPersistenceEntityDisassembler;
-import com.algaworks.algashop.ordering.infrastructure.persistence.disassembler.ShoppingCartPersistenceEntityDisassembler;
-import com.algaworks.algashop.ordering.infrastructure.persistence.provider.CustomersPersistenceProvider;
-import com.algaworks.algashop.ordering.infrastructure.persistence.provider.ShoppingCartPersistenceProvider;
+import com.algaworks.algashop.ordering.domain.model.commons.Quantity;
+import com.algaworks.algashop.ordering.domain.model.customer.Customers;
+import com.algaworks.algashop.ordering.domain.model.shoppingcart.ShoppingCarts;
+import com.algaworks.algashop.ordering.infrastructure.persistence.customer.CustomerPersistenceEntityAssembler;
+import com.algaworks.algashop.ordering.infrastructure.persistence.shoppingcart.ShoppingCartPersistenceEntityAssembler;
+import com.algaworks.algashop.ordering.infrastructure.persistence.customer.CustomerPersistenceEntityDisassembler;
+import com.algaworks.algashop.ordering.infrastructure.persistence.shoppingcart.ShoppingCartPersistenceEntityDisassembler;
+import com.algaworks.algashop.ordering.infrastructure.persistence.customer.CustomersPersistenceProvider;
+import com.algaworks.algashop.ordering.infrastructure.persistence.shoppingcart.ShoppingCartPersistenceProvider;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;

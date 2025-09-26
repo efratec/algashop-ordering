@@ -1,9 +1,9 @@
 package com.algaworks.algashop.ordering.domain.model.entity.fixture;
 
-import com.algaworks.algashop.ordering.domain.model.valueobject.Document;
-import com.algaworks.algashop.ordering.domain.model.valueobject.FullName;
-import com.algaworks.algashop.ordering.domain.model.valueobject.Phone;
-import com.algaworks.algashop.ordering.domain.model.valueobject.Recipient;
+import com.algaworks.algashop.ordering.domain.model.commons.Document;
+import com.algaworks.algashop.ordering.domain.model.commons.FullName;
+import com.algaworks.algashop.ordering.domain.model.commons.Phone;
+import com.algaworks.algashop.ordering.domain.model.order.Recipient;
 
 public class RecipientTestFixture {
 

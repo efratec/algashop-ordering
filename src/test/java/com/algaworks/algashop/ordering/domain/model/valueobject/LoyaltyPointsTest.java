@@ -1,6 +1,6 @@
 package com.algaworks.algashop.ordering.domain.model.valueobject;
 
-import com.algaworks.algashop.ordering.domain.model.valueobject.LoyaltyPoints;
+import com.algaworks.algashop.ordering.domain.model.customer.LoyaltyPoints;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 

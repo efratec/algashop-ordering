@@ -1,9 +1,9 @@
 package com.algaworks.algashop.ordering.domain.model.entity.fixture;
 
-import com.algaworks.algashop.ordering.domain.model.entity.ShoppingCart;
-import com.algaworks.algashop.ordering.domain.model.valueobject.Quantity;
-import com.algaworks.algashop.ordering.domain.model.valueobject.id.CustomerId;
-import com.algaworks.algashop.ordering.domain.model.valueobject.id.ShoppingCartId;
+import com.algaworks.algashop.ordering.domain.model.shoppingcart.ShoppingCart;
+import com.algaworks.algashop.ordering.domain.model.commons.Quantity;
+import com.algaworks.algashop.ordering.domain.model.customer.CustomerId;
+import com.algaworks.algashop.ordering.domain.model.shoppingcart.ShoppingCartId;
 
 import static com.algaworks.algashop.ordering.domain.model.entity.fixture.CustomerTestFixture.DEFAULT_CUSTOMER_ID;
 

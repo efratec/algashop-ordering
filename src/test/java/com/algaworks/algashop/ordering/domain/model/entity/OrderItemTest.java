@@ -1,8 +1,9 @@
 package com.algaworks.algashop.ordering.domain.model.entity;
 
 import com.algaworks.algashop.ordering.domain.model.entity.fixture.ProductTestFixture;
-import com.algaworks.algashop.ordering.domain.model.valueobject.Quantity;
-import com.algaworks.algashop.ordering.domain.model.valueobject.id.OrderId;
+import com.algaworks.algashop.ordering.domain.model.commons.Quantity;
+import com.algaworks.algashop.ordering.domain.model.order.OrderId;
+import com.algaworks.algashop.ordering.domain.model.order.OrderItem;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

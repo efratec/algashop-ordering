@@ -1,5 +1,7 @@
 package com.algaworks.algashop.ordering.domain.model.valueobject;
 
+import com.algaworks.algashop.ordering.domain.model.commons.Money;
+import com.algaworks.algashop.ordering.domain.model.order.Shipping;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;

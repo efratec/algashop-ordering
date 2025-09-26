@@ -1,7 +1,7 @@
 package com.algaworks.algashop.ordering.domain.model.entity.fixture;
 
-import com.algaworks.algashop.ordering.domain.model.valueobject.Money;
-import com.algaworks.algashop.ordering.domain.model.valueobject.Shipping;
+import com.algaworks.algashop.ordering.domain.model.commons.Money;
+import com.algaworks.algashop.ordering.domain.model.order.Shipping;
 
 import java.time.LocalDate;
 

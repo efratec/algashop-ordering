@@ -1,9 +1,9 @@
 package com.algaworks.algashop.ordering.domain.model.entity.fixture;
 
-import com.algaworks.algashop.ordering.domain.model.valueobject.Money;
-import com.algaworks.algashop.ordering.domain.model.valueobject.Product;
-import com.algaworks.algashop.ordering.domain.model.valueobject.ProductName;
-import com.algaworks.algashop.ordering.domain.model.valueobject.id.ProductId;
+import com.algaworks.algashop.ordering.domain.model.commons.Money;
+import com.algaworks.algashop.ordering.domain.model.product.Product;
+import com.algaworks.algashop.ordering.domain.model.product.ProductName;
+import com.algaworks.algashop.ordering.domain.model.product.ProductId;
 
 public class ProductTestFixture {
 

@@ -1,5 +1,10 @@
 package com.algaworks.algashop.ordering.domain.model.valueobject;
 
+import com.algaworks.algashop.ordering.domain.model.commons.Document;
+import com.algaworks.algashop.ordering.domain.model.commons.Email;
+import com.algaworks.algashop.ordering.domain.model.commons.FullName;
+import com.algaworks.algashop.ordering.domain.model.commons.Phone;
+import com.algaworks.algashop.ordering.domain.model.order.Billing;
 import org.junit.jupiter.api.Test;
 
 import static com.algaworks.algashop.ordering.domain.model.entity.fixture.AddressTestFixture.aAddress;
@@ -13,9 +18,10 @@ class BillingTest {
         var fullName = FullName.of("Anonymos", "Anonymos");
         var document = Document.of("123.456.789-00");
         var phone = Phone.of("99999-9999");
+        var email = Email.of("teste@gmail.com");
         var address = aAddress().build();
 
-        var billingExpected = Billing.of(fullName, document, phone, address);
+        var billingExpected = Billing.of(fullName, document, phone, email, address);
 
         assertEquals(fullName, billingExpected.fullName());
         assertEquals(document, billingExpected.document());
@@ -27,10 +33,11 @@ class BillingTest {
     void givenNullFullName_whenCreate_thenShouldThrowException() {
         var document = Document.of("123.456.789-00");
         var phone = Phone.of("99999-9999");
+        var email = Email.of("teste@gmail.com");
         var address = aAddress().build();
 
         assertThrows(NullPointerException.class, () ->
-                Billing.of(null, document, phone, address)
+                Billing.of(null, document, phone, email,  address)
         );
     }
 
@@ -38,10 +45,11 @@ class BillingTest {
     void givenNullDocument_whenCreate_thenShouldThrowException() {
         var fullname = FullName.of("Anonymos", "Anonymos");
         var phone = Phone.of("99999-9999");
+        var email = Email.of("teste@gmail.com");
         var address = aAddress().build();
 
         assertThrows(NullPointerException.class, () ->
-                Billing.of(fullname, null, phone, address)
+                Billing.of(fullname, null, phone, email, address)
         );
     }
 
@@ -49,10 +57,11 @@ class BillingTest {
     void givenNullPhone_whenCreate_thenShouldThrowException() {
         var fullname = FullName.of("Anonymos", "Anonymos");
         var document = Document.of("123.456.789-00");
+        var email = Email.of("teste@gmail.com");
         var address = aAddress().build();
 
         assertThrows(NullPointerException.class, () ->
-                Billing.of(fullname, document, null, address)
+                Billing.of(fullname, document, null, email, address)
         );
     }
 
@@ -60,10 +69,11 @@ class BillingTest {
     void givenNullAddress_whenCreate_thenShouldThrowException() {
         var fullName = FullName.of("Efraim", "Tenório");
         var document = Document.of("123.456.789-00");
+        var email = Email.of("teste@gmail.com");
         var phone = Phone.of("99999-9999");
 
         assertThrows(NullPointerException.class, () ->
-                Billing.of(fullName, document, phone, null)
+                Billing.of(fullName, document, phone, email, null)
         );
     }
 

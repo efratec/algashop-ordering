@@ -1,8 +1,10 @@
 package com.algaworks.algashop.ordering.domain.model.entity;
 
+import com.algaworks.algashop.ordering.domain.model.commons.*;
+import com.algaworks.algashop.ordering.domain.model.customer.Customer;
+import com.algaworks.algashop.ordering.domain.model.customer.LoyaltyPoints;
 import com.algaworks.algashop.ordering.domain.model.entity.fixture.CustomerTestFixture;
-import com.algaworks.algashop.ordering.domain.model.exception.CustomerArchivedException;
-import com.algaworks.algashop.ordering.domain.model.valueobject.*;
+import com.algaworks.algashop.ordering.domain.model.customer.CustomerArchivedException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 

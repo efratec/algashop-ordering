@@ -1,9 +1,10 @@
 package com.algaworks.algashop.ordering.infrastructure.persistence.disassembler;
 
+import com.algaworks.algashop.ordering.infrastructure.persistence.customer.CustomerPersistenceEntityDisassembler;
 import org.junit.jupiter.api.Test;
 
 import static com.algaworks.algashop.ordering.infrastructure.persistence.entity.CustomerPersistenceEntityTestFixture.existingCustomer;
-import static com.algaworks.algashop.ordering.infrastructure.persistence.disassembler.OrderPersistenceEntityDisassembler.convertAddressEmbeddableToAddress;
+import static com.algaworks.algashop.ordering.infrastructure.persistence.order.OrderPersistenceEntityDisassembler.convertAddressEmbeddableToAddress;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class CustomerPersistenceEntityDisassemblerTest {

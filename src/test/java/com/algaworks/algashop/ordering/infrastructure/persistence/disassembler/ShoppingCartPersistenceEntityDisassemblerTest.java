@@ -1,5 +1,6 @@
 package com.algaworks.algashop.ordering.infrastructure.persistence.disassembler;
 
+import com.algaworks.algashop.ordering.infrastructure.persistence.shoppingcart.ShoppingCartPersistenceEntityDisassembler;
 import org.junit.jupiter.api.Test;
 import org.springframework.stereotype.Component;
 

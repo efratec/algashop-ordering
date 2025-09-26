@@ -2,8 +2,10 @@ package com.algaworks.algashop.ordering.domain.model.entity;
 
 import com.algaworks.algashop.ordering.domain.model.entity.fixture.OrderTestFixture;
 import com.algaworks.algashop.ordering.domain.model.entity.fixture.ProductTestFixture;
-import com.algaworks.algashop.ordering.domain.model.exception.OrderCannotBeEditedException;
-import com.algaworks.algashop.ordering.domain.model.valueobject.Quantity;
+import com.algaworks.algashop.ordering.domain.model.order.OrderCannotBeEditedException;
+import com.algaworks.algashop.ordering.domain.model.commons.Quantity;
+import com.algaworks.algashop.ordering.domain.model.order.OrderStatusEnum;
+import com.algaworks.algashop.ordering.domain.model.order.PaymentMethodEnum;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 

@@ -1,7 +1,7 @@
 package com.algaworks.algashop.ordering.domain.model.entity.fixture;
 
-import com.algaworks.algashop.ordering.domain.model.valueobject.Address;
-import com.algaworks.algashop.ordering.domain.model.valueobject.ZipCode;
+import com.algaworks.algashop.ordering.domain.model.commons.Address;
+import com.algaworks.algashop.ordering.domain.model.commons.ZipCode;
 
 public class AddressTestFixture {
 

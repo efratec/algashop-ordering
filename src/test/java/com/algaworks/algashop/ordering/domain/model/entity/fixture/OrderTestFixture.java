@@ -1,10 +1,12 @@
 package com.algaworks.algashop.ordering.domain.model.entity.fixture;
 
-import com.algaworks.algashop.ordering.domain.model.entity.Order;
-import com.algaworks.algashop.ordering.domain.model.entity.OrderStatusEnum;
-import com.algaworks.algashop.ordering.domain.model.entity.PaymentMethodEnum;
-import com.algaworks.algashop.ordering.domain.model.valueobject.*;
-import com.algaworks.algashop.ordering.domain.model.valueobject.id.CustomerId;
+import com.algaworks.algashop.ordering.domain.model.commons.*;
+import com.algaworks.algashop.ordering.domain.model.order.Order;
+import com.algaworks.algashop.ordering.domain.model.order.OrderStatusEnum;
+import com.algaworks.algashop.ordering.domain.model.order.PaymentMethodEnum;
+import com.algaworks.algashop.ordering.domain.model.order.Billing;
+import com.algaworks.algashop.ordering.domain.model.order.Shipping;
+import com.algaworks.algashop.ordering.domain.model.customer.CustomerId;
 
 import static com.algaworks.algashop.ordering.domain.model.entity.fixture.CustomerTestFixture.DEFAULT_CUSTOMER_ID;
 
@@ -43,9 +45,10 @@ public class OrderTestFixture {
     public static Billing aBilling() {
         return Billing.builder()
                 .address(anAddress())
-                .document(new Document("225-09-1992"))
-                .phone(new Phone("123-111-9911"))
-                .fullName(new FullName("John", "Doe")).build();
+                .document(Document.of("225-09-1992"))
+                .phone(Phone.of("123-111-9911"))
+                .email(Email.of("teste@gmail.com"))
+                .fullName(FullName.of("John", "Doe")).build();
     }
 
     public static Shipping aShipping() {
@@ -104,6 +107,5 @@ public class OrderTestFixture {
             );
         }
     }
-
 
 }

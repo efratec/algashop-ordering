@@ -1,9 +1,10 @@
 package com.algaworks.algashop.ordering.domain.model.service;
 
-import com.algaworks.algashop.ordering.domain.model.entity.OrderStatusEnum;
+import com.algaworks.algashop.ordering.domain.model.customer.CustomerLoyaltPointsService;
+import com.algaworks.algashop.ordering.domain.model.order.OrderStatusEnum;
 import com.algaworks.algashop.ordering.domain.model.entity.fixture.CustomerTestFixture;
 import com.algaworks.algashop.ordering.domain.model.entity.fixture.OrderTestFixture;
-import com.algaworks.algashop.ordering.domain.model.valueobject.LoyaltyPoints;
+import com.algaworks.algashop.ordering.domain.model.customer.LoyaltyPoints;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

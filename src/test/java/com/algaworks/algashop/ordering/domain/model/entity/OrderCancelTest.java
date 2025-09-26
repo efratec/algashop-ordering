@@ -1,13 +1,14 @@
 package com.algaworks.algashop.ordering.domain.model.entity;
 
 import com.algaworks.algashop.ordering.domain.model.entity.fixture.OrderTestFixture;
-import com.algaworks.algashop.ordering.domain.model.exception.OrderStatusCannotBeChangedException;
+import com.algaworks.algashop.ordering.domain.model.order.OrderStatusCannotBeChangedException;
+import com.algaworks.algashop.ordering.domain.model.order.OrderStatusEnum;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 
-import static com.algaworks.algashop.ordering.domain.model.entity.OrderStatusEnum.CANCELED;
+import static com.algaworks.algashop.ordering.domain.model.order.OrderStatusEnum.CANCELED;
 import static org.assertj.core.api.Assertions.*;
 
 class OrderCancelTest {

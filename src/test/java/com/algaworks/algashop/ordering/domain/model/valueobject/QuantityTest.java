@@ -1,5 +1,6 @@
 package com.algaworks.algashop.ordering.domain.model.valueobject;
 
+import com.algaworks.algashop.ordering.domain.model.commons.Quantity;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -49,12 +50,6 @@ class QuantityTest {
         assertTrue(quantity2.compareTo(quantity5) < 0);
         assertEquals(0, quantity2.compareTo(Quantity.of(2)));
         assertTrue(quantity5.compareTo(quantity2) > 0);
-    }
-
-    @Test
-    void testToString() {
-        final var quantity = Quantity.of(10);
-        assertEquals("10", quantity.toString());
     }
 
     @Test

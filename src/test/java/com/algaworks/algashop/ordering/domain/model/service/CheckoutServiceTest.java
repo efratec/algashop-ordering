@@ -1,12 +1,13 @@
 package com.algaworks.algashop.ordering.domain.model.service;
 
-import com.algaworks.algashop.ordering.domain.model.entity.ShoppingCart;
-import com.algaworks.algashop.ordering.domain.model.exception.ShoppingCartCantProceedToCheckoutException;
-import com.algaworks.algashop.ordering.domain.model.valueobject.Money;
-import com.algaworks.algashop.ordering.domain.model.valueobject.Quantity;
+import com.algaworks.algashop.ordering.domain.model.shoppingcart.ShoppingCart;
+import com.algaworks.algashop.ordering.domain.model.shoppingcart.ShoppingCartCantProceedToCheckoutException;
+import com.algaworks.algashop.ordering.domain.model.commons.Money;
+import com.algaworks.algashop.ordering.domain.model.commons.Quantity;
+import com.algaworks.algashop.ordering.domain.model.order.CheckoutService;
 import org.junit.jupiter.api.Test;
 
-import static com.algaworks.algashop.ordering.domain.model.entity.PaymentMethodEnum.GATEWAY_BALANCE;
+import static com.algaworks.algashop.ordering.domain.model.order.PaymentMethodEnum.GATEWAY_BALANCE;
 import static com.algaworks.algashop.ordering.domain.model.entity.fixture.OrderTestFixture.aBilling;
 import static com.algaworks.algashop.ordering.domain.model.entity.fixture.OrderTestFixture.aShipping;
 import static com.algaworks.algashop.ordering.domain.model.entity.fixture.ProductTestFixture.*;

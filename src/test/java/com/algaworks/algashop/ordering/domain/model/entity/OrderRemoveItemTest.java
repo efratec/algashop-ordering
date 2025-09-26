@@ -1,12 +1,13 @@
 package com.algaworks.algashop.ordering.domain.model.entity;
 
 import com.algaworks.algashop.ordering.domain.model.entity.fixture.OrderTestFixture;
-import com.algaworks.algashop.ordering.domain.model.exception.OrderCannotBeEditedException;
-import com.algaworks.algashop.ordering.domain.model.exception.OrderDoesNotContainOrderItemException;
-import com.algaworks.algashop.ordering.domain.model.valueobject.Money;
-import com.algaworks.algashop.ordering.domain.model.valueobject.Quantity;
-import com.algaworks.algashop.ordering.domain.model.valueobject.id.CustomerId;
-import com.algaworks.algashop.ordering.domain.model.valueobject.id.OrderItemId;
+import com.algaworks.algashop.ordering.domain.model.order.Order;
+import com.algaworks.algashop.ordering.domain.model.order.OrderCannotBeEditedException;
+import com.algaworks.algashop.ordering.domain.model.order.OrderDoesNotContainOrderItemException;
+import com.algaworks.algashop.ordering.domain.model.commons.Money;
+import com.algaworks.algashop.ordering.domain.model.commons.Quantity;
+import com.algaworks.algashop.ordering.domain.model.customer.CustomerId;
+import com.algaworks.algashop.ordering.domain.model.order.OrderItemId;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 

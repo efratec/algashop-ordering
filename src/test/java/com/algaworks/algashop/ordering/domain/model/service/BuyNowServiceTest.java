@@ -1,11 +1,12 @@
 package com.algaworks.algashop.ordering.domain.model.service;
 
-import com.algaworks.algashop.ordering.domain.model.exception.ProductOutOfStockException;
-import com.algaworks.algashop.ordering.domain.model.valueobject.Quantity;
+import com.algaworks.algashop.ordering.domain.model.product.ProductOutOfStockException;
+import com.algaworks.algashop.ordering.domain.model.commons.Quantity;
+import com.algaworks.algashop.ordering.domain.model.order.BuyNowService;
 import org.junit.jupiter.api.Test;
 
-import static com.algaworks.algashop.ordering.domain.model.entity.PaymentMethodEnum.CREDIT_CARD;
-import static com.algaworks.algashop.ordering.domain.model.entity.PaymentMethodEnum.GATEWAY_BALANCE;
+import static com.algaworks.algashop.ordering.domain.model.order.PaymentMethodEnum.CREDIT_CARD;
+import static com.algaworks.algashop.ordering.domain.model.order.PaymentMethodEnum.GATEWAY_BALANCE;
 import static com.algaworks.algashop.ordering.domain.model.entity.fixture.CustomerTestFixture.existingCustomer;
 import static com.algaworks.algashop.ordering.domain.model.entity.fixture.OrderTestFixture.aBilling;
 import static com.algaworks.algashop.ordering.domain.model.entity.fixture.OrderTestFixture.aShipping;

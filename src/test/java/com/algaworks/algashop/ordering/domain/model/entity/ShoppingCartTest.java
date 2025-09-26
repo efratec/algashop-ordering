@@ -1,10 +1,11 @@
 package com.algaworks.algashop.ordering.domain.model.entity;
 
-import com.algaworks.algashop.ordering.domain.model.exception.ShoppingCartDoesNotContainItemException;
-import com.algaworks.algashop.ordering.domain.model.valueobject.Money;
-import com.algaworks.algashop.ordering.domain.model.valueobject.Quantity;
-import com.algaworks.algashop.ordering.domain.model.valueobject.id.CustomerId;
-import com.algaworks.algashop.ordering.domain.model.valueobject.id.ShoppingCartItemId;
+import com.algaworks.algashop.ordering.domain.model.shoppingcart.ShoppingCart;
+import com.algaworks.algashop.ordering.domain.model.shoppingcart.ShoppingCartDoesNotContainItemException;
+import com.algaworks.algashop.ordering.domain.model.commons.Money;
+import com.algaworks.algashop.ordering.domain.model.commons.Quantity;
+import com.algaworks.algashop.ordering.domain.model.customer.CustomerId;
+import com.algaworks.algashop.ordering.domain.model.shoppingcart.ShoppingCartItemId;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;

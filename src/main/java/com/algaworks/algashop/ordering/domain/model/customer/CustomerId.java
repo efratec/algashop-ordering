@@ -1,0 +1,26 @@
+package com.algaworks.algashop.ordering.domain.model.customer;
+
+import com.algaworks.algashop.ordering.domain.utility.GeneratorId;
+
+import java.util.Objects;
+import java.util.UUID;
+
+public record CustomerId(UUID value) {
+
+    public CustomerId {
+        Objects.requireNonNull(value);
+    }
+
+    public static CustomerId of() {
+        return new CustomerId(GeneratorId.generateTimeBasedUUID());
+    }
+
+    public static CustomerId from(UUID value) {
+        return new CustomerId(value);
+    }
+
+    public static CustomerId from(Long id) {
+        return new CustomerId(UUID.fromString(id.toString()));
+    }
+
+}

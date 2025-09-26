@@ -1,16 +1,17 @@
 package com.algaworks.algashop.ordering.infrastructure.persistence.disassembler;
 
-import com.algaworks.algashop.ordering.domain.model.entity.OrderStatusEnum;
-import com.algaworks.algashop.ordering.domain.model.entity.PaymentMethodEnum;
-import com.algaworks.algashop.ordering.domain.model.valueobject.Money;
-import com.algaworks.algashop.ordering.domain.model.valueobject.Quantity;
-import com.algaworks.algashop.ordering.domain.model.valueobject.id.CustomerId;
-import com.algaworks.algashop.ordering.domain.model.valueobject.id.OrderId;
+import com.algaworks.algashop.ordering.domain.model.order.OrderStatusEnum;
+import com.algaworks.algashop.ordering.domain.model.order.PaymentMethodEnum;
+import com.algaworks.algashop.ordering.domain.model.commons.Money;
+import com.algaworks.algashop.ordering.domain.model.commons.Quantity;
+import com.algaworks.algashop.ordering.domain.model.customer.CustomerId;
+import com.algaworks.algashop.ordering.domain.model.order.OrderId;
+import com.algaworks.algashop.ordering.infrastructure.persistence.order.OrderPersistenceEntityDisassembler;
 import org.junit.jupiter.api.Test;
 
 import static com.algaworks.algashop.ordering.infrastructure.persistence.entity.OrderPersistenceEntityTestFixture.existingOrder;
-import static com.algaworks.algashop.ordering.infrastructure.persistence.disassembler.OrderPersistenceEntityDisassembler.convertBillingEmbeddableToBilling;
-import static com.algaworks.algashop.ordering.infrastructure.persistence.disassembler.OrderPersistenceEntityDisassembler.convertShippingEmbeddableToShipping;
+import static com.algaworks.algashop.ordering.infrastructure.persistence.order.OrderPersistenceEntityDisassembler.convertBillingEmbeddableToBilling;
+import static com.algaworks.algashop.ordering.infrastructure.persistence.order.OrderPersistenceEntityDisassembler.convertShippingEmbeddableToShipping;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class OrderPersistenceEntityDisassemblerTest {

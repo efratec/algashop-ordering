@@ -1,13 +1,13 @@
 package com.algaworks.algashop.ordering.domain.model.entity;
 
+import com.algaworks.algashop.ordering.domain.model.commons.*;
 import com.algaworks.algashop.ordering.domain.model.entity.fixture.OrderTestFixture;
 import com.algaworks.algashop.ordering.domain.model.entity.fixture.ProductTestFixture;
 import com.algaworks.algashop.ordering.domain.model.entity.fixture.ShippingTestFixture;
-import com.algaworks.algashop.ordering.domain.model.exception.OrderInvalidShippingDeliveryDateException;
-import com.algaworks.algashop.ordering.domain.model.exception.OrderStatusCannotBeChangedException;
-import com.algaworks.algashop.ordering.domain.model.exception.ProductOutOfStockException;
-import com.algaworks.algashop.ordering.domain.model.valueobject.*;
-import com.algaworks.algashop.ordering.domain.model.valueobject.id.CustomerId;
+import com.algaworks.algashop.ordering.domain.model.order.*;
+import com.algaworks.algashop.ordering.domain.model.product.ProductOutOfStockException;
+import com.algaworks.algashop.ordering.domain.model.product.ProductName;
+import com.algaworks.algashop.ordering.domain.model.customer.CustomerId;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert;
 import org.junit.jupiter.api.Test;
@@ -109,6 +109,7 @@ class OrderTest {
                 .document(new Document("225-09-1992"))
                 .phone(new Phone("123-111-9911"))
                 .fullName(new FullName("John", "Doe"))
+                .email(Email.of("teste@gmail.com"))
                 .build();
 
         Order order = Order.draft(GENERATE_CUSTOMER_ID);
@@ -119,6 +120,7 @@ class OrderTest {
                 .document(new Document("225-09-1992"))
                 .phone(new Phone("123-111-9911"))
                 .fullName(new FullName("John", "Doe"))
+                .email(Email.of("teste@gmail.com"))
                 .build();
 
         Assertions.assertThat(order.billing()).isEqualTo(expectedBilling);

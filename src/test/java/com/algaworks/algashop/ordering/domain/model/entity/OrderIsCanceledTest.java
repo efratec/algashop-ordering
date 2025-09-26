@@ -1,6 +1,7 @@
 package com.algaworks.algashop.ordering.domain.model.entity;
 
 import com.algaworks.algashop.ordering.domain.model.entity.fixture.OrderTestFixture;
+import com.algaworks.algashop.ordering.domain.model.order.OrderStatusEnum;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;

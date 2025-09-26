@@ -1,6 +1,6 @@
 package com.algaworks.algashop.ordering.domain.model.valueobject;
 
-import com.algaworks.algashop.ordering.domain.model.valueobject.Email;
+import com.algaworks.algashop.ordering.domain.model.commons.Email;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
