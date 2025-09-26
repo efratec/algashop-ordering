@@ -27,4 +27,24 @@ public class CustomerInputTestFixture {
                         .build());
     }
 
+    public static CustomerInput.CustomerInputBuilder aCustomerFilipe() {
+        return CustomerInput.builder()
+                .firstName("Filipe")
+                .lastName("Silva")
+                .birthDate(LocalDate.of(1991, 7, 5))
+                .document("255-08-0578")
+                .phone("478-256-2604")
+                .email("filipe@email.com")
+                .promotionNotificationsAllowed(false)
+                .address(AddressData.builder()
+                        .street("Bourbon Street")
+                        .number("1200")
+                        .complement("Apt. 901")
+                        .neighborhood("North Ville")
+                        .city("Yostfort")
+                        .state("South Carolina")
+                        .zipCode("70283")
+                        .build());
+    }
+
 }

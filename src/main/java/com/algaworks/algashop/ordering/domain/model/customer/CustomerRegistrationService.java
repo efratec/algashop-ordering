@@ -36,7 +36,7 @@ public class CustomerRegistrationService {
 
     private void verifyEmailUniqueness(Email email, CustomerId customerId) {
         if (!customers.isEmailUnique(email, customerId)) {
-            throw new CustomerEmailIsUseException();
+            throw CustomerEmailIsInUseException.because(customerId.value());
         }
     }
 

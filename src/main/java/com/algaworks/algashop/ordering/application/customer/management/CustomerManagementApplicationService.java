@@ -74,6 +74,19 @@ public class CustomerManagementApplicationService {
         customers.add(customer);
     }
 
+    @Transactional
+    public void changeEmail(UUID customerId, String newEmail) {
+        Objects.requireNonNull(customerId);
+        Objects.requireNonNull(newEmail);
+
+        var customer = customers.ofId(CustomerId.from(customerId))
+                .orElseThrow(() -> CustomerNotFoundException.because(customerId));
+
+        customerRegistrationService.changeEmail(customer, Email.of(newEmail));
+
+        customers.add(customer);
+    }
+
     private Customer registerCustomer(CustomerInput input, AddressData address) {
         return customerRegistrationService.register(
                 FullName.of(input.getFirstName(), input.getLastName()),
