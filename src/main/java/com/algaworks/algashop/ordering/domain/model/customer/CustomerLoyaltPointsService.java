@@ -1,11 +1,12 @@
 package com.algaworks.algashop.ordering.domain.model.customer;
 
+import com.algaworks.algashop.ordering.domain.model.commons.Money;
 import com.algaworks.algashop.ordering.domain.model.order.Order;
 import com.algaworks.algashop.ordering.domain.model.order.OrderNotBelongsToCustomerException;
 import com.algaworks.algashop.ordering.domain.utility.DomainService;
-import com.algaworks.algashop.ordering.domain.model.commons.Money;
 
 import static com.algaworks.algashop.ordering.domain.exception.enums.ReasonMessageEnum.NO_ORDER_NOT_BELONGS_TO_CUSTOMER;
+import static com.algaworks.algashop.ordering.domain.exception.enums.ReasonMessageEnum.ORDER_IS_NOT_READY;
 import static com.algaworks.algashop.ordering.domain.validator.FieldValidations.requireAllNonNull;
 import static com.algaworks.algashop.ordering.domain.validator.FieldValidations.validate;
 
@@ -21,9 +22,7 @@ public class CustomerLoyaltPointsService {
         validate(() -> (!customer.id().equals(order.customerId())), NO_ORDER_NOT_BELONGS_TO_CUSTOMER,
                 OrderNotBelongsToCustomerException::new);
 
-        if (!order.isReady()) {
-            throw new CanAddLoyaltyPointsOrderIsNotReady();
-        }
+        validate(() -> (!order.isReady()), ORDER_IS_NOT_READY, CantAddLoyaltyPointsOrderIsNotReady::new);
 
         customer.addLoyaltyPoints(calculatePoints(order));
     }

@@ -49,8 +49,7 @@ public class BuyNowApplicationService {
 
         orders.add(order);
 
-        return order.id().toString();
-
+        return order.id().value().toString();
     }
 
     private ShippingCostService.CalculationResult calculateShippingCost(ShippingInput shipping) {

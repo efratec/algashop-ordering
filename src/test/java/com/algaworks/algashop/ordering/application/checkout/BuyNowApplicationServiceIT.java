@@ -59,7 +59,7 @@ public class BuyNowApplicationServiceIT {
 
         var input = aBuyNowInput().build();
 
-        String orderId = buyNowApplicationService.buyNow(input);
+        var orderId = buyNowApplicationService.buyNow(input);
 
         Assertions.assertThat(orderId).isNotBlank();
         Assertions.assertThat(orders.exists(OrderId.from(orderId))).isTrue();

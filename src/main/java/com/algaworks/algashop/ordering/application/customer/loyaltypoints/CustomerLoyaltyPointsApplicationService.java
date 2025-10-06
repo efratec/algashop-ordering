@@ -1,4 +1,4 @@
-package com.algaworks.algashop.ordering.application.customer.management;
+package com.algaworks.algashop.ordering.application.customer.loyaltypoints;
 
 import com.algaworks.algashop.ordering.domain.model.customer.CustomerId;
 import com.algaworks.algashop.ordering.domain.model.customer.CustomerLoyaltPointsService;
@@ -7,6 +7,7 @@ import com.algaworks.algashop.ordering.domain.model.customer.Customers;
 import com.algaworks.algashop.ordering.domain.model.order.OrderId;
 import com.algaworks.algashop.ordering.domain.model.order.OrderNotFoundException;
 import com.algaworks.algashop.ordering.domain.model.order.Orders;
+import io.hypersistence.tsid.TSID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,7 +33,7 @@ public class CustomerLoyaltyPointsApplicationService {
                 .orElseThrow(() -> CustomerNotFoundException.because(rawCustomerId));
 
         var order = orders.ofId(OrderId.from(rawOrderId))
-                .orElseThrow(() -> OrderNotFoundException.because(UUID.fromString(rawOrderId)));
+                .orElseThrow(() -> OrderNotFoundException.because(TSID.from(rawOrderId)));
 
         customerLoyaltPointsService.addPoints(customer, order);
 

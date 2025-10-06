@@ -1,7 +1,5 @@
-package com.algaworks.algashop.ordering.application.service.customer.management;
+package com.algaworks.algashop.ordering.application.customer.management;
 
-import com.algaworks.algashop.ordering.application.customer.management.CustomerManagementApplicationService;
-import com.algaworks.algashop.ordering.application.customer.management.CustomerOutput;
 import com.algaworks.algashop.ordering.domain.model.customer.CustomerArchivedException;
 import com.algaworks.algashop.ordering.domain.model.customer.CustomerEmailIsInUseException;
 import com.algaworks.algashop.ordering.domain.model.customer.CustomerNotFoundException;
@@ -15,9 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.UUID;
 
-import static com.algaworks.algashop.ordering.application.service.customer.management.CustomerInputTestFixture.aCustomer;
-import static com.algaworks.algashop.ordering.application.service.customer.management.CustomerInputTestFixture.aCustomerFilipe;
-import static com.algaworks.algashop.ordering.application.service.customer.management.CustomerUpdateInputTestFixture.aCustomerUpdate;
+import static com.algaworks.algashop.ordering.application.customer.management.CustomerInputTestFixture.aCustomer;
+import static com.algaworks.algashop.ordering.application.customer.management.CustomerInputTestFixture.aCustomerFilipe;
+import static com.algaworks.algashop.ordering.application.customer.management.CustomerUpdateInputTestFixture.aCustomerUpdate;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest

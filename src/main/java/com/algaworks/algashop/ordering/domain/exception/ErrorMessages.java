@@ -23,5 +23,8 @@ public class ErrorMessages {
     public static final String ERROR_CUSTOMER_ALREADY_HAVE_SHOPPING_EXISTS = "Customer %s already have shopping cart exists";
     public static final String ERROR_PRODUCT_NOT_FOUND =  "Product %s not found";
     public static final String ERROR_CUSTOMER_EMAIL_IS_ALREADY_USED = "Customer email is already used";
+    public static final String ERROR_ORDER_NOT_FOUND = "Order %s not found";
+    public static final String ERROR_IS_NOT_READY = "Order is not ready";
+    public static final String ERROR_SHOPPING_CART_NOT_FOUND = "Shopping Cart %s not found";
 
 }

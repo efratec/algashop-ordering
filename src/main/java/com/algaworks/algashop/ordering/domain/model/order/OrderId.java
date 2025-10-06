@@ -23,9 +23,4 @@ public record OrderId(TSID value) {
         return new OrderId(TSID.from(value));
     }
 
-    @Override
-    public String toString() {
-        return value.toString();
-    }
-
 }

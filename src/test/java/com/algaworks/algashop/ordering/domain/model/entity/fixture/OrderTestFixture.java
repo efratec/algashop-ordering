@@ -36,7 +36,6 @@ public class OrderTestFixture {
         order.changeShipping(this.shipping);
         order.changeBilling(this.billing);
         order.changePaymentMethod(this.paymentMethodEnum);
-
         addDefaultsITems(order);
         this.status.applyTransition(order);
         return order;
