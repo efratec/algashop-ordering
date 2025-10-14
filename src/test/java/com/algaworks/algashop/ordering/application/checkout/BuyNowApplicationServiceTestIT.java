@@ -27,7 +27,7 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 @Transactional
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-public class BuyNowApplicationServiceIT {
+public class BuyNowApplicationServiceTestIT {
 
     private final BuyNowApplicationService buyNowApplicationService;
     private final Orders orders;

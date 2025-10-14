@@ -6,5 +6,4 @@ public interface OriginAddressService {
 
     Address originAddress();
 
-
 }

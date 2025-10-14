@@ -19,4 +19,5 @@ public class FixedOriginAddressService implements OriginAddressService {
                 .zipCode(new ZipCode("12345"))
                 .build();
     }
+
 }
