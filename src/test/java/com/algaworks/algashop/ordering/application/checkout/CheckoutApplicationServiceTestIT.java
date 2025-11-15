@@ -1,13 +1,16 @@
 package com.algaworks.algashop.ordering.application.checkout;
 
-import com.algaworks.algashop.ordering.application.order.notification.OrderNotificationApplicationService;
 import com.algaworks.algashop.ordering.domain.model.commons.Money;
 import com.algaworks.algashop.ordering.domain.model.commons.Quantity;
 import com.algaworks.algashop.ordering.domain.model.customer.Customers;
-import com.algaworks.algashop.ordering.domain.model.order.*;
+import com.algaworks.algashop.ordering.domain.model.order.OrderId;
+import com.algaworks.algashop.ordering.domain.model.order.OrderPlacedEvent;
+import com.algaworks.algashop.ordering.domain.model.order.Orders;
+import com.algaworks.algashop.ordering.domain.model.order.ShippingCostService;
 import com.algaworks.algashop.ordering.domain.model.shoppingcart.ShoppingCartCantProceedToCheckoutException;
 import com.algaworks.algashop.ordering.domain.model.shoppingcart.ShoppingCartNotFoundException;
 import com.algaworks.algashop.ordering.domain.model.shoppingcart.ShoppingCarts;
+import com.algaworks.algashop.ordering.infrastructure.listener.order.OrderEventListener;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,9 +46,6 @@ class CheckoutApplicationServiceTestIT {
 
     @MockitoSpyBean
     private OrderEventListener orderEventListener;
-
-    @MockitoSpyBean
-    private OrderNotificationApplicationService orderNotificationApplicationService;
 
     @MockitoBean
     private ShippingCostService shippingCostService;
@@ -84,8 +84,6 @@ class CheckoutApplicationServiceTestIT {
         assertThat(createdOrder.get().totalAmount().value()).isGreaterThan(BigDecimal.ZERO);
 
         Mockito.verify(orderEventListener).listen(Mockito.any(OrderPlacedEvent.class));
-        Mockito.verify(orderNotificationApplicationService).notifyNewRegistration(
-                Mockito.any(OrderNotificationApplicationService.NotifyNewRegistrationInput.class));
 
         var shoppingCartUpdated = shoppingCarts.ofId(shoppingCart.id());
         assertThat(shoppingCartUpdated).isPresent();

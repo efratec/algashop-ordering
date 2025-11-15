@@ -1,16 +1,13 @@
 package com.algaworks.algashop.ordering.infrastructure.persistence.shoppingcart;
 
-import com.algaworks.algashop.ordering.infrastructure.persistence.customer.CustomerPersistenceEntity;
 import com.algaworks.algashop.ordering.infrastructure.persistence.commons.AbstractAuditableEntity;
+import com.algaworks.algashop.ordering.infrastructure.persistence.customer.CustomerPersistenceEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 import static java.util.Objects.requireNonNull;
 
@@ -20,7 +17,7 @@ import static java.util.Objects.requireNonNull;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @Table(name = "tb_shopping_cart")
 @NoArgsConstructor
-public class ShoppingCartPersistenceEntity extends AbstractAuditableEntity {
+public class ShoppingCartPersistenceEntity extends AbstractAuditableEntity<ShoppingCartPersistenceEntity> {
 
     @Id
     @EqualsAndHashCode.Include
@@ -73,6 +70,14 @@ public class ShoppingCartPersistenceEntity extends AbstractAuditableEntity {
             return null;
         }
         return customer.getId();
+    }
+
+    public Collection<Object> getEvents() {
+        return super.domainEvents();
+    }
+
+    public void addEvents(Collection<Object> events) {
+        Optional.ofNullable(events).ifPresent(evts -> evts.forEach(this::registerEvent));
     }
 
 }

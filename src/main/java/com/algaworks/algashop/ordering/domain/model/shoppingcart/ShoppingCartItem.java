@@ -7,6 +7,7 @@ import com.algaworks.algashop.ordering.domain.model.commons.Quantity;
 import com.algaworks.algashop.ordering.domain.model.product.ProductId;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
 import static com.algaworks.algashop.ordering.domain.exception.enums.ReasonMessageEnum.INVALID_SHOPPING_CART_ITEM_INCOMPATIBLE_PRODUCT;
 import static com.algaworks.algashop.ordering.domain.validator.FieldValidations.requireAllNonNull;
@@ -22,6 +23,8 @@ public class ShoppingCartItem {
     private Money price;
     private Quantity quantity;
     private Money totalAmount;
+
+    @Getter
     private boolean available;
 
     @Builder(builderClassName = "ExistingShoppingCartItem", builderMethodName = "existing")
@@ -88,10 +91,6 @@ public class ShoppingCartItem {
 
     public Money totalAmount() {
         return totalAmount;
-    }
-
-    public boolean isAvailable() {
-        return available;
     }
 
     private void recalculateTotals() {

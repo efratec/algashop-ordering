@@ -1,11 +1,9 @@
 package com.algaworks.algashop.ordering.domain.model.entity;
 
-import com.algaworks.algashop.ordering.domain.model.shoppingcart.ShoppingCart;
-import com.algaworks.algashop.ordering.domain.model.shoppingcart.ShoppingCartDoesNotContainItemException;
+import com.algaworks.algashop.ordering.domain.model.shoppingcart.*;
 import com.algaworks.algashop.ordering.domain.model.commons.Money;
 import com.algaworks.algashop.ordering.domain.model.commons.Quantity;
 import com.algaworks.algashop.ordering.domain.model.customer.CustomerId;
-import com.algaworks.algashop.ordering.domain.model.shoppingcart.ShoppingCartItemId;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
@@ -23,13 +21,15 @@ class ShoppingCartTest {
     void givenCustomer_whenStartShopping_shouldInitializeEmptyCart() {
         var customerId = CustomerId.of();
         ShoppingCart cart = ShoppingCart.startShopping(customerId);
+        var event = ShoppingCartCreatedEvent.of(cart.id(), cart.customerId(), cart.createdAt());
         assertWith(cart,
                 c -> assertThat(c.id()).isNotNull(),
                 c -> assertThat(c.customerId()).isEqualTo(customerId),
                 c -> assertThat(c.totalAmount()).isEqualTo(Money.ZERO()),
                 c -> assertThat(c.totalItems()).isEqualTo(Quantity.ZERO),
                 c -> assertThat(c.isEmpty()).isTrue(),
-                c -> assertThat(c.items()).isEmpty()
+                c -> assertThat(c.items()).isEmpty(),
+                c -> assertThat(c.domainEvents()).contains(event)
         );
     }
 

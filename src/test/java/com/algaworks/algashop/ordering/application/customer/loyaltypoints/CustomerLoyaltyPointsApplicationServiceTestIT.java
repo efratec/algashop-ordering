@@ -8,11 +8,13 @@ import com.algaworks.algashop.ordering.domain.model.customer.*;
 import com.algaworks.algashop.ordering.domain.model.order.OrderNotBelongsToCustomerException;
 import com.algaworks.algashop.ordering.domain.model.order.OrderNotFoundException;
 import com.algaworks.algashop.ordering.domain.model.order.Orders;
+import com.algaworks.algashop.ordering.infrastructure.listener.customer.CustomerEventListener;
 import io.hypersistence.tsid.TSID;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
@@ -32,6 +34,9 @@ class CustomerLoyaltyPointsApplicationServiceTestIT {
     private final CustomerLoyaltyPointsApplicationService loyaltyPointsApplicationService;
     private final Orders orders;
     private final Customers customers;
+
+    @MockitoBean
+    private CustomerEventListener customerEventListener;
 
     @Test
     void shouldAddLoyaltyPointsToCustomer_whenOrderIsValidAndReady() {

@@ -32,7 +32,7 @@ public class ShoppingCartPersistenceEntityAssembler {
         persistenceEntity.setCreatedAt(shoppingCart.createdAt());
         persistenceEntity.replaceItems(mergeItems(shoppingCart, persistenceEntity));
         persistenceEntity.setTotalItems(shoppingCart.totalItems().value());
-        //persistenceEntity.setVersion(shoppingCart.version());
+        persistenceEntity.addEvents(shoppingCart.domainEvents());
         return persistenceEntity;
     }
 

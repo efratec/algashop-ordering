@@ -5,12 +5,14 @@ import com.algaworks.algashop.ordering.domain.model.product.ProductCatalogServic
 import com.algaworks.algashop.ordering.domain.model.product.ProductNotFoundException;
 import com.algaworks.algashop.ordering.domain.model.product.ProductOutOfStockException;
 import com.algaworks.algashop.ordering.domain.model.shoppingcart.*;
+import com.algaworks.algashop.ordering.infrastructure.listener.shoppingcart.ShoppingCartEventListener;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
@@ -30,6 +32,9 @@ class ShoppingCartManagementApplicationServiceTestIT {
     private final ShoppingCarts shoppingCarts;
     private final Customers customers;
     private final ShoppingCartManagementApplicationService applicationService;
+
+    @MockitoSpyBean
+    private ShoppingCartEventListener shoppingCartEventListener;
 
     @MockitoBean
     private final ProductCatalogService productCatalogService;
@@ -57,6 +62,12 @@ class ShoppingCartManagementApplicationServiceTestIT {
         assertThat(updatedCart.items()).hasSize(1);
         assertThat(updatedCart.items().iterator().next().productId()).isEqualTo(product.id());
         assertThat(updatedCart.items().iterator().next().quantity().value()).isEqualTo(3);
+
+        Mockito.verify(shoppingCartEventListener, Mockito.times(1))
+                .listen(Mockito.any(ShoppingCartCreatedEvent.class));
+
+        Mockito.verify(shoppingCartEventListener, Mockito.times(1))
+                .listen(Mockito.any(ShoppingCartItemAddedEvent.class));
     }
 
     @Test
@@ -125,6 +136,9 @@ class ShoppingCartManagementApplicationServiceTestIT {
 
         var shoppingCartId = applicationService.createNew(customer.id().value());
         assertThat(shoppingCartId).isNotNull();
+
+        Mockito.verify(shoppingCartEventListener, Mockito.times(1))
+                .listen(Mockito.any(ShoppingCartCreatedEvent.class));
     }
 
     @Test
@@ -155,6 +169,16 @@ class ShoppingCartManagementApplicationServiceTestIT {
 
         cart = shoppingCarts.ofId(ShoppingCartId.from(cartId)).orElseThrow();
         assertThat(cart.items()).isEmpty();
+
+        Mockito.verify(shoppingCartEventListener, Mockito.times(1))
+                .listen(Mockito.any(ShoppingCartCreatedEvent.class));
+
+        Mockito.verify(shoppingCartEventListener, Mockito.times(1))
+                .listen(Mockito.any(ShoppingCartItemAddedEvent.class));
+
+        Mockito.verify(shoppingCartEventListener, Mockito.times(1))
+                .listen(Mockito.any(ShoppingCartItemRemovedEvent.class));
+
     }
 
     @Test
@@ -204,8 +228,19 @@ class ShoppingCartManagementApplicationServiceTestIT {
         var shoppingCart = shoppingCarts.ofId(ShoppingCartId.from(shoppingCartId)).orElseThrow();
 
         applicationService.empty(shoppingCart.id().value());
+
         shoppingCart = shoppingCarts.ofId(ShoppingCartId.from(shoppingCartId)).orElseThrow();
         assertThat(shoppingCart.isEmpty()).isTrue();
+
+        Mockito.verify(shoppingCartEventListener, Mockito.times(1))
+                .listen(Mockito.any(ShoppingCartCreatedEvent.class));
+
+        Mockito.verify(shoppingCartEventListener, Mockito.times(1))
+                .listen(Mockito.any(ShoppingCartItemAddedEvent.class));
+
+        Mockito.verify(shoppingCartEventListener, Mockito.times(1))
+                .listen(Mockito.any(ShoppingCartEmptiedEvent.class));
+
     }
 
     @Test
@@ -226,6 +261,9 @@ class ShoppingCartManagementApplicationServiceTestIT {
 
         var cartDeleted = shoppingCarts.ofId(ShoppingCartId.from(shoppingCartId));
         assertThat(cartDeleted).isNotPresent();
+
+        Mockito.verify(shoppingCartEventListener, Mockito.times(1))
+                .listen(Mockito.any(ShoppingCartCreatedEvent.class));
     }
 
     @Test
