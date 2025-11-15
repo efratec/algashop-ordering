@@ -58,6 +58,7 @@ public class CustomersPersistenceProvider implements Customers {
         repository.findById(aggregateRoot.id().value())
                 .ifPresentOrElse(existing -> update(aggregateRoot, existing),
                         () -> insert(aggregateRoot));
+        aggregateRoot.clearDomainEvents();
     }
 
     private void insert(Customer aggregateRoot) {

@@ -1,12 +1,10 @@
 package com.algaworks.algashop.ordering.application.checkout;
 
+import com.algaworks.algashop.ordering.application.order.notification.OrderNotificationApplicationService;
 import com.algaworks.algashop.ordering.domain.model.commons.Money;
 import com.algaworks.algashop.ordering.domain.model.commons.Quantity;
 import com.algaworks.algashop.ordering.domain.model.customer.Customers;
-import com.algaworks.algashop.ordering.domain.model.order.OrderId;
-import com.algaworks.algashop.ordering.domain.model.order.Orders;
-import com.algaworks.algashop.ordering.domain.model.order.OriginAddressService;
-import com.algaworks.algashop.ordering.domain.model.order.ShippingCostService;
+import com.algaworks.algashop.ordering.domain.model.order.*;
 import com.algaworks.algashop.ordering.domain.model.shoppingcart.ShoppingCartCantProceedToCheckoutException;
 import com.algaworks.algashop.ordering.domain.model.shoppingcart.ShoppingCartNotFoundException;
 import com.algaworks.algashop.ordering.domain.model.shoppingcart.ShoppingCarts;
@@ -17,6 +15,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
@@ -41,7 +40,12 @@ class CheckoutApplicationServiceTestIT {
     private final Orders orders;
     private final ShoppingCarts shoppingCarts;
     private final Customers customers;
-    private final OriginAddressService originAddressService;
+
+    @MockitoSpyBean
+    private OrderEventListener orderEventListener;
+
+    @MockitoSpyBean
+    private OrderNotificationApplicationService orderNotificationApplicationService;
 
     @MockitoBean
     private ShippingCostService shippingCostService;
@@ -78,6 +82,10 @@ class CheckoutApplicationServiceTestIT {
         assertThat(createdOrder).isPresent();
         assertThat(createdOrder.get().status()).isEqualTo(PLACED);
         assertThat(createdOrder.get().totalAmount().value()).isGreaterThan(BigDecimal.ZERO);
+
+        Mockito.verify(orderEventListener).listen(Mockito.any(OrderPlacedEvent.class));
+        Mockito.verify(orderNotificationApplicationService).notifyNewRegistration(
+                Mockito.any(OrderNotificationApplicationService.NotifyNewRegistrationInput.class));
 
         var shoppingCartUpdated = shoppingCarts.ofId(shoppingCart.id());
         assertThat(shoppingCartUpdated).isPresent();

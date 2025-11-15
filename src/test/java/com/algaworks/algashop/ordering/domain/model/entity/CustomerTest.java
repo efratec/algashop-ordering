@@ -1,17 +1,14 @@
 package com.algaworks.algashop.ordering.domain.model.entity;
 
 import com.algaworks.algashop.ordering.domain.model.commons.*;
-import com.algaworks.algashop.ordering.domain.model.customer.Customer;
-import com.algaworks.algashop.ordering.domain.model.customer.LoyaltyPoints;
+import com.algaworks.algashop.ordering.domain.model.customer.*;
 import com.algaworks.algashop.ordering.domain.model.entity.fixture.CustomerTestFixture;
-import com.algaworks.algashop.ordering.domain.model.customer.CustomerArchivedException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class CustomerTest {
-
 
     @Test
     void given_invalidEmail_whenTryCreateCustomer_shouldGenerateException() {
@@ -95,6 +92,21 @@ class CustomerTest {
 
         Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
                 .isThrownBy(()-> customer.addLoyaltyPoints(LoyaltyPoints.of(-10)));
+    }
+
+    @Test
+    void given_ValidData_whenCreateBrandNewCustomer_shouldGenerateCustomerRegisteredEvent() {
+        var customer = CustomerTestFixture.brandNewCustomer().build();
+        var event = CustomerRegisteredEvent.of(customer.id(), customer.registeredAt(), customer.fullName(), customer.email());
+        assertThat(customer.domainEvents()).contains(event);
+    }
+
+    @Test
+    void given_UnarchivedCustomer_whenArchive_shouldGenerateCustomerArchivedEvent() {
+        var customer = CustomerTestFixture.existingCustomer().archived(false).archivedAt(null).build();
+        customer.archive();
+        var event = CustomerArchivedEvent.of(customer.id(), customer.archivedAt());
+        assertThat(customer.domainEvents()).contains(event);
     }
 
 }

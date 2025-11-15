@@ -1,6 +1,8 @@
 package com.algaworks.algashop.ordering.domain.model.entity;
 
 import com.algaworks.algashop.ordering.domain.model.entity.fixture.OrderTestFixture;
+import com.algaworks.algashop.ordering.domain.model.order.OrderCanceledEvent;
+import com.algaworks.algashop.ordering.domain.model.order.OrderId;
 import com.algaworks.algashop.ordering.domain.model.order.OrderStatusCannotBeChangedException;
 import com.algaworks.algashop.ordering.domain.model.order.OrderStatusEnum;
 import org.assertj.core.api.Assertions;

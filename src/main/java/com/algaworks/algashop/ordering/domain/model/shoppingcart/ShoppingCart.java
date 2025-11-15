@@ -1,10 +1,11 @@
 package com.algaworks.algashop.ordering.domain.model.shoppingcart;
 
+import com.algaworks.algashop.ordering.domain.model.AbstractEventSourceEntity;
 import com.algaworks.algashop.ordering.domain.model.AggregateRoot;
 import com.algaworks.algashop.ordering.domain.model.commons.Money;
-import com.algaworks.algashop.ordering.domain.model.product.Product;
 import com.algaworks.algashop.ordering.domain.model.commons.Quantity;
 import com.algaworks.algashop.ordering.domain.model.customer.CustomerId;
+import com.algaworks.algashop.ordering.domain.model.product.Product;
 import com.algaworks.algashop.ordering.domain.model.product.ProductId;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -16,8 +17,8 @@ import java.util.*;
 import static com.algaworks.algashop.ordering.domain.validator.FieldValidations.requireAllNonNull;
 import static java.util.Objects.requireNonNull;
 
-@EqualsAndHashCode(of = "id")
-public class ShoppingCart implements AggregateRoot<ShoppingCartId> {
+@EqualsAndHashCode(of = "id", callSuper = true)
+public class ShoppingCart extends AbstractEventSourceEntity implements AggregateRoot<ShoppingCartId> {
 
     private ShoppingCartId id;
     private CustomerId customerId;

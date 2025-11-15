@@ -1,5 +1,6 @@
 package com.algaworks.algashop.ordering.domain.model.customer;
 
+import com.algaworks.algashop.ordering.domain.model.AbstractEventSourceEntity;
 import com.algaworks.algashop.ordering.domain.model.AggregateRoot;
 import com.algaworks.algashop.ordering.domain.model.commons.*;
 import lombok.Builder;
@@ -11,8 +12,8 @@ import java.util.UUID;
 
 import static com.algaworks.algashop.ordering.domain.exception.ErrorMessages.VALIDATION_ERROR_FULLNAME_IS_NULL;
 
-@EqualsAndHashCode(of = "id")
-public class Customer implements AggregateRoot<CustomerId> {
+@EqualsAndHashCode(of = "id", callSuper = true)
+public class Customer extends AbstractEventSourceEntity implements AggregateRoot<CustomerId> {
 
     private CustomerId id;
     private FullName fullName;
@@ -32,7 +33,7 @@ public class Customer implements AggregateRoot<CustomerId> {
     private static Customer createBrandNew(FullName fullName, BirthDate birthDate, Email email,
                                            Phone phone, Document document, Boolean promotionNotificationsAllowed,
                                            Address address) {
-        return new Customer(CustomerId.of(),
+        var customer = new Customer(CustomerId.of(),
                 fullName,
                 birthDate,
                 email,
@@ -45,6 +46,11 @@ public class Customer implements AggregateRoot<CustomerId> {
                 LoyaltyPoints.ZERO,
                 address,
                 null);
+
+        customer.publishDomainEvent(CustomerRegisteredEvent.of(customer.id(), customer.registeredAt(),
+                customer.fullName(), customer.email()));
+
+        return customer;
     }
 
     @Builder(builderClassName = "ExistingCustomerBuild", builderMethodName = "existing")
@@ -87,6 +93,8 @@ public class Customer implements AggregateRoot<CustomerId> {
         this.setAddress(this.address().toBuilder()
                 .number("Anonymized")
                 .complement(null).build());
+
+        this.publishDomainEvent(CustomerArchivedEvent.of(this.id(), this.archivedAt()));
     }
 
     public void enablePromotionNotifications() {

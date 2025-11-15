@@ -1,13 +1,19 @@
 package com.algaworks.algashop.ordering.application.order.management;
 
+import com.algaworks.algashop.ordering.application.order.notification.OrderNotificationApplicationService;
+import com.algaworks.algashop.ordering.application.order.notification.OrderNotificationApplicationService.NotifyNewRegistrationInput;
 import com.algaworks.algashop.ordering.domain.model.customer.Customers;
-import com.algaworks.algashop.ordering.domain.model.order.OrderNotFoundException;
-import com.algaworks.algashop.ordering.domain.model.order.OrderStatusCannotBeChangedException;
-import com.algaworks.algashop.ordering.domain.model.order.Orders;
+import com.algaworks.algashop.ordering.domain.model.entity.fixture.CustomerTestFixture;
+import com.algaworks.algashop.ordering.domain.model.order.*;
 import lombok.RequiredArgsConstructor;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.algaworks.algashop.ordering.domain.model.entity.fixture.CustomerTestFixture.brandNewCustomer;
 import static com.algaworks.algashop.ordering.domain.model.entity.fixture.OrderTestFixture.anOrder;
@@ -16,12 +22,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 @SpringBootTest
+@Transactional
+@Import(OrderEventListener.class)
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 class OrderManagementApplicationServiceTestIT {
 
     private final Orders orders;
     private final Customers customers;
     private final OrderManagementApplicationService orderManagementApplicationService;
+
+    @MockitoSpyBean
+    private OrderEventListener orderEventListener;
+
+    @MockitoSpyBean
+    private OrderNotificationApplicationService orderNotificationApplicationService;
 
     @Test
     void shouldCancelOrder_whenOrderIsCancelable() {
@@ -36,6 +50,11 @@ class OrderManagementApplicationServiceTestIT {
         var orderCanceled = orders.ofId(order.id()).orElseThrow();
         assertThat(orderCanceled.isCanceled()).isTrue();
         assertThat(orderCanceled.canceledAt()).isNotNull();
+
+        Mockito.verify(orderEventListener).listen(Mockito.any(OrderCanceledEvent.class));
+        Mockito.verify(orderNotificationApplicationService).notifyNewRegistration(
+                Mockito.any(NotifyNewRegistrationInput.class));
+
     }
 
     @Test
@@ -58,6 +77,10 @@ class OrderManagementApplicationServiceTestIT {
         var orderMarked = orders.ofId(order.id()).orElseThrow();
         assertThat(orderMarked.isPaid()).isTrue();
         assertThat(orderMarked.paidAt()).isNotNull();
+
+        Mockito.verify(orderEventListener, Mockito.times(1)).listen(Mockito.any(OrderPaidEvent.class));
+        Mockito.verify(orderNotificationApplicationService, Mockito.times(2)).notifyNewRegistration(
+                Mockito.any(NotifyNewRegistrationInput.class));
     }
 
     @Test
@@ -80,6 +103,10 @@ class OrderManagementApplicationServiceTestIT {
         var orderMarked = orders.ofId(order.id()).orElseThrow();
         assertThat(orderMarked.isReady()).isTrue();
         assertThat(orderMarked.readyAt()).isNotNull();
+
+        Mockito.verify(orderEventListener,Mockito.times(1)).listen(Mockito.any(OrderReadyEvent.class));
+        Mockito.verify(orderNotificationApplicationService, Mockito.times(3)).notifyNewRegistration(
+                Mockito.any(OrderNotificationApplicationService.NotifyNewRegistrationInput.class));
     }
 
     @Test

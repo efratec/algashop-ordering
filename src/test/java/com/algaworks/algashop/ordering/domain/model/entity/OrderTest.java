@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import static com.algaworks.algashop.ordering.domain.model.entity.fixture.ProductTestFixture.aProductAltMousePad;
 import static com.algaworks.algashop.ordering.domain.model.entity.fixture.ProductTestFixture.aProductUnavailable;
 import static com.algaworks.algashop.ordering.domain.model.entity.fixture.ShippingTestFixture.aShippingFull;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class OrderTest {
@@ -39,16 +40,16 @@ class OrderTest {
 
         order.addItem(product, QUANTITY_1);
 
-        Assertions.assertThat(order.items()).hasSize(1);
+        assertThat(order.items()).hasSize(1);
 
         final var orderItem = order.items().iterator().next();
 
         Assertions.assertWith(orderItem,
-                i -> Assertions.assertThat(i.id()).isNotNull(),
-                i -> Assertions.assertThat(i.productName()).isEqualTo(ProductName.of("Mouse Pad")),
-                i -> Assertions.assertThat(i.productId()).isEqualTo(productId),
-                i -> Assertions.assertThat(i.price()).isEqualTo(Money.of("100")),
-                i -> Assertions.assertThat(i.quantity()).isEqualTo(QUANTITY_1)
+                i -> assertThat(i.id()).isNotNull(),
+                i -> assertThat(i.productName()).isEqualTo(ProductName.of("Mouse Pad")),
+                i -> assertThat(i.productId()).isEqualTo(productId),
+                i -> assertThat(i.price()).isEqualTo(Money.of("100")),
+                i -> assertThat(i.quantity()).isEqualTo(QUANTITY_1)
         );
     }
 
@@ -68,15 +69,17 @@ class OrderTest {
         var order = Order.draft(GENERATE_CUSTOMER_ID);
         order.addItem(ProductTestFixture.aProductAltMousePad().build(), QUANTITY_2);
         order.addItem(ProductTestFixture.aProductAltRamMemory().build(), QUANTITY_1);
-        Assertions.assertThat(order.totalAmount()).isEqualTo(Money.of("400"));
-        Assertions.assertThat(order.totalItems()).isEqualTo(QUANTITY_3);
+        assertThat(order.totalAmount()).isEqualTo(Money.of("400"));
+        assertThat(order.totalItems()).isEqualTo(QUANTITY_3);
     }
 
     @Test
     void givenDraftOrder_whenPlace_shouldChangeToPlaced() {
         var order = OrderTestFixture.anOrder().build();
         order.place();
-        Assertions.assertThat(order.isPlaced()).isTrue();
+        assertThat(order.isPlaced()).isTrue();
+        var event = OrderPlacedEvent.of(order.id(), order.customerId(), order.placedAt());
+        assertThat(order.domainEvents()).contains(event);
     }
 
     @Test
@@ -123,7 +126,7 @@ class OrderTest {
                 .email(Email.of("teste@gmail.com"))
                 .build();
 
-        Assertions.assertThat(order.billing()).isEqualTo(expectedBilling);
+        assertThat(order.billing()).isEqualTo(expectedBilling);
     }
 
     @Test
@@ -132,7 +135,7 @@ class OrderTest {
         Order order = Order.draft(GENERATE_CUSTOMER_ID);
         order.changeShipping(shipping);
 
-        Assertions.assertWith(order, o -> Assertions.assertThat(o.shipping()).isEqualTo(shipping));
+        Assertions.assertWith(order, o -> assertThat(o.shipping()).isEqualTo(shipping));
     }
 
     @Test
@@ -154,8 +157,8 @@ class OrderTest {
         order.changeItemQuantity(orderItem.id(), QUANTITY_5);
 
         Assertions.assertWith(order,
-                o -> Assertions.assertThat(o.totalAmount()).isEqualTo(Money.of("500")),
-                o -> Assertions.assertThat(o.totalItems()).isEqualTo(QUANTITY_5)
+                o -> assertThat(o.totalAmount()).isEqualTo(Money.of("500")),
+                o -> assertThat(o.totalItems()).isEqualTo(QUANTITY_5)
         );
     }
 
@@ -171,9 +174,31 @@ class OrderTest {
         Billing billing = OrderTestFixture.aBilling();
         Order order = Order.draft(CustomerId.of());
         order.changeBilling(billing);
-        Assertions.assertThat(order.billing()).isEqualTo(billing);
+        assertThat(order.billing()).isEqualTo(billing);
     }
 
-    //void givenDraftORder_when_Change
+    @Test
+    void givenOrderCancel_whenToCancel_shouldPublishEventCancel() {
+        var order = OrderTestFixture.anOrder().build();
+        order.cancel();
+        var event = OrderCanceledEvent.of(order.id(), order.customerId(), order.canceledAt());
+        assertThat(order.domainEvents()).contains(event);
+    }
+
+    @Test
+    void givenOrderPaid_whenToPaid_shouldPublishEventPaid() {
+        var order = OrderTestFixture.anOrder().status(OrderStatusEnum.PLACED).build();
+        order.markAsPaid();
+        var event = OrderPaidEvent.of(order.id(), order.customerId(), order.paidAt());
+        assertThat(order.domainEvents()).contains(event);
+    }
+
+    @Test
+    void givenOrderReady_whenToReady_shouldPublishEventReady() {
+        var order = OrderTestFixture.anOrder().status(OrderStatusEnum.PAID).build();
+        order.markAsReady();
+        var event = OrderPaidEvent.of(order.id(), order.customerId(), order.paidAt());
+        assertThat(order.domainEvents()).contains(event);
+    }
 
 }

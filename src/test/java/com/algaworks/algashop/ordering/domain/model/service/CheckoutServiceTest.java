@@ -1,5 +1,6 @@
 package com.algaworks.algashop.ordering.domain.model.service;
 
+import com.algaworks.algashop.ordering.domain.model.order.OrderPlacedEvent;
 import com.algaworks.algashop.ordering.domain.model.shoppingcart.ShoppingCart;
 import com.algaworks.algashop.ordering.domain.model.shoppingcart.ShoppingCartCantProceedToCheckoutException;
 import com.algaworks.algashop.ordering.domain.model.commons.Money;
@@ -36,6 +37,9 @@ class CheckoutServiceTest {
         final var paymentMethod = GATEWAY_BALANCE;
 
         final var order = checkoutService.checkout(shoppingCart, billing, shipping, paymentMethod);
+
+        final var event = OrderPlacedEvent.of(order.id(), order.customerId(), order.placedAt());
+        assertThat(order.domainEvents()).contains(event);
 
         assertThat(order).isNotNull();
         assertThat(order.id()).isNotNull();

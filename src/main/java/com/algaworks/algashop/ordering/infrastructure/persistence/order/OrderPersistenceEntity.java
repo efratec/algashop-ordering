@@ -7,9 +7,7 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 import static java.util.Objects.requireNonNull;
 
@@ -20,7 +18,7 @@ import static java.util.Objects.requireNonNull;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @ToString(of = "id")
 @Table(name = "tb_order")
-public class OrderPersistenceEntity extends AbstractAuditableEntity {
+public class OrderPersistenceEntity extends AbstractAuditableEntity<OrderPersistenceEntity> {
 
     @Id
     @EqualsAndHashCode.Include
@@ -126,6 +124,14 @@ public class OrderPersistenceEntity extends AbstractAuditableEntity {
             return null;
         }
         return this.customer.getId();
+    }
+
+    public Collection<Object> getEvents() {
+        return super.domainEvents();
+    }
+
+    public void addEvents(Collection<Object> events) {
+        Optional.ofNullable(events).ifPresent(evts -> evts.forEach(this::registerEvent));
     }
 
 }

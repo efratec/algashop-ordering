@@ -1,12 +1,16 @@
 package com.algaworks.algashop.ordering.infrastructure.persistence.customer;
 
+import com.algaworks.algashop.ordering.domain.model.customer.CustomerRegisteredEvent;
 import com.algaworks.algashop.ordering.infrastructure.persistence.commons.AddressEmbeddable;
 import com.algaworks.algashop.ordering.infrastructure.persistence.commons.AbstractAuditableEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.domain.AbstractAggregateRoot;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.util.Collection;
+import java.util.Optional;
 import java.util.UUID;
 
 @Entity
@@ -18,7 +22,7 @@ import java.util.UUID;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @ToString(of = "id")
 @Table(name = "tb_customer")
-public class CustomerPersistenceEntity extends AbstractAuditableEntity {
+public class CustomerPersistenceEntity extends AbstractAuditableEntity<CustomerPersistenceEntity> {
 
     @Id
     @EqualsAndHashCode.Include
@@ -47,5 +51,13 @@ public class CustomerPersistenceEntity extends AbstractAuditableEntity {
             @AttributeOverride(name = "zipCode", column = @Column(name = "address_zipCode"))
     })
     private AddressEmbeddable address;
+
+    public Collection<Object> getEvents() {
+        return super.domainEvents();
+    }
+
+    public void addEvents(Collection<Object> events) {
+        Optional.ofNullable(events).ifPresent(evts -> evts.forEach(this::registerEvent));
+    }
 
 }
