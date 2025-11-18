@@ -166,6 +166,7 @@ public class Order extends AbstractEventSourceEntity implements AggregateRoot<Or
                 NO_ORDER_DELIVERY_DATE_CANNOT_BE_IN_THE_PAST, OrderInvalidShippingDeliveryDateException::new,
                 this.id());
         this.setShipping(newShipping);
+        this.recalculateTotals();
     }
 
     public void changeItemQuantity(OrderItemId orderItemId, Quantity quantity) {

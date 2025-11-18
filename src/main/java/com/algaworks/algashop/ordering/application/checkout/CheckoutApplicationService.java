@@ -2,6 +2,8 @@ package com.algaworks.algashop.ordering.application.checkout;
 
 
 import com.algaworks.algashop.ordering.domain.model.commons.ZipCode;
+import com.algaworks.algashop.ordering.domain.model.customer.CustomerNotFoundException;
+import com.algaworks.algashop.ordering.domain.model.customer.Customers;
 import com.algaworks.algashop.ordering.domain.model.order.*;
 import com.algaworks.algashop.ordering.domain.model.order.ShippingCostService.CalculationRequest;
 import com.algaworks.algashop.ordering.domain.model.shoppingcart.ShoppingCartId;
@@ -22,6 +24,7 @@ public class CheckoutApplicationService {
     private final OriginAddressService originAddressService;
     private final CheckoutService checkoutService;
     private final Orders orders;
+    private final Customers customers;
 
     private final BillingInputDisassembler billingInputDisassembler;
     private final ShippingInputDisassembler shippingInputDisassembler;
@@ -34,6 +37,9 @@ public class CheckoutApplicationService {
 
         var shoppingCart = shoppingCarts.ofId(ShoppingCartId.from(input.getShoppingCartId()))
                 .orElseThrow(() -> ShoppingCartNotFoundException.because(input.getShoppingCartId()));
+
+        var customer = customers.ofId(shoppingCart.customerId())
+                .orElseThrow(() -> CustomerNotFoundException.because(shoppingCart.customerId().value()));
 
         var originAddress = originAddressService.originAddress().zipCode();
         var destinationAddress = ZipCode.of(input.getShipping().getAddress().getZipCode());
@@ -48,7 +54,7 @@ public class CheckoutApplicationService {
         var shipping = shippingInputDisassembler.toDomainModel(input.getShipping(), shippingCalculation);
         var billing = billingInputDisassembler.toDomainModel(input.getBilling());
 
-        var orderCheckout = checkoutService.checkout(shoppingCart, billing, shipping, paymentMethod);
+        var orderCheckout = checkoutService.checkout(customer, shoppingCart, billing, shipping, paymentMethod);
 
         orders.add(orderCheckout);
         shoppingCarts.add(shoppingCart);

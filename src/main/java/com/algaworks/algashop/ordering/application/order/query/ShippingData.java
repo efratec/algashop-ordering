@@ -1,0 +1,24 @@
+package com.algaworks.algashop.ordering.application.order.query;
+
+import com.algaworks.algashop.ordering.application.checkout.RecipientData;
+import com.algaworks.algashop.ordering.domain.model.commons.Address;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class ShippingData {
+
+    private BigDecimal cost;
+    private LocalDate expectedDate;
+    private RecipientData recipient;
+    private Address address;
+
+}

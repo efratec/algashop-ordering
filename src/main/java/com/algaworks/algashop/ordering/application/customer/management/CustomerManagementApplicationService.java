@@ -1,7 +1,6 @@
 package com.algaworks.algashop.ordering.application.customer.management;
 
 import com.algaworks.algashop.ordering.application.commons.AddressData;
-import com.algaworks.algashop.ordering.application.commons.mappers.CustomerMapper;
 import com.algaworks.algashop.ordering.domain.model.commons.*;
 import com.algaworks.algashop.ordering.domain.model.customer.*;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +14,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CustomerManagementApplicationService {
 
-    private final CustomerMapper customerMapper;
     private final CustomerRegistrationService customerRegistrationService;
     private final Customers customers;
 
@@ -51,16 +49,6 @@ public class CustomerManagementApplicationService {
         customer.changeAddress(getAddress(address));
 
         customers.add(customer);
-    }
-
-    @Transactional(readOnly = true)
-    public CustomerOutput findById(UUID customerId) {
-        Objects.requireNonNull(customerId);
-
-        var customer = customers.ofId(CustomerId.from(customerId))
-                .orElseThrow(() -> CustomerNotFoundException.because(customerId));
-
-        return customerMapper.toOutput(customer);
     }
 
     @Transactional

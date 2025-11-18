@@ -1,10 +1,13 @@
 package com.algaworks.algashop.ordering.domain.model.order;
 
-import com.algaworks.algashop.ordering.domain.model.shoppingcart.ShoppingCart;
-import com.algaworks.algashop.ordering.domain.model.shoppingcart.ShoppingCartItem;
-import com.algaworks.algashop.ordering.domain.model.shoppingcart.ShoppingCartCantProceedToCheckoutException;
-import com.algaworks.algashop.ordering.domain.utility.DomainService;
+import com.algaworks.algashop.ordering.domain.model.commons.Money;
+import com.algaworks.algashop.ordering.domain.model.customer.Customer;
 import com.algaworks.algashop.ordering.domain.model.product.Product;
+import com.algaworks.algashop.ordering.domain.model.shoppingcart.ShoppingCart;
+import com.algaworks.algashop.ordering.domain.model.shoppingcart.ShoppingCartCantProceedToCheckoutException;
+import com.algaworks.algashop.ordering.domain.model.shoppingcart.ShoppingCartItem;
+import com.algaworks.algashop.ordering.domain.utility.DomainService;
+import lombok.RequiredArgsConstructor;
 
 import java.util.Set;
 
@@ -12,9 +15,13 @@ import static com.algaworks.algashop.ordering.domain.exception.enums.ReasonMessa
 import static com.algaworks.algashop.ordering.domain.validator.FieldValidations.validate;
 
 @DomainService
+@RequiredArgsConstructor
 public class CheckoutService {
 
-    public Order checkout(ShoppingCart shoppingCart,
+    private final CustomerHaveFreeShippingSpecification haveFreeShippingSpecification;
+
+    public Order checkout(Customer customer,
+                          ShoppingCart shoppingCart,
                           Billing billing, Shipping shipping,
                           PaymentMethodEnum paymentMethod) {
 
@@ -26,6 +33,13 @@ public class CheckoutService {
 
         var orderStarted = startOrder(shoppingCart, billing, shipping, paymentMethod);
         addOrderItem(items, orderStarted);
+
+        if (isHaveFreeShipping(customer)) {
+            Shipping freeShipping = shipping.toBuilder().cost(Money.ZERO()).build();
+            orderStarted.changeShipping(freeShipping);
+        } else {
+            orderStarted.changeShipping(shipping);
+        }
 
         orderStarted.place();
         shoppingCart.empty();
@@ -47,9 +61,12 @@ public class CheckoutService {
 
         var order = Order.draft(shoppingCart.customerId());
         order.changeBilling(billing);
-        order.changeShipping(shipping);
         order.changePaymentMethod(paymentMethod);
         return order;
+    }
+
+    private boolean isHaveFreeShipping(Customer customer) {
+        return haveFreeShippingSpecification.isSatisfiedBy(customer);
     }
 
 }

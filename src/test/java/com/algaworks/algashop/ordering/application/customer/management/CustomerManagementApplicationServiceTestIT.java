@@ -2,6 +2,8 @@ package com.algaworks.algashop.ordering.application.customer.management;
 
 import com.algaworks.algashop.ordering.application.customer.notification.CustomerNotificationApplicationService;
 import com.algaworks.algashop.ordering.application.customer.notification.CustomerNotificationApplicationService.NotifyNewRegistrationInput;
+import com.algaworks.algashop.ordering.application.customer.query.CustomerOutput;
+import com.algaworks.algashop.ordering.application.customer.query.CustomerQueryService;
 import com.algaworks.algashop.ordering.domain.model.customer.*;
 import com.algaworks.algashop.ordering.infrastructure.listener.customer.CustomerEventListener;
 import lombok.RequiredArgsConstructor;
@@ -24,9 +26,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @Transactional
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-class CustomerManagementApplicationServiceIT {
+class CustomerManagementApplicationServiceTestIT {
 
     private final CustomerManagementApplicationService customerManagementApplicationService;
+    private final CustomerQueryService queryService;
 
     @MockitoSpyBean
     private CustomerEventListener customerEventListener;
@@ -41,7 +44,7 @@ class CustomerManagementApplicationServiceIT {
         var customerId = customerManagementApplicationService.create(input);
         assertThat(customerId).isNotNull();
 
-        var customerOutput = customerManagementApplicationService.findById(customerId);
+        var customerOutput = queryService.findById(customerId);
         assertThat(customerOutput)
                 .extracting(
                         CustomerOutput::getId,
@@ -74,7 +77,7 @@ class CustomerManagementApplicationServiceIT {
 
         customerManagementApplicationService.update(customerId, updateInput);
 
-        var customerOutput = customerManagementApplicationService.findById(customerId);
+        var customerOutput = queryService.findById(customerId);
 
         assertThat(customerOutput)
                 .extracting(
@@ -102,7 +105,7 @@ class CustomerManagementApplicationServiceIT {
 
         customerManagementApplicationService.archive(customerId);
 
-        var customerOutput = customerManagementApplicationService.findById(customerId);
+        var customerOutput = queryService.findById(customerId);
         assertThat(customerOutput).isNotNull();
         assertThat(customerOutput.getArchivedAt()).isNotNull();
         assertThat(customerOutput.getArchived()).isTrue();
@@ -116,11 +119,11 @@ class CustomerManagementApplicationServiceIT {
         var customerId = customerManagementApplicationService.create(input);
         assertThat(customerId).isNotNull();
 
-        var customerOutput = customerManagementApplicationService.findById(customerId);
+        var customerOutput = queryService.findById(customerId);
 
         customerManagementApplicationService.changeEmail(customerOutput.getId(), newEmail);
 
-        var customerChangedEmail = customerManagementApplicationService.findById(customerOutput.getId());
+        var customerChangedEmail = queryService.findById(customerOutput.getId());
         assertThat(customerChangedEmail).isNotNull();
         assertThat(customerChangedEmail.getEmail()).isEqualTo(newEmail);
     }
@@ -168,7 +171,7 @@ class CustomerManagementApplicationServiceIT {
 
         customerManagementApplicationService.archive(customerId);
 
-        var customerToChangeEmail = customerManagementApplicationService.findById(customerId);
+        var customerToChangeEmail = queryService.findById(customerId);
         Assertions.assertThatExceptionOfType(CustomerArchivedException.class)
                 .isThrownBy(() -> customerManagementApplicationService.changeEmail(customerToChangeEmail.getId(), "teste@gmail.com"));
     }
@@ -180,7 +183,7 @@ class CustomerManagementApplicationServiceIT {
         var customerId = customerManagementApplicationService.create(input);
         assertThat(customerId).isNotNull();
 
-        var customerToChangeEmail = customerManagementApplicationService.findById(customerId);
+        var customerToChangeEmail = queryService.findById(customerId);
         Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
                 .isThrownBy(() -> customerManagementApplicationService.changeEmail(customerToChangeEmail.getId(), "email-invalid"));
     }
@@ -196,7 +199,7 @@ class CustomerManagementApplicationServiceIT {
         var customerIdT2 = customerManagementApplicationService.create(inputT2);
         assertThat(customerIdT2).isNotNull();
 
-        var customerT2ToChangeEmail = customerManagementApplicationService.findById(customerIdT2);
+        var customerT2ToChangeEmail = queryService.findById(customerIdT2);
 
         Assertions.assertThatExceptionOfType(CustomerEmailIsInUseException.class)
                 .isThrownBy(() -> customerManagementApplicationService.changeEmail(customerT2ToChangeEmail.getId(), "johndoe@email.com"));

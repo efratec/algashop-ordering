@@ -1,5 +1,11 @@
 package com.algaworks.algashop.ordering.infrastructure.persistence.order;
 
+import com.algaworks.algashop.ordering.application.checkout.BillingData;
+import com.algaworks.algashop.ordering.application.checkout.RecipientData;
+import com.algaworks.algashop.ordering.application.commons.AddressData;
+import com.algaworks.algashop.ordering.application.order.query.CustomerMinimalOutput;
+import com.algaworks.algashop.ordering.application.order.query.OrderDetailOutput;
+import com.algaworks.algashop.ordering.application.order.query.ShippingData;
 import com.algaworks.algashop.ordering.domain.model.commons.*;
 import com.algaworks.algashop.ordering.domain.model.order.*;
 import com.algaworks.algashop.ordering.domain.model.order.PaymentMethodEnum;
@@ -11,6 +17,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
@@ -46,18 +53,6 @@ public class OrderPersistenceEntityDisassembler {
                 .build();
     }
 
-    private static Set<OrderItem> convertOrderItemPersistenceEntityToOrderItem(Set<OrderItemPersistenceEntity> orderItemPersistenceEntities) {
-        return orderItemPersistenceEntities.stream()
-                .map(item -> OrderItem.brandNew()
-                        .orderId(OrderId.from(item.getOrderId()))
-                        .productId(ProductId.from(item.getProductId()))
-                        .productName(ProductName.of(item.getProductName()))
-                        .price(Money.of(item.getPrice()))
-                        .quantity(Quantity.of(item.getQuantity()))
-                        .build())
-                .collect(Collectors.toCollection(HashSet::new));
-    }
-
     public static Address convertAddressEmbeddableToAddress(AddressEmbeddable addressEmbeddable) {
         if (addressEmbeddable == null) return null;
         return Address.builder()
@@ -81,13 +76,89 @@ public class OrderPersistenceEntityDisassembler {
                 .build();
     }
 
-    private static Recipient convertRecipientToEmbeddable(RecipientEmbeddable recipientEmbeddable) {
+    public static Recipient convertRecipientToEmbeddable(RecipientEmbeddable recipientEmbeddable) {
         if (recipientEmbeddable == null) return null;
         return Recipient.builder()
                 .document(Document.of(recipientEmbeddable.getDocument()))
                 .phone(Phone.of(recipientEmbeddable.getPhone()))
                 .fullName(FullName.of(recipientEmbeddable.getFirstName(), recipientEmbeddable.getLastName()))
                 .build();
+    }
+
+    public static RecipientData convertRecipientEmbeddableToRecipientData(RecipientEmbeddable recipientEmbeddable) {
+        if (recipientEmbeddable == null) return null;
+        return RecipientData.builder()
+                .firstName(recipientEmbeddable.getFirstName())
+                .lastName(recipientEmbeddable.getLastName())
+                .document(recipientEmbeddable.getDocument())
+                .phone(recipientEmbeddable.getPhone())
+                .build();
+    }
+
+    public static AddressData convertAddressEmbeddableToAddressData(AddressEmbeddable addressEmbeddable) {
+        if (addressEmbeddable == null) return null;
+        return AddressData.builder()
+                .state(addressEmbeddable.getState())
+                .city(addressEmbeddable.getCity())
+                .state(addressEmbeddable.getState())
+                .zipCode(addressEmbeddable.getZipCode())
+                .number(addressEmbeddable.getNumber())
+                .complement(addressEmbeddable.getComplement())
+                .neighborhood(addressEmbeddable.getNeighborhood())
+                .build();
+    }
+
+    public static OrderDetailOutput convertOrderPersistenceEntityToOrderDetailOutput(OrderPersistenceEntity orderPersistenceEntity) {
+        if (orderPersistenceEntity == null) return null;
+        var customer = orderPersistenceEntity.getCustomer();
+        var shipping = orderPersistenceEntity.getShipping();
+        var address = shipping.getAddress();
+        var recipient = orderPersistenceEntity.getShipping().getRecipient();
+        var billing = orderPersistenceEntity.getBilling();
+
+        return OrderDetailOutput.builder()
+                .id(OrderId.from(orderPersistenceEntity.getId()))
+                .customer(CustomerMinimalOutput.builder()
+                        .id(customer.getId())
+                        .firstName(customer.getFirstName())
+                        .lastName(customer.getLastName())
+                        .email(customer.getEmail())
+                        .document(customer.getDocument())
+                        .phone(customer.getPhone())
+                        .build())
+                .totalItems(orderPersistenceEntity.getTotalItems())
+                .totalAmount(orderPersistenceEntity.getTotalAmount())
+                .placeAt(orderPersistenceEntity.getPlacedAt())
+                .paiAt(orderPersistenceEntity.getPaidAt())
+                .canceledAt(orderPersistenceEntity.getCanceledAt())
+                .readyAt(orderPersistenceEntity.getReadyAt())
+                .shipping(ShippingData.builder()
+                        .cost(shipping.getCost())
+                        .expectedDate(shipping.getExpectedDate())
+                        .recipient(convertRecipientEmbeddableToRecipientData(recipient))
+                        .address(convertAddressEmbeddableToAddress(address))
+                        .build())
+                .billing(BillingData.builder()
+                        .firstName(billing.getFirstName())
+                        .lastName(billing.getLastName())
+                        .document(billing.getDocument())
+                        .email(billing.getEmail())
+                        .phone(billing.getPhone())
+                        .address(convertAddressEmbeddableToAddressData(address))
+                        .build())
+                .build();
+    }
+
+    private static Set<OrderItem> convertOrderItemPersistenceEntityToOrderItem(Set<OrderItemPersistenceEntity> orderItemPersistenceEntities) {
+        return orderItemPersistenceEntities.stream()
+                .map(item -> OrderItem.brandNew()
+                        .orderId(OrderId.from(item.getOrderId()))
+                        .productId(ProductId.from(item.getProductId()))
+                        .productName(ProductName.of(item.getProductName()))
+                        .price(Money.of(item.getPrice()))
+                        .quantity(Quantity.of(item.getQuantity()))
+                        .build())
+                .collect(Collectors.toCollection(HashSet::new));
     }
 
 }

@@ -1,14 +1,13 @@
 package com.algaworks.algashop.ordering.application.commons.mappers;
 
 import com.algaworks.algashop.ordering.application.commons.AddressData;
-import com.algaworks.algashop.ordering.application.customer.management.CustomerOutput;
+import com.algaworks.algashop.ordering.application.customer.query.CustomerOutput;
 import com.algaworks.algashop.ordering.domain.model.commons.*;
 import com.algaworks.algashop.ordering.domain.model.customer.BirthDate;
 import com.algaworks.algashop.ordering.domain.model.customer.Customer;
 import com.algaworks.algashop.ordering.domain.model.customer.CustomerId;
 import com.algaworks.algashop.ordering.domain.model.customer.LoyaltyPoints;
 import org.mapstruct.*;
-import org.mapstruct.factory.Mappers;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -18,9 +17,6 @@ import java.util.UUID;
         uses = {AddressMapper.class},
         unmappedTargetPolicy = ReportingPolicy.ERROR)
 public interface CustomerMapper {
-
-    CustomerMapper INSTANCE = Mappers.getMapper(CustomerMapper.class);
-
 
     @Mappings({
             @Mapping(target = "id",        expression = "java(customer.id() != null ? customer.id().value() : null)"),

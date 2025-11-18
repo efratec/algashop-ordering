@@ -1,4 +1,4 @@
-package com.algaworks.algashop.ordering.application.customer.management;
+package com.algaworks.algashop.ordering.application.customer.query;
 
 import com.algaworks.algashop.ordering.application.commons.AddressData;
 import lombok.AllArgsConstructor;
@@ -29,5 +29,6 @@ public class CustomerOutput {
     private Boolean promotionNotificationsAllowed;
     private Boolean archived;
     private AddressData address;
+
 
 }

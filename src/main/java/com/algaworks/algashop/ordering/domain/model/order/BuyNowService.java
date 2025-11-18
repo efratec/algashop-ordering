@@ -1,15 +1,20 @@
 package com.algaworks.algashop.ordering.domain.model.order;
 
-import com.algaworks.algashop.ordering.domain.utility.DomainService;
-import com.algaworks.algashop.ordering.domain.model.product.Product;
+import com.algaworks.algashop.ordering.domain.model.commons.Money;
 import com.algaworks.algashop.ordering.domain.model.commons.Quantity;
-import com.algaworks.algashop.ordering.domain.model.customer.CustomerId;
+import com.algaworks.algashop.ordering.domain.model.customer.Customer;
+import com.algaworks.algashop.ordering.domain.model.product.Product;
+import com.algaworks.algashop.ordering.domain.utility.DomainService;
+import lombok.RequiredArgsConstructor;
 
 @DomainService
+@RequiredArgsConstructor
 public class BuyNowService {
 
+    private final CustomerHaveFreeShippingSpecification customerHaveFreeShippingSpecification;
+
     public Order buyNow(Product product,
-                        CustomerId customerId,
+                        Customer customer,
                         Billing billing,
                         Shipping shipping,
                         Quantity quantity,
@@ -17,15 +22,26 @@ public class BuyNowService {
 
         product.checkoutOfStock();
 
-        var order = Order.draft(customerId);
+        var order = Order.draft(customer.id());
         order.changeBilling(billing);
-        order.changeShipping(shipping);
         order.changePaymentMethod(paymentMethod);
 
         order.addItem(product, quantity);
+
+        if (isHaveFreeShipping(customer)) {
+            Shipping freeShipping = shipping.toBuilder().cost(Money.ZERO()).build();
+            order.changeShipping(freeShipping);
+        } else {
+            order.changeShipping(shipping);
+        }
+
         order.place();
 
         return order;
+    }
+
+    private boolean isHaveFreeShipping(Customer customer) {
+        return customerHaveFreeShippingSpecification.isSatisfiedBy(customer);
     }
 
 }

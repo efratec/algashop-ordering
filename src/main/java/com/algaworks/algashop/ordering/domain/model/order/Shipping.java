@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 import static com.algaworks.algashop.ordering.domain.validator.FieldValidations.requireAllNonNull;
 
-@Builder
+@Builder(toBuilder = true)
 public record Shipping(
         Money cost,
         LocalDate expectedDate,
