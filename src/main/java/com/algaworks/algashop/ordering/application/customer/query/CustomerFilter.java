@@ -4,8 +4,6 @@ import com.algaworks.algashop.ordering.application.commons.SorteablePageFilter;
 import lombok.*;
 import org.springframework.data.domain.Sort;
 
-import java.time.OffsetDateTime;
-
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor(access = AccessLevel.PRIVATE)

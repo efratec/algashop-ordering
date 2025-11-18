@@ -7,7 +7,6 @@ import com.algaworks.algashop.ordering.domain.model.entity.fixture.OrderTestFixt
 import com.algaworks.algashop.ordering.domain.model.order.OrderStatusEnum;
 import com.algaworks.algashop.ordering.domain.model.order.Orders;
 import lombok.RequiredArgsConstructor;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
