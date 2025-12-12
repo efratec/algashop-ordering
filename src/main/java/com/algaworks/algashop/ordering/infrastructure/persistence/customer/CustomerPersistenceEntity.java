@@ -1,6 +1,6 @@
 package com.algaworks.algashop.ordering.infrastructure.persistence.customer;
 
-import com.algaworks.algashop.ordering.infrastructure.persistence.commons.AbstractAuditableEntity;
+import com.algaworks.algashop.ordering.infrastructure.persistence.commons.AbstractAuditableAggregateRoot;
 import com.algaworks.algashop.ordering.infrastructure.persistence.commons.AddressEmbeddable;
 import jakarta.persistence.*;
 import lombok.*;
@@ -20,7 +20,7 @@ import java.util.UUID;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @ToString(of = "id")
 @Table(name = "tb_customer")
-public class CustomerPersistenceEntity extends AbstractAuditableEntity<CustomerPersistenceEntity> {
+public class CustomerPersistenceEntity extends AbstractAuditableAggregateRoot<CustomerPersistenceEntity> {
 
     @Id
     @EqualsAndHashCode.Include

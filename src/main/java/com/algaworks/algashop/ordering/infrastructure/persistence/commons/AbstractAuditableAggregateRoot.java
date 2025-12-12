@@ -22,7 +22,7 @@ import java.util.UUID;
 @MappedSuperclass
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
-public abstract class AbstractAuditableEntity<T extends AbstractAuditableEntity<T>>
+public abstract class AbstractAuditableAggregateRoot<T extends AbstractAuditableAggregateRoot<T>>
         extends AbstractAggregateRoot<T> {
 
     @CreatedBy

@@ -1,6 +1,6 @@
 package com.algaworks.algashop.ordering.infrastructure.persistence.shoppingcart;
 
-import com.algaworks.algashop.ordering.infrastructure.persistence.commons.AbstractAuditableEntity;
+import com.algaworks.algashop.ordering.infrastructure.persistence.commons.AbstractAuditableAggregateRoot;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,7 +15,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 @Table(name = "tb_shopping_cart_item")
-public class ShoppingCartItemPersistenceEntity extends AbstractAuditableEntity {
+public class ShoppingCartItemPersistenceEntity extends AbstractAuditableAggregateRoot {
 
     @Id
     @EqualsAndHashCode.Include
