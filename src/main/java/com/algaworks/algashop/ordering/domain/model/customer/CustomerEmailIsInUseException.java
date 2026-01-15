@@ -1,12 +1,12 @@
 package com.algaworks.algashop.ordering.domain.model.customer;
 
-import com.algaworks.algashop.ordering.domain.exception.DomainException;
+import com.algaworks.algashop.ordering.domain.exception.DomainEntityNotFoundException;
 
 import java.util.UUID;
 
 import static com.algaworks.algashop.ordering.domain.exception.enums.ReasonMessageEnum.CUSTOMER_EMAIL_IS_ALREADY_USED;
 
-public class CustomerEmailIsInUseException extends DomainException {
+public class CustomerEmailIsInUseException extends DomainEntityNotFoundException {
 
     public CustomerEmailIsInUseException(String message) {
         super(message);

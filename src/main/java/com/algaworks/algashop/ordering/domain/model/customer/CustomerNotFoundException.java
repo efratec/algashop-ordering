@@ -1,12 +1,13 @@
 package com.algaworks.algashop.ordering.domain.model.customer;
 
+import com.algaworks.algashop.ordering.domain.exception.DomainEntityNotFoundException;
 import com.algaworks.algashop.ordering.domain.exception.DomainException;
 
 import java.util.UUID;
 
 import static com.algaworks.algashop.ordering.domain.exception.enums.ReasonMessageEnum.NO_CUSTOMER_NOT_FOUND;
 
-public class CustomerNotFoundException extends DomainException {
+public class CustomerNotFoundException extends DomainEntityNotFoundException {
 
     public CustomerNotFoundException(String message) {
         super(message);
