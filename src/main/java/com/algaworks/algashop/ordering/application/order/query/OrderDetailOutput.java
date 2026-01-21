@@ -22,13 +22,14 @@ public class OrderDetailOutput {
     private CustomerMinimalOutput customer;
     private Integer totalItems;
     private BigDecimal totalAmount;
-    private OffsetDateTime placeAt;
-    private OffsetDateTime paiAt;
+    private OffsetDateTime placedAt;
+    private OffsetDateTime paidAt;
     private OffsetDateTime canceledAt;
     private OffsetDateTime readyAt;
     private String status;
     private ShippingData shipping;
     private BillingData billing;
+    private String paymentMethod;
 
     private List<OrderItemDetailOutput> items = new ArrayList<>();
 

@@ -6,6 +6,10 @@ import java.util.function.Function;
 
 public class DomainException extends RuntimeException {
 
+    public DomainException() {
+
+    }
+
     protected DomainException(String message, Throwable cause) {
         super(message, cause);
     }

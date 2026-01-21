@@ -1,5 +1,6 @@
 package com.algaworks.algashop.ordering.application.shoppingcart.management;
 
+import com.algaworks.algashop.ordering.application.shoppingcart.query.ShoppingCartItemInput;
 import com.algaworks.algashop.ordering.domain.model.commons.Quantity;
 import com.algaworks.algashop.ordering.domain.model.customer.CustomerId;
 import com.algaworks.algashop.ordering.domain.model.product.ProductCatalogService;

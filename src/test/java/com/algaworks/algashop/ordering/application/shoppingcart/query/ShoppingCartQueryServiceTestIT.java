@@ -1,6 +1,5 @@
 package com.algaworks.algashop.ordering.application.shoppingcart.query;
 
-import com.algaworks.algashop.ordering.application.shoppingcart.management.ShoppingCartOutput;
 import com.algaworks.algashop.ordering.domain.model.customer.CustomerId;
 import com.algaworks.algashop.ordering.domain.model.customer.Customers;
 import com.algaworks.algashop.ordering.domain.model.entity.fixture.CustomerTestFixture;

@@ -1,7 +1,7 @@
 package com.algaworks.algashop.ordering.application.order.query;
 
 import com.algaworks.algashop.ordering.application.checkout.RecipientData;
-import com.algaworks.algashop.ordering.domain.model.commons.Address;
+import com.algaworks.algashop.ordering.application.commons.AddressData;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,6 +19,6 @@ public class ShippingData {
     private BigDecimal cost;
     private LocalDate expectedDate;
     private RecipientData recipient;
-    private Address address;
+    private AddressData address;
 
 }

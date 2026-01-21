@@ -1,5 +1,6 @@
 package com.algaworks.algashop.ordering.application.shoppingcart.management;
 
+import com.algaworks.algashop.ordering.application.shoppingcart.query.ShoppingCartItemInput;
 import com.algaworks.algashop.ordering.domain.model.customer.Customers;
 import com.algaworks.algashop.ordering.domain.model.product.ProductCatalogService;
 import com.algaworks.algashop.ordering.domain.model.product.ProductNotFoundException;

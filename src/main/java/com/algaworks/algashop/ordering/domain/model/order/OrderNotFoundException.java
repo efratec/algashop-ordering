@@ -1,11 +1,14 @@
 package com.algaworks.algashop.ordering.domain.model.order;
 
+import com.algaworks.algashop.ordering.domain.exception.DomainEntityNotFoundException;
 import com.algaworks.algashop.ordering.domain.exception.DomainException;
 import io.hypersistence.tsid.TSID;
 
 import static com.algaworks.algashop.ordering.domain.exception.enums.ReasonMessageEnum.NO_ORDER_NOT_FOUND;
 
-public class OrderNotFoundException extends DomainException {
+public class OrderNotFoundException extends DomainEntityNotFoundException {
+
+    public OrderNotFoundException() {}
 
     public OrderNotFoundException(String message) {
         super(message);

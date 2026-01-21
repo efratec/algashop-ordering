@@ -1,7 +1,7 @@
 package com.algaworks.algashop.ordering.infrastructure.persistence.shoppingcart;
 
-import com.algaworks.algashop.ordering.application.shoppingcart.management.ShoppingCartItemOutput;
-import com.algaworks.algashop.ordering.application.shoppingcart.management.ShoppingCartOutput;
+import com.algaworks.algashop.ordering.application.shoppingcart.query.ShoppingCartItemOutput;
+import com.algaworks.algashop.ordering.application.shoppingcart.query.ShoppingCartOutput;
 import com.algaworks.algashop.ordering.domain.model.shoppingcart.ShoppingCart;
 import com.algaworks.algashop.ordering.domain.model.shoppingcart.ShoppingCartItem;
 import com.algaworks.algashop.ordering.domain.model.commons.Money;
