@@ -40,10 +40,12 @@ public class BuyNowApplicationService {
         var paymentMethod = PaymentMethodEnum.valueOf(input.getPaymentMethod());
         var customerId = CustomerId.from(input.getCustomerId());
         var quantity = Quantity.of(input.getQuantity());
+        var productId = ProductId.from(input.getProductId());
+
+        var product = findProduct(productId);
 
         var customer = customers.ofId(customerId).orElseThrow(() -> CustomerNotFoundException.because(customerId.value()));
 
-        var product = findProduct(ProductId.from(input.getProductId()));
 
         var shippingCalculatinoResult = calculateShippingCost(input.getShipping());
 

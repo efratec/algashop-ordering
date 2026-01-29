@@ -52,6 +52,7 @@ dependencies {
 
 	testImplementation 'io.rest-assured:rest-assured'
 	testImplementation 'io.rest-assured:spring-mock-mvc'
+	testImplementation 'org.springframework.cloud:spring-cloud-starter-contract-stub-runner'
 
 	testCompileOnly("org.projectlombok:lombok")
 	testAnnotationProcessor("org.projectlombok:lombok")

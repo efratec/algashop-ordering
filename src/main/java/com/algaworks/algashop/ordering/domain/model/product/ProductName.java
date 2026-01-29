@@ -15,9 +15,4 @@ public record ProductName(String value) {
         return new ProductName(value);
     }
 
-    @Override
-    public String toString() {
-        return this.value;
-    }
-
 }
