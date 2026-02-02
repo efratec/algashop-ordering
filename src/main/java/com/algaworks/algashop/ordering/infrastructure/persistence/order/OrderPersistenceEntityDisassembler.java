@@ -47,7 +47,6 @@ public class OrderPersistenceEntityDisassembler {
                 .document(Document.of(billingEmbeddable.getDocument()))
                 .phone(Phone.of(billingEmbeddable.getPhone()))
                 .address(convertAddressEmbeddableToAddress(billingEmbeddable.getAddress()))
-                .email(Email.of(billingEmbeddable.getEmail()))
                 .build();
     }
 
@@ -140,7 +139,6 @@ public class OrderPersistenceEntityDisassembler {
                         .firstName(billing.getFirstName())
                         .lastName(billing.getLastName())
                         .document(billing.getDocument())
-                        .email(billing.getEmail())
                         .phone(billing.getPhone())
                         .address(convertAddressEmbeddableToAddressData(address))
                         .build())

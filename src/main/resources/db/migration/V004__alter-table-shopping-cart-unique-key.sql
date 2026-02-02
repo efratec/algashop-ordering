@@ -1,0 +1,1 @@
+alter table public.tb_shopping_cart add constraint uc_shopping_cart_customer_id unique (customer_id);
