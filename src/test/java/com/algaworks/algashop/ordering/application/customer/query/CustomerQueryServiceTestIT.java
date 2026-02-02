@@ -57,19 +57,20 @@ class CustomerQueryServiceTestIT {
     }
 
     @Test
-    void shouldFilterByEmail() {
-        customers.add(existingCustomer().id(CustomerId.of()).fullName(FullName.of("Marcio", "Santos")).email(Email.of("teste@gmail.com")).build());
-        customers.add(existingCustomer().id(CustomerId.of()).fullName(FullName.of("Andrade", "Silva")).email(Email.of("andrade@gmail.com")).build());
-        customers.add(existingCustomer().id(CustomerId.of()).fullName(FullName.of("Carla", "Teste")).email(Email.of("carla@gmail.com")).build());
+    public void shouldFilterByEmail() {
+        customers.add(existingCustomer().id(CustomerId.of()).email(new Email("user1@test.com")).build());
+        customers.add(existingCustomer().id(CustomerId.of()).email(new Email("test2@algashop.com")).build());
+        customers.add(existingCustomer().id(CustomerId.of()).email(new Email("user3@test.com")).build());
 
-        var filter = CustomerFilter.builder().email("teste").build();
+        CustomerFilter filter = CustomerFilter.builder().build();
+        filter.setEmail("test");
 
         Page<CustomerSummaryOutput> page = queryService.filter(filter);
 
-        assertThat(page.getTotalElements()).isEqualTo(1);
-        assertThat(page.getContent())
+        Assertions.assertThat(page.getTotalElements()).isEqualTo(3);
+        Assertions.assertThat(page.getContent())
                 .extracting(CustomerSummaryOutput::getEmail)
-                .containsExactlyInAnyOrder("teste@gmail.com");
+                .containsExactlyInAnyOrder("user1@test.com", "test2@algashop.com", "user3@test.com");
     }
 
     @Test

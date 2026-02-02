@@ -2,6 +2,7 @@ package com.algaworks.algashop.ordering.domain.model.repository;
 
 import com.algaworks.algashop.ordering.domain.model.commons.Quantity;
 import com.algaworks.algashop.ordering.domain.model.customer.Customers;
+import com.algaworks.algashop.ordering.domain.model.shoppingcart.ShoppingCartId;
 import com.algaworks.algashop.ordering.domain.model.shoppingcart.ShoppingCarts;
 import com.algaworks.algashop.ordering.infrastructure.persistence.customer.CustomerPersistenceEntityAssembler;
 import com.algaworks.algashop.ordering.infrastructure.persistence.shoppingcart.ShoppingCartPersistenceEntityAssembler;
@@ -14,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 
@@ -30,12 +32,12 @@ import static org.assertj.core.api.Assertions.assertThat;
         CustomerPersistenceEntityAssembler.class,
         CustomerPersistenceEntityDisassembler.class
 })
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 class ShoppingCartsIT {
 
     private final ShoppingCarts shoppingCarts;
     private final Customers customers;
-    private final EntityManager entityManager;
 
     @BeforeEach
     void setup() {
@@ -103,15 +105,11 @@ class ShoppingCartsIT {
 
     @Test
     void shouldCountExistingItems() {
-        assertThat(shoppingCarts.count()).isZero();
+        var ShoppingCart = aShoppingCart().build();
+        shoppingCarts.add(ShoppingCart);
 
-        var cartT1 = aShoppingCart().build();
-        var cartT2 = aShoppingCart().build();
-
-        shoppingCarts.add(cartT1);
-        shoppingCarts.add(cartT2);
-
-        assertThat(shoppingCarts.count()).isEqualTo(2L);
+        assertThat(shoppingCarts.exists(ShoppingCart.id())).isTrue();
+        assertThat(shoppingCarts.exists(ShoppingCartId.of())).isFalse();
     }
 
 }

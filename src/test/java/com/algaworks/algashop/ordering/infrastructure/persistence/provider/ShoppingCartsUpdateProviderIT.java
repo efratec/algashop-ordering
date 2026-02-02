@@ -15,9 +15,11 @@ import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,7 +42,8 @@ import static org.assertj.core.api.Assertions.assertThat;
         CustomerPersistenceEntityDisassembler.class,
         SpringDataAuditingConfig.class
 })
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Sql(scripts = "classpath:db/clean/afterMigrate.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 class ShoppingCartsUpdateProviderIT {
 
     private final ShoppingCartPersistenceProvider persistenceProvider;
@@ -68,7 +71,6 @@ class ShoppingCartsUpdateProviderIT {
 
         persistenceProvider.add(shoppingCart);
 
-
         final var productIdToUpdate = productT1.id();
         final var newProductT1Price = Money.of("1500");
         final var expectedNewItemTotalPrice = newProductT1Price.multiply(Quantity.of(2));
@@ -88,7 +90,7 @@ class ShoppingCartsUpdateProviderIT {
 
     @Test
     @Transactional(propagation = Propagation.NEVER)
-    void shouldUpdateItemAvailability() {
+            void shouldUpdateItemAvailability() {
         final var shoppingCart = aShoppingCart().withItems(false).build();
 
         final var product1 = aProduct()

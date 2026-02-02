@@ -8,11 +8,12 @@ import com.algaworks.algashop.ordering.domain.model.customer.CustomerId;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.util.UUID;
 
 
 public class CustomerTestFixture {
 
-    public static final CustomerId DEFAULT_CUSTOMER_ID = CustomerId.of();
+    public static final CustomerId DEFAULT_CUSTOMER_ID = new CustomerId(UUID.fromString("6e148bd5-47f6-4022-b9da-07cfaa294f7a"));
 
     public static Customer.BrandNewCustomerBuild brandNewCustomer() {
         return Customer.brandNew()
@@ -42,7 +43,7 @@ public class CustomerTestFixture {
                 .archivedAt(OffsetDateTime.now())
                 .fullName(FullName.of("John","Doe"))
                 .birthDate(BirthDate.of(LocalDate.of(1991, 7,5)))
-                .email(Email.of("johndoe@email.com"))
+                .email(Email.of("john" + UUID.randomUUID() + "@gmail.com"))
                 .phone(Phone.of("478-256-2604"))
                 .document(Document.of("255-08-0578"))
                 .promotionNotificationsAllowed(true)

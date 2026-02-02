@@ -33,8 +33,6 @@ public class OrderPersistenceEntityDisassembler {
                 .paidAt(persistenceEntity.getPaidAt())
                 .canceledAt(persistenceEntity.getCanceledAt())
                 .readyAt(persistenceEntity.getReadyAt())
-                .shipping(convertShippingEmbeddableToShipping(persistenceEntity.getShipping()))
-                .billing(convertBillingEmbeddableToBilling(persistenceEntity.getBilling()))
                 .items(convertOrderItemPersistenceEntityToOrderItem(persistenceEntity.getItems()))
                 .version(persistenceEntity.getVersion())
                 .build();

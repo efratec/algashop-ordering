@@ -19,6 +19,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.util.HashSet;
 import java.util.UUID;
@@ -28,7 +29,8 @@ import static io.restassured.config.JsonConfig.jsonConfig;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@Sql(scripts = "classpath:db/testdata/afterMigrate.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS)
+@Sql(scripts = "classpath:db/clean/afterMigrate.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_CLASS)
 class ShoppingCartControllerTestIT {
 
     @LocalServerPort
@@ -40,7 +42,7 @@ class ShoppingCartControllerTestIT {
     @Autowired
     private ShoppingCartPersistenceEntityRepository shoppingCartRepository;
 
-    private static final UUID validCustomerId = UUID.fromString("6e148bd5-47f6-4022-b9da-07cfaa294f7a");
+    private static final UUID validShoppingCartId = UUID.fromString("4f31582a-66e6-4601-a9d3-ff608c2d4461");
 
     private WireMockServer wireMockProductCatalog;
     private WireMockServer wireMockRapidex;
@@ -51,8 +53,6 @@ class ShoppingCartControllerTestIT {
         RestAssured.port = port;
 
         RestAssured.config().jsonConfig(jsonConfig().numberReturnType(JsonPathConfig.NumberReturnType.BIG_DECIMAL));
-
-        initDatabase();
 
         wireMockRapidex = new WireMockServer(options()
                 .port(8780)
@@ -97,14 +97,6 @@ class ShoppingCartControllerTestIT {
 
     @Test
     public void shouldAddProductToShoppingCart() {
-        var shoppingCartPersistence = ShoppingCartPersistenceEntityTestFixture.existingShoppingCart().items(new HashSet<>())
-                .customer(customerRepository.getReferenceById(validCustomerId))
-                .build();
-
-        shoppingCartRepository.save(shoppingCartPersistence);
-
-        UUID shoppingCartId = shoppingCartPersistence.getId();
-
         String json = AlgaShopResourceUtils.readContent("json/shoppingcart/add-product-to-shopping-cart.json");
 
         RestAssured
@@ -113,19 +105,13 @@ class ShoppingCartControllerTestIT {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(json)
                 .when()
-                .post("/api/v1/shopping-carts/{shoppingCartId}/items", shoppingCartId)
+                .post("/api/v1/shopping-carts/{shoppingCartId}/items", validShoppingCartId)
                 .then()
                 .assertThat()
                 .statusCode(HttpStatus.NO_CONTENT.value());
 
-        var shoppingCartPersistenceEntity = shoppingCartRepository.findById(shoppingCartPersistence.getId()).orElseThrow();
-        assertThat(shoppingCartPersistenceEntity.getTotalItems()).isEqualTo(2);
-    }
-
-    private void initDatabase() {
-        customerRepository.saveAndFlush(
-                CustomerPersistenceEntityTestFixture.existingCustomer().id(validCustomerId).build()
-        );
+        var shoppingCartPersistenceEntity = shoppingCartRepository.findById(validShoppingCartId).orElseThrow();
+        assertThat(shoppingCartPersistenceEntity.getTotalItems()).isEqualTo(4);
     }
 
 }
