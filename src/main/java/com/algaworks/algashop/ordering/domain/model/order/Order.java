@@ -44,6 +44,8 @@ public class Order extends AbstractEventSourceEntity implements AggregateRoot<Or
     private OrderStatusEnum status;
     private PaymentMethodEnum paymentMethodEnum;
 
+    private CreditCardId creditCardId;
+
     private Long version;
 
     private Set<OrderItem> items;
