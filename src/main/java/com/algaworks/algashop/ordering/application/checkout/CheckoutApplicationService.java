@@ -1,6 +1,7 @@
 package com.algaworks.algashop.ordering.application.checkout;
 
 
+import com.algaworks.algashop.ordering.domain.exception.DomainEntityNotFoundException;
 import com.algaworks.algashop.ordering.domain.model.commons.ZipCode;
 import com.algaworks.algashop.ordering.domain.model.customer.CustomerNotFoundException;
 import com.algaworks.algashop.ordering.domain.model.customer.Customers;
@@ -34,6 +35,14 @@ public class CheckoutApplicationService {
         requireNonNull(input);
 
         var paymentMethod = PaymentMethodEnum.valueOf(input.getPaymentMethod());
+        CreditCardId creditCardId = null;
+
+        if (PaymentMethodEnum.CREDIT_CARD.equals(paymentMethod)) {
+            if (input.getCreditCardId() == null) {
+                throw new DomainEntityNotFoundException("Credit card id is already set");
+            }
+            creditCardId = new CreditCardId(input.getCreditCardId());
+        }
 
         var shoppingCart = shoppingCarts.ofId(ShoppingCartId.from(input.getShoppingCartId()))
                 .orElseThrow(() -> ShoppingCartNotFoundException.because(input.getShoppingCartId()));
@@ -54,7 +63,8 @@ public class CheckoutApplicationService {
         var shipping = shippingInputDisassembler.toDomainModel(input.getShipping(), shippingCalculation);
         var billing = billingInputDisassembler.toDomainModel(input.getBilling());
 
-        var orderCheckout = checkoutService.checkout(customer, shoppingCart, billing, shipping, paymentMethod);
+        var orderCheckout = checkoutService.checkout(customer, shoppingCart, billing, shipping,
+                paymentMethod, creditCardId);
 
         orders.add(orderCheckout);
         shoppingCarts.add(shoppingCart);

@@ -57,8 +57,9 @@ class CheckoutServiceTest {
         final var billing = aBilling();
         final var shipping = aShipping();
         final var paymentMethod = GATEWAY_BALANCE;
+        final var creditCardId = new CreditCardId();
 
-        final var order = checkoutService.checkout(customer, shoppingCart, billing, shipping, paymentMethod);
+        final var order = checkoutService.checkout(customer, shoppingCart, billing, shipping, paymentMethod, creditCardId);
 
         final var event = OrderPlacedEvent.of(order.id(), order.customerId(), order.placedAt());
         assertThat(order.domainEvents()).contains(event);
@@ -87,7 +88,8 @@ class CheckoutServiceTest {
         final var customer = CustomerTestFixture.existingCustomer().build();
         final var shoppingCart = aShoppingCart().customerId(customer.id()).withItems(false).build();
         assertThatExceptionOfType(ShoppingCartCantProceedToCheckoutException.class)
-                .isThrownBy(()-> checkoutService.checkout(customer, shoppingCart, aBilling(), aShipping(), GATEWAY_BALANCE));
+                .isThrownBy(()-> checkoutService.checkout(customer, shoppingCart, aBilling(), aShipping(),
+                        GATEWAY_BALANCE, new CreditCardId()));
     }
 
     @Test
@@ -101,7 +103,8 @@ class CheckoutServiceTest {
 
         assertThat(shoppingCart.isEmpty()).isFalse();
         assertThatExceptionOfType(ShoppingCartCantProceedToCheckoutException.class)
-                .isThrownBy(()-> checkoutService.checkout(customer, shoppingCart, aBilling(), aShipping(), GATEWAY_BALANCE));
+                .isThrownBy(()-> checkoutService.checkout(customer, shoppingCart, aBilling(), aShipping(),
+                        GATEWAY_BALANCE, new CreditCardId()));
     }
 
     @Test
@@ -116,12 +119,14 @@ class CheckoutServiceTest {
         var billingInfo = OrderTestFixture.aBilling();
         var shippingInfo = OrderTestFixture.aShipping();
         var paymentMethod = PaymentMethodEnum.CREDIT_CARD;
+        var creditCardId = new CreditCardId();
 
         Money shoppingCartTotalAmount = shoppingCart.totalAmount();
         Quantity expectedOrderTotalItems = shoppingCart.totalItems();
         int expectedOrderItemsCount = shoppingCart.items().size();
 
-        Order order = checkoutService.checkout(customer, shoppingCart, billingInfo, shippingInfo, paymentMethod);
+        Order order = checkoutService.checkout(customer, shoppingCart, billingInfo, shippingInfo,
+                paymentMethod, creditCardId);
 
         assertThat(order).isNotNull();
         assertThat(order.id()).isNotNull();

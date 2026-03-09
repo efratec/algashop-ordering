@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import static com.algaworks.algashop.ordering.domain.exception.enums.ReasonMessageEnum.*;
@@ -57,7 +58,7 @@ public class Order extends AbstractEventSourceEntity implements AggregateRoot<Or
                  OffsetDateTime canceledAt, OffsetDateTime readyAt,
                  Billing billing, Shipping shipping,
                  OrderStatusEnum status, PaymentMethodEnum paymentMethodEnum,
-                 Set<OrderItem> items, Long version) {
+                 Set<OrderItem> items, Long version, CreditCardId creditCardId) {
         this.setId(id);
         this.setCustomerId(customerId);
         this.setTotalAmount(totalAmount);
@@ -72,6 +73,7 @@ public class Order extends AbstractEventSourceEntity implements AggregateRoot<Or
         this.setPaymentMethodEnum(paymentMethodEnum);
         this.setItems(items);
         this.setVersion(version);
+        this.setCreditCardId(creditCardId);
     }
 
     public static Order draft(CustomerId customerId) {
@@ -89,6 +91,7 @@ public class Order extends AbstractEventSourceEntity implements AggregateRoot<Or
                 OrderStatusEnum.DRAFT,
                 null,
                 new HashSet<>(),
+                null,
                 null
         );
     }
@@ -149,10 +152,14 @@ public class Order extends AbstractEventSourceEntity implements AggregateRoot<Or
         this.publishDomainEvent(OrderReadyEvent.of(this.id(), this.customerId(), this.readyAt()));
     }
 
-    public void changePaymentMethod(PaymentMethodEnum paymentMethodEnum) {
-        requireNonNull(paymentMethodEnum);
-        verifyIfChangeable();
-        this.setPaymentMethodEnum(paymentMethodEnum);
+    public void changePaymentMethod(PaymentMethodEnum paymentMethod, CreditCardId creditCardId) {
+        requireNonNull(paymentMethod);
+        if (PaymentMethodEnum.CREDIT_CARD.equals(paymentMethod)) {
+            requireNonNull(creditCardId);
+            this.setCreditCardId(creditCardId);
+        }
+        this.verifyIfChangeable();
+        this.setPaymentMethodEnum(paymentMethod);
     }
 
     public void changeBilling(Billing billing) {
@@ -178,6 +185,10 @@ public class Order extends AbstractEventSourceEntity implements AggregateRoot<Or
         var orderItem = findOrderItem(orderItemId);
         orderItem.changeQuantity(quantity);
         this.recalculateTotals();
+    }
+
+    public CreditCardId creditCardId() {
+        return creditCardId;
     }
 
     public boolean isDraft() {
@@ -355,6 +366,10 @@ public class Order extends AbstractEventSourceEntity implements AggregateRoot<Or
     private void setItems(Set<OrderItem> items) {
         requireNonNull(items);
         this.items = items;
+    }
+
+    private void setCreditCardId(CreditCardId creditCardId) {
+        this.creditCardId = creditCardId;
     }
 
     private void setVersion(Long version) {

@@ -2,6 +2,8 @@ package com.algaworks.algashop.ordering.application.checkout;
 
 import com.algaworks.algashop.ordering.application.commons.AddressData;
 
+import java.util.UUID;
+
 import static com.algaworks.algashop.ordering.domain.model.entity.fixture.CustomerTestFixture.DEFAULT_CUSTOMER_ID;
 import static com.algaworks.algashop.ordering.domain.model.entity.fixture.ProductTestFixture.DEFAULT_PRODUCT_ID;
 
@@ -13,6 +15,7 @@ public class BuyNowInputTestFixture {
                 .customerId(DEFAULT_CUSTOMER_ID.value())
                 .quantity(2)
                 .paymentMethod("CREDIT_CARD")
+                .creditCardId(UUID.randomUUID())
                 .shipping(ShippingInput.builder()
                         .recipient(RecipientData.builder()
                                 .firstName("John")

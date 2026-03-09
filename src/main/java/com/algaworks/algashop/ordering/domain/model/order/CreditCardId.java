@@ -7,12 +7,12 @@ import java.util.UUID;
 
 public record CreditCardId(UUID id) {
 
-    public CreditCardId {
-        Objects.requireNonNull(id);
+    public CreditCardId() {
+        this(GeneratorId.generateTimeBasedUUID());
     }
 
-    public static CreditCardId of() {
-        return new CreditCardId(GeneratorId.generateTimeBasedUUID());
+    public CreditCardId {
+        Objects.requireNonNull(id);
     }
 
 }

@@ -35,6 +35,7 @@ public class OrderPersistenceEntityAssembler {
         orderPersistenceEntity.setTotalItems(order.totalItems().value());
         orderPersistenceEntity.setStatus(order.status().name());
         orderPersistenceEntity.setPaymentMethod(order.paymentMethod().name());
+        orderPersistenceEntity.setCreditCardId(order.creditCardId() != null ? order.creditCardId().id() : null);
         orderPersistenceEntity.setPlacedAt(order.placedAt());
         orderPersistenceEntity.setPaidAt(order.paidAt());
         orderPersistenceEntity.setCanceledAt(order.canceledAt());
@@ -96,6 +97,7 @@ public class OrderPersistenceEntityAssembler {
                 .phone(billing.phone().value())
                 .document(billing.document().value())
                 .address(convertAddressToEmbeddable(billing.address()))
+                .email(billing.email().value())
                 .build();
     }
 

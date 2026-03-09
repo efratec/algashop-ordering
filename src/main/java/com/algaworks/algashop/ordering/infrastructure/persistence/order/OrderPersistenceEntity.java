@@ -32,6 +32,7 @@ public class OrderPersistenceEntity extends AbstractAuditableAggregateRoot<Order
     private Integer totalItems;
     private String status;
     private String paymentMethod;
+    private UUID creditCardId;
 
     private OffsetDateTime placedAt;
     private OffsetDateTime paidAt;
@@ -50,7 +51,8 @@ public class OrderPersistenceEntity extends AbstractAuditableAggregateRoot<Order
             @AttributeOverride(name = "address.neighborhood", column = @Column(name = "billing_address_neighborhood")),
             @AttributeOverride(name = "address.city", column = @Column(name = "billing_address_city")),
             @AttributeOverride(name = "address.state", column = @Column(name = "billing_address_state")),
-            @AttributeOverride(name = "address.zipCode", column = @Column(name = "billing_address_zipCode"))
+            @AttributeOverride(name = "address.zipCode", column = @Column(name = "billing_address_zipCode")),
+            @AttributeOverride(name = "email", column = @Column(name = "billing_email"))
     })
     private BillingEmbeddable billing;
 

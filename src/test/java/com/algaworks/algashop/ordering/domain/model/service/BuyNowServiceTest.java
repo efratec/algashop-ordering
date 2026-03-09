@@ -53,10 +53,11 @@ class BuyNowServiceTest {
         final var billing = aBilling();
         final var shipping = aShipping();
         final var quantity = Quantity.of(2);
+        final var creditCardId = new CreditCardId();
         final Money totalAmount = product.price().multiply(quantity).add(shipping.cost());
 
         final var orderBuyNow = buyNowService.buyNow(product, customer,
-                billing, shipping, quantity, CREDIT_CARD);
+                billing, shipping, quantity, CREDIT_CARD, creditCardId);
 
         assertThat(orderBuyNow).isNotNull();
         assertThat(orderBuyNow.customerId()).isEqualTo(customer.id());
@@ -77,10 +78,11 @@ class BuyNowServiceTest {
         final var billing = aBilling();
         final var shipping = aShipping();
         final var quantity = Quantity.of(2);
+        final var creditCardId = new CreditCardId();
 
         assertThatExceptionOfType(ProductOutOfStockException.class)
                 .isThrownBy(() -> buyNowService.buyNow(product, customer,
-                        billing, shipping, quantity, GATEWAY_BALANCE));
+                        billing, shipping, quantity, GATEWAY_BALANCE, creditCardId));
     }
 
     @Test
@@ -89,10 +91,11 @@ class BuyNowServiceTest {
         final var customer = existingCustomer().build();
         final var billing = aBilling();
         final var shipping = aShipping();
+        final var creditCardId = new CreditCardId();
 
         assertThatExceptionOfType(IllegalArgumentException.class)
                 .isThrownBy(() -> buyNowService.buyNow(product, customer,
-                        billing, shipping, Quantity.ZERO, GATEWAY_BALANCE));
+                        billing, shipping, Quantity.ZERO, GATEWAY_BALANCE, creditCardId));
     }
 
     @Test
@@ -108,8 +111,10 @@ class BuyNowServiceTest {
         var shippingInfo = OrderTestFixture.aShipping();
         var quantity = Quantity.of(3);
         var paymentMethod = PaymentMethodEnum.CREDIT_CARD;
+        final var creditCardId = new CreditCardId();
 
-        Order order = buyNowService.buyNow(product, customer, billingInfo, shippingInfo, quantity, paymentMethod);
+        Order order = buyNowService.buyNow(product, customer, billingInfo, shippingInfo, quantity,
+                paymentMethod, creditCardId);
 
         assertThat(order).isNotNull();
         assertThat(order.id()).isNotNull();

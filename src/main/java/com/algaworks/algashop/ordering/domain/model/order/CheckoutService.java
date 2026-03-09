@@ -23,7 +23,8 @@ public class CheckoutService {
     public Order checkout(Customer customer,
                           ShoppingCart shoppingCart,
                           Billing billing, Shipping shipping,
-                          PaymentMethodEnum paymentMethod) {
+                          PaymentMethodEnum paymentMethod,
+                          CreditCardId creditCardId) {
 
         validate(() -> (shoppingCart.isContainsUnavailableItems() || shoppingCart.isEmpty()),
                 NO_SHOPPING_CART_IS_NOT_AVAILABLE, ShoppingCartCantProceedToCheckoutException::new,
@@ -31,7 +32,7 @@ public class CheckoutService {
 
         Set<ShoppingCartItem> items = shoppingCart.items();
 
-        var orderStarted = startOrder(shoppingCart, billing, shipping, paymentMethod);
+        var orderStarted = startOrder(shoppingCart, billing, paymentMethod, creditCardId);
         addOrderItem(items, orderStarted);
 
         if (isHaveFreeShipping(customer)) {
@@ -56,12 +57,13 @@ public class CheckoutService {
 
     private Order startOrder(ShoppingCart shoppingCart,
                              Billing billing,
-                             Shipping shipping,
-                             PaymentMethodEnum paymentMethod) {
+                             PaymentMethodEnum paymentMethod,
+                             CreditCardId creditCardId
+    ) {
 
         var order = Order.draft(shoppingCart.customerId());
         order.changeBilling(billing);
-        order.changePaymentMethod(paymentMethod);
+        order.changePaymentMethod(paymentMethod, creditCardId);
         return order;
     }
 

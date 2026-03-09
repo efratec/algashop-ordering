@@ -2,6 +2,7 @@ package com.algaworks.algashop.ordering.domain.model.entity;
 
 import com.algaworks.algashop.ordering.domain.model.entity.fixture.OrderTestFixture;
 import com.algaworks.algashop.ordering.domain.model.entity.fixture.ProductTestFixture;
+import com.algaworks.algashop.ordering.domain.model.order.CreditCardId;
 import com.algaworks.algashop.ordering.domain.model.order.OrderCannotBeEditedException;
 import com.algaworks.algashop.ordering.domain.model.commons.Quantity;
 import com.algaworks.algashop.ordering.domain.model.order.OrderStatusEnum;
@@ -26,6 +27,7 @@ class OrderChangingTest {
         var billing = OrderTestFixture.aBilling();
         var shipping = OrderTestFixture.aShipping();
         var paymentMethod = PaymentMethodEnum.CREDIT_CARD;
+        var creditCardId = new CreditCardId();
 
         var orderItem = order.items().iterator().next();
 
@@ -34,7 +36,7 @@ class OrderChangingTest {
                 () -> order.changeBilling(billing),
                 () -> order.changeShipping(shipping),
                 () -> order.changeItemQuantity(orderItem.id(), quantity),
-                () -> order.changePaymentMethod(paymentMethod)
+                () -> order.changePaymentMethod(paymentMethod, creditCardId)
         );
 
         for (Executable operation : operations) {

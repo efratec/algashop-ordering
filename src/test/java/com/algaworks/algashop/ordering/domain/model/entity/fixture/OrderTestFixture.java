@@ -1,11 +1,7 @@
 package com.algaworks.algashop.ordering.domain.model.entity.fixture;
 
 import com.algaworks.algashop.ordering.domain.model.commons.*;
-import com.algaworks.algashop.ordering.domain.model.order.Order;
-import com.algaworks.algashop.ordering.domain.model.order.OrderStatusEnum;
-import com.algaworks.algashop.ordering.domain.model.order.PaymentMethodEnum;
-import com.algaworks.algashop.ordering.domain.model.order.Billing;
-import com.algaworks.algashop.ordering.domain.model.order.Shipping;
+import com.algaworks.algashop.ordering.domain.model.order.*;
 import com.algaworks.algashop.ordering.domain.model.customer.CustomerId;
 
 import static com.algaworks.algashop.ordering.domain.model.entity.fixture.CustomerTestFixture.DEFAULT_CUSTOMER_ID;
@@ -23,6 +19,8 @@ public class OrderTestFixture {
 
     private OrderStatusEnum status = OrderStatusEnum.DRAFT;
 
+    private CreditCardId creditCardId;
+
     private OrderTestFixture() {
 
     }
@@ -35,7 +33,7 @@ public class OrderTestFixture {
         var order = Order.draft(this.customerId);
         order.changeShipping(this.shipping);
         order.changeBilling(this.billing);
-        order.changePaymentMethod(this.paymentMethodEnum);
+        order.changePaymentMethod(this.paymentMethodEnum, this.creditCardId);
         addDefaultsITems(order);
         this.status.applyTransition(order);
         return order;
@@ -92,6 +90,11 @@ public class OrderTestFixture {
 
     public OrderTestFixture status(OrderStatusEnum status) {
         this.status = status;
+        return this;
+    }
+
+    public OrderTestFixture creditCardId(CreditCardId creditCardId) {
+        this.creditCardId = creditCardId;
         return this;
     }
 

@@ -31,6 +31,6 @@ public class OrderDetailOutput {
     private BillingData billing;
     private String paymentMethod;
 
-    private List<OrderItemDetailOutput> items = new ArrayList<>();
+    private List<OrderItemDetailOutput> items;
 
 }

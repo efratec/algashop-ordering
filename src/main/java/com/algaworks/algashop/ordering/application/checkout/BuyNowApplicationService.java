@@ -1,5 +1,6 @@
 package com.algaworks.algashop.ordering.application.checkout;
 
+import com.algaworks.algashop.ordering.domain.exception.DomainEntityNotFoundException;
 import com.algaworks.algashop.ordering.domain.model.commons.Quantity;
 import com.algaworks.algashop.ordering.domain.model.commons.ZipCode;
 import com.algaworks.algashop.ordering.domain.model.customer.CustomerId;
@@ -42,17 +43,25 @@ public class BuyNowApplicationService {
         var quantity = Quantity.of(input.getQuantity());
         var productId = ProductId.from(input.getProductId());
 
+        CreditCardId creditCardId = null;
+
+        if (PaymentMethodEnum.CREDIT_CARD.equals(paymentMethod)) {
+            if (input.getCreditCardId() == null) {
+                throw new DomainEntityNotFoundException("Credit card id is already set");
+            }
+            creditCardId = new CreditCardId(input.getCreditCardId());
+        }
+
         var product = findProduct(productId);
 
         var customer = customers.ofId(customerId).orElseThrow(() -> CustomerNotFoundException.because(customerId.value()));
-
 
         var shippingCalculatinoResult = calculateShippingCost(input.getShipping());
 
         var shipping = shippingInputDisassembler.toDomainModel(input.getShipping(), shippingCalculatinoResult);
         var billing = billingInputDisassembler.toDomainModel(input.getBilling());
 
-        var order = buyNowService.buyNow(product, customer, billing, shipping, quantity, paymentMethod);
+        var order = buyNowService.buyNow(product, customer, billing, shipping, quantity, paymentMethod, creditCardId);
 
         orders.add(order);
 
@@ -67,7 +76,7 @@ public class BuyNowApplicationService {
 
     private Product findProduct(ProductId productId) {
         return productCatalogService.ofId(productId)
-                .orElseThrow(()-> ProductNotFoundException.because(productId.value()));
+                .orElseThrow(() -> ProductNotFoundException.because(productId.value()));
     }
 
 }

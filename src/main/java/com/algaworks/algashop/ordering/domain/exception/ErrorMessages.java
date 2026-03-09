@@ -26,5 +26,6 @@ public class ErrorMessages {
     public static final String ERROR_ORDER_NOT_FOUND = "Order %s not found";
     public static final String ERROR_IS_NOT_READY = "Order is not ready";
     public static final String ERROR_SHOPPING_CART_NOT_FOUND = "Shopping Cart %s not found";
+    public static final String ERROR_CREDIT_CARD_IS_REQUIRED = "Credit card is required";
 
 }

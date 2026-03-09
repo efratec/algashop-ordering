@@ -92,7 +92,7 @@ class OrderTest {
     @Test
     void givenDraftOrder_whenChangePaymentMethod_shouldAllowChange() {
         var order = Order.draft(GENERATE_CUSTOMER_ID);
-        order.changePaymentMethod(PaymentMethodEnum.CREDIT_CARD);
+        order.changePaymentMethod(PaymentMethodEnum.CREDIT_CARD, new CreditCardId());
         Assertions.assertWith(order.paymentMethod()).isEqualTo(PaymentMethodEnum.CREDIT_CARD);
     }
 
