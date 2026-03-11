@@ -1,4 +1,4 @@
-create table public."tb_order" (
+create table public.tb_order (
 	id bigint not null,
 	customer_id uuid not null,
 	status varchar(255),

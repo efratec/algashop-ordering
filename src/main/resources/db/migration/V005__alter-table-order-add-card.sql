@@ -1,1 +1,1 @@
-alter table public."tb_order" add credit_card_id uuid null;
+alter table public.tb_order add credit_card_id uuid null;
