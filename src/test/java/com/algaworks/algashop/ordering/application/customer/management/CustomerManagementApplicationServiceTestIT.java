@@ -1,5 +1,6 @@
 package com.algaworks.algashop.ordering.application.customer.management;
 
+import com.algaworks.algashop.ordering.application.AbstractApplicationIT;
 import com.algaworks.algashop.ordering.application.customer.notification.CustomerNotificationApplicationService;
 import com.algaworks.algashop.ordering.application.customer.notification.CustomerNotificationApplicationService.NotifyNewRegistrationInput;
 import com.algaworks.algashop.ordering.application.customer.query.CustomerOutput;
@@ -11,9 +12,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -23,10 +22,8 @@ import static com.algaworks.algashop.ordering.application.customer.management.Cu
 import static com.algaworks.algashop.ordering.application.customer.management.CustomerUpdateInputTestFixture.aCustomerUpdate;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
-@Transactional
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-class CustomerManagementApplicationServiceTestIT {
+class CustomerManagementApplicationServiceTestIT extends AbstractApplicationIT {
 
     private final CustomerManagementApplicationService customerManagementApplicationService;
     private final CustomerQueryService queryService;
@@ -57,7 +54,7 @@ class CustomerManagementApplicationServiceTestIT {
                         "John",
                         "Doe",
                         "johndoe@email.com",
-                        LocalDate.of(1991, 7,5)
+                        LocalDate.of(1991, 7, 5)
                 );
         assertThat(customerOutput.getRegisteredAt()).isNotNull();
 
@@ -91,7 +88,7 @@ class CustomerManagementApplicationServiceTestIT {
                         "Matt",
                         "Damon",
                         "johndoe@email.com",
-                        LocalDate.of(1991, 7,5)
+                        LocalDate.of(1991, 7, 5)
                 );
         assertThat(customerOutput.getRegisteredAt()).isNotNull();
     }

@@ -1,5 +1,6 @@
 package com.algaworks.algashop.ordering.application.customer.loyaltypoints;
 
+import com.algaworks.algashop.ordering.application.AbstractApplicationIT;
 import com.algaworks.algashop.ordering.domain.model.commons.Email;
 import com.algaworks.algashop.ordering.domain.model.commons.FullName;
 import com.algaworks.algashop.ordering.domain.model.commons.Money;
@@ -13,9 +14,7 @@ import io.hypersistence.tsid.TSID;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -26,10 +25,8 @@ import static com.algaworks.algashop.ordering.domain.model.order.OrderStatusEnum
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-@SpringBootTest
-@Transactional
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-class CustomerLoyaltyPointsApplicationServiceTestIT {
+class CustomerLoyaltyPointsApplicationServiceTestIT extends AbstractApplicationIT {
 
     private final CustomerLoyaltyPointsApplicationService loyaltyPointsApplicationService;
     private final Orders orders;

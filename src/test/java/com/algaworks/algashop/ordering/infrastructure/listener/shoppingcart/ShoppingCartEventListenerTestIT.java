@@ -1,19 +1,18 @@
 package com.algaworks.algashop.ordering.infrastructure.listener.shoppingcart;
 
+import com.algaworks.algashop.ordering.application.AbstractApplicationIT;
 import com.algaworks.algashop.ordering.domain.model.customer.CustomerId;
 import com.algaworks.algashop.ordering.domain.model.product.ProductId;
 import com.algaworks.algashop.ordering.domain.model.shoppingcart.*;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 
 import java.time.OffsetDateTime;
 
-@SpringBootTest
-class ShoppingCartEventListenerTestIT {
+class ShoppingCartEventListenerTestIT extends AbstractApplicationIT {
 
     @Autowired
     private ApplicationEventPublisher applicationEventPublisher;

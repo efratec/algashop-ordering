@@ -1,5 +1,6 @@
 package com.algaworks.algashop.ordering.domain.model.service;
 
+import com.algaworks.algashop.ordering.domain.AbstractDomainIT;
 import com.algaworks.algashop.ordering.domain.model.commons.*;
 import com.algaworks.algashop.ordering.domain.model.customer.BirthDate;
 import com.algaworks.algashop.ordering.domain.model.customer.CustomerRegistrationService;
@@ -7,13 +8,11 @@ import lombok.RequiredArgsConstructor;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 
-@SpringBootTest
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-class CustomerRegistrationServiceIT {
+class CustomerRegistrationServiceIT extends AbstractDomainIT {
 
     private final CustomerRegistrationService service;
 

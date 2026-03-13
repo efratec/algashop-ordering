@@ -1,5 +1,6 @@
 package com.algaworks.algashop.ordering.application.customer.query;
 
+import com.algaworks.algashop.ordering.application.AbstractApplicationIT;
 import com.algaworks.algashop.ordering.domain.model.commons.Email;
 import com.algaworks.algashop.ordering.domain.model.commons.FullName;
 import com.algaworks.algashop.ordering.domain.model.customer.CustomerId;
@@ -8,19 +9,15 @@ import lombok.RequiredArgsConstructor;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
-import org.springframework.transaction.annotation.Transactional;
 
 import static com.algaworks.algashop.ordering.domain.model.entity.fixture.CustomerTestFixture.existingCustomer;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-@SpringBootTest
-@Transactional
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-class CustomerQueryServiceTestIT {
+class CustomerQueryServiceTestIT extends AbstractApplicationIT {
 
     private final CustomerQueryService queryService;
     private final Customers customers;

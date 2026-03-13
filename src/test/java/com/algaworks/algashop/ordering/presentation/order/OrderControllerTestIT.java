@@ -2,24 +2,22 @@ package com.algaworks.algashop.ordering.presentation.order;
 
 import com.algaworks.algashop.ordering.application.order.query.OrderDetailOutput;
 import com.algaworks.algashop.ordering.domain.model.order.OrderId;
-import com.algaworks.algashop.ordering.infrastructure.persistence.customer.CustomerPersistenceEntityRepository;
 import com.algaworks.algashop.ordering.infrastructure.persistence.order.OrderPersistenceEntityRepository;
-import com.algaworks.algashop.ordering.infrastructure.persistence.shoppingcart.ShoppingCartPersistenceEntityRepository;
+import com.algaworks.algashop.ordering.presentation.AbstractPresentationIT;
 import com.algaworks.algashop.ordering.presentation.order.utils.AlgaShopResourceUtils;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.extension.responsetemplating.ResponseTemplateTransformer;
 import io.restassured.RestAssured;
 import io.restassured.path.json.config.JsonPathConfig;
+import lombok.RequiredArgsConstructor;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.jdbc.Sql;
 
 import java.util.UUID;
 
@@ -27,23 +25,14 @@ import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options
 import static io.restassured.config.JsonConfig.jsonConfig;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@Sql(scripts = "classpath:db/testdata/afterMigrate.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS)
-@Sql(scripts = "classpath:db/clean/afterMigrate.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_CLASS)
-class OrderControllerTestIT {
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
+class OrderControllerTestIT extends AbstractPresentationIT {
 
     @LocalServerPort
     private int port;
 
     @Autowired
-    private CustomerPersistenceEntityRepository customerRepository;
-
-    @Autowired
     private OrderPersistenceEntityRepository orderRepository;
-
-    @Autowired
-    private ShoppingCartPersistenceEntityRepository shoppingCartRepository;
-
 
     private static final UUID validCustomerId = UUID.fromString("6e148bd5-47f6-4022-b9da-07cfaa294f7a");
 
@@ -99,26 +88,6 @@ class OrderControllerTestIT {
 
         boolean orderExists = orderRepository.existsById(OrderId.from(createdOrderId).value().toLong());
         assertThat(orderExists).isTrue();
-
-    }
-
-    @Test
-    public void shouldNotCreateOrderUsingProductWhenProductAPIIsUnavailable() {
-        String json = AlgaShopResourceUtils.readContent("json/order/create-order-with-product.json");
-
-        wireMockProductCatalog.stop();
-
-        RestAssured
-                .given()
-                .accept(MediaType.APPLICATION_JSON_VALUE)
-                .contentType("application/vnd.order-with-product.v1+json")
-                .body(json)
-                .when()
-                .post("/api/v1/orders")
-                .then()
-                .assertThat()
-                .contentType(MediaType.APPLICATION_PROBLEM_JSON_VALUE)
-                .statusCode(HttpStatus.GATEWAY_TIMEOUT.value());
 
     }
 

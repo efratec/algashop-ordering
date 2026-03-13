@@ -1,5 +1,6 @@
 package com.algaworks.algashop.ordering.application.order.query;
 
+import com.algaworks.algashop.ordering.application.AbstractApplicationIT;
 import com.algaworks.algashop.ordering.domain.model.customer.CustomerId;
 import com.algaworks.algashop.ordering.domain.model.customer.Customers;
 import com.algaworks.algashop.ordering.domain.model.entity.fixture.CustomerTestFixture;
@@ -9,17 +10,13 @@ import com.algaworks.algashop.ordering.domain.model.order.Orders;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
-import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
-@Transactional
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-class OrderQueryServiceTestIT {
+class OrderQueryServiceTestIT extends AbstractApplicationIT {
 
     private final OrderQueryService queryService;
     private final Orders orders;

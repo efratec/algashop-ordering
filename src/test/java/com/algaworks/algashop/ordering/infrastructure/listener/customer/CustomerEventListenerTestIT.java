@@ -1,5 +1,6 @@
 package com.algaworks.algashop.ordering.infrastructure.listener.customer;
 
+import com.algaworks.algashop.ordering.application.AbstractApplicationIT;
 import com.algaworks.algashop.ordering.application.customer.loyaltypoints.CustomerLoyaltyPointsApplicationService;
 import com.algaworks.algashop.ordering.application.customer.notification.CustomerNotificationApplicationService;
 import com.algaworks.algashop.ordering.application.customer.notification.CustomerNotificationApplicationService.NotifyNewRegistrationInput;
@@ -9,10 +10,10 @@ import com.algaworks.algashop.ordering.domain.model.customer.CustomerId;
 import com.algaworks.algashop.ordering.domain.model.customer.CustomerRegisteredEvent;
 import com.algaworks.algashop.ordering.domain.model.order.OrderId;
 import com.algaworks.algashop.ordering.domain.model.order.OrderReadyEvent;
+import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
@@ -20,11 +21,10 @@ import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-@SpringBootTest
-class CustomerEventListenerTestIT {
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
+class CustomerEventListenerTestIT extends AbstractApplicationIT {
 
-    @Autowired
-    private ApplicationEventPublisher applicationEventPublisher;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     @MockitoSpyBean
     private CustomerEventListener customerEventListener;

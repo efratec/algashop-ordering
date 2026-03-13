@@ -1,5 +1,6 @@
 package com.algaworks.algashop.ordering.application.checkout;
 
+import com.algaworks.algashop.ordering.application.AbstractApplicationIT;
 import com.algaworks.algashop.ordering.domain.model.commons.Money;
 import com.algaworks.algashop.ordering.domain.model.customer.Customers;
 import com.algaworks.algashop.ordering.domain.model.entity.fixture.CustomerTestFixture;
@@ -13,9 +14,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -24,10 +23,8 @@ import static com.algaworks.algashop.ordering.application.checkout.BuyNowInputTe
 import static com.algaworks.algashop.ordering.domain.model.entity.fixture.ProductTestFixture.aProduct;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
-@Transactional
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-public class BuyNowApplicationServiceTestIT {
+public class BuyNowApplicationServiceTestIT extends AbstractApplicationIT {
 
     private final BuyNowApplicationService buyNowApplicationService;
     private final Orders orders;

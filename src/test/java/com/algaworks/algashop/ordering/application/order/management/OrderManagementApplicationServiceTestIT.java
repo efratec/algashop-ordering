@@ -1,5 +1,6 @@
 package com.algaworks.algashop.ordering.application.order.management;
 
+import com.algaworks.algashop.ordering.application.AbstractApplicationIT;
 import com.algaworks.algashop.ordering.application.customer.loyaltypoints.CustomerLoyaltyPointsApplicationService;
 import com.algaworks.algashop.ordering.domain.model.customer.Customers;
 import com.algaworks.algashop.ordering.domain.model.order.*;
@@ -8,10 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -21,11 +20,9 @@ import static com.algaworks.algashop.ordering.domain.model.order.OrderStatusEnum
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-@SpringBootTest
-@Transactional
 @Import(OrderEventListener.class)
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-class OrderManagementApplicationServiceTestIT {
+class OrderManagementApplicationServiceTestIT extends AbstractApplicationIT {
 
     private final Orders orders;
     private final Customers customers;
