@@ -10,7 +10,7 @@ import com.algaworks.algashop.ordering.core.domain.model.customer.Customer;
 import com.algaworks.algashop.ordering.core.domain.model.customer.CustomerId;
 import org.springframework.stereotype.Component;
 
-import static com.algaworks.algashop.ordering.infrastructure.persistence.order.OrderPersistenceEntityDisassembler.convertAddressEmbeddableToAddress;
+import static com.algaworks.algashop.ordering.infrastructure.adapters.out.persistence.order.OrderPersistenceEntityDisassembler.convertAddressEmbeddableToAddress;
 
 @Component
 public class CustomerPersistenceEntityDisassembler {

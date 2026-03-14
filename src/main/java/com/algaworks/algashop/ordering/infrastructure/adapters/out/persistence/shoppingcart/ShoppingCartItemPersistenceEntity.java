@@ -1,6 +1,6 @@
 package com.algaworks.algashop.ordering.infrastructure.adapters.out.persistence.shoppingcart;
 
-import com.algaworks.algashop.ordering.infrastructure.persistence.commons.AbstractAuditableAggregateRoot;
+import com.algaworks.algashop.ordering.infrastructure.adapters.out.persistence.commons.AbstractAuditableAggregateRoot;
 import jakarta.persistence.*;
 import lombok.*;
 

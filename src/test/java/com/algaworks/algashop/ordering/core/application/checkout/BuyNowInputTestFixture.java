@@ -8,8 +8,8 @@ import com.algaworks.algashop.ordering.core.ports.in.order.ShippingInput;
 
 import java.util.UUID;
 
-import static com.algaworks.algashop.ordering.core.domain.model.entity.fixture.CustomerTestFixture.DEFAULT_CUSTOMER_ID;
-import static com.algaworks.algashop.ordering.core.domain.model.entity.fixture.ProductTestFixture.DEFAULT_PRODUCT_ID;
+import static com.algaworks.algashop.ordering.core.domain.model.customer.CustomerTestFixture.DEFAULT_CUSTOMER_ID;
+import static com.algaworks.algashop.ordering.core.domain.model.product.ProductTestFixture.DEFAULT_PRODUCT_ID;
 
 public class BuyNowInputTestFixture {
 

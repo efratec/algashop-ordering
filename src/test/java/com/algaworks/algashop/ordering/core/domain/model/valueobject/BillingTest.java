@@ -7,7 +7,7 @@ import com.algaworks.algashop.ordering.core.domain.model.commons.Phone;
 import com.algaworks.algashop.ordering.core.domain.model.order.Billing;
 import org.junit.jupiter.api.Test;
 
-import static com.algaworks.algashop.ordering.core.domain.model.entity.fixture.AddressTestFixture.aAddress;
+import static com.algaworks.algashop.ordering.core.domain.model.fixture.AddressTestFixture.aAddress;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 

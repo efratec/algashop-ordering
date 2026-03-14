@@ -6,9 +6,9 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
-import static com.algaworks.algashop.ordering.core.domain.model.entity.fixture.AddressTestFixture.aAddress;
-import static com.algaworks.algashop.ordering.core.domain.model.entity.fixture.RecipientTestFixture.aRecipient;
-import static com.algaworks.algashop.ordering.core.domain.model.entity.fixture.ShippingTestFixture.MONEY_20;
+import static com.algaworks.algashop.ordering.core.domain.model.fixture.AddressTestFixture.aAddress;
+import static com.algaworks.algashop.ordering.core.domain.model.fixture.RecipientTestFixture.aRecipient;
+import static com.algaworks.algashop.ordering.core.domain.model.order.shipping.ShippingTestFixture.MONEY_20;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 

@@ -1,0 +1,24 @@
+package com.algaworks.algashop.ordering.core.domain.model.fixture;
+
+import com.algaworks.algashop.ordering.core.domain.model.commons.Document;
+import com.algaworks.algashop.ordering.core.domain.model.commons.FullName;
+import com.algaworks.algashop.ordering.core.domain.model.commons.Phone;
+import com.algaworks.algashop.ordering.core.domain.model.order.Recipient;
+
+public class RecipientTestFixture {
+
+    public static final String FIRST_NAME = "TESTE";
+    public static final String LAST_NAME = "DA SILVA";
+    public static final String PHONE = "82981667744";
+    public static final String DOCUMENT = "TESTANDO";
+
+    public static Recipient aRecipient() {
+        return Recipient
+                .builder()
+                .fullName(FullName.of(FIRST_NAME, LAST_NAME))
+                .phone(Phone.of(PHONE))
+                .document(Document.of(DOCUMENT))
+                .build();
+    }
+
+}

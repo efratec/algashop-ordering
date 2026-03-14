@@ -2,13 +2,12 @@ package com.algaworks.algashop.ordering.core.application.checkout;
 
 import com.algaworks.algashop.ordering.core.application.AbstractApplicationIT;
 import com.algaworks.algashop.ordering.core.domain.model.commons.Money;
+import com.algaworks.algashop.ordering.core.domain.model.customer.CustomerTestFixture;
 import com.algaworks.algashop.ordering.core.domain.model.customer.Customers;
-import com.algaworks.algashop.ordering.core.domain.model.entity.fixture.CustomerTestFixture;
 import com.algaworks.algashop.ordering.core.domain.model.order.OrderId;
 import com.algaworks.algashop.ordering.core.domain.model.order.Orders;
 import com.algaworks.algashop.ordering.core.domain.model.order.ShippingCostService;
 import com.algaworks.algashop.ordering.core.domain.model.product.ProductCatalogService;
-import lombok.RequiredArgsConstructor;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,15 +19,19 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 import static com.algaworks.algashop.ordering.core.application.checkout.BuyNowInputTestFixture.aBuyNowInput;
-import static com.algaworks.algashop.ordering.core.domain.model.entity.fixture.ProductTestFixture.aProduct;
+import static com.algaworks.algashop.ordering.core.domain.model.product.ProductTestFixture.aProduct;
 import static org.mockito.Mockito.when;
 
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
-public class BuyNowApplicationServiceTestIT extends AbstractApplicationIT {
+class BuyNowApplicationServiceTestIT extends AbstractApplicationIT {
 
-    private final BuyNowApplicationService buyNowApplicationService;
-    private final Orders orders;
-    private final Customers customers;
+    @Autowired
+    private BuyNowApplicationService buyNowApplicationService;
+
+    @Autowired
+    private Orders orders;
+
+    @Autowired
+    private Customers customers;
 
     @MockitoBean
     private ProductCatalogService productCatalogService;

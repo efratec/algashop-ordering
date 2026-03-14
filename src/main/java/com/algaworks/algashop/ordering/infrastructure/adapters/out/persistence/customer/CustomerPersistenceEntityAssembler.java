@@ -3,7 +3,7 @@ package com.algaworks.algashop.ordering.infrastructure.adapters.out.persistence.
 import com.algaworks.algashop.ordering.core.domain.model.customer.Customer;
 import org.springframework.stereotype.Component;
 
-import static com.algaworks.algashop.ordering.infrastructure.persistence.order.OrderPersistenceEntityAssembler.convertAddressToEmbeddable;
+import static com.algaworks.algashop.ordering.infrastructure.adapters.out.persistence.order.OrderPersistenceEntityAssembler.convertAddressToEmbeddable;
 
 @Component
 public class CustomerPersistenceEntityAssembler {

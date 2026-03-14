@@ -25,10 +25,10 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import static com.algaworks.algashop.ordering.core.application.checkout.CheckoutInputTestFixture.aCheckoutInput;
-import static com.algaworks.algashop.ordering.core.domain.model.entity.fixture.CustomerTestFixture.DEFAULT_CUSTOMER_ID;
-import static com.algaworks.algashop.ordering.core.domain.model.entity.fixture.CustomerTestFixture.existingCustomer;
-import static com.algaworks.algashop.ordering.core.domain.model.entity.fixture.ProductTestFixture.aProduct;
-import static com.algaworks.algashop.ordering.core.domain.model.entity.fixture.ShoppingCartTestFixture.aShoppingCart;
+import static com.algaworks.algashop.ordering.core.domain.model.customer.CustomerTestFixture.DEFAULT_CUSTOMER_ID;
+import static com.algaworks.algashop.ordering.core.domain.model.customer.CustomerTestFixture.existingCustomer;
+import static com.algaworks.algashop.ordering.core.domain.model.product.ProductTestFixture.aProduct;
+import static com.algaworks.algashop.ordering.core.domain.model.shoppingcart.ShoppingCartTestFixture.aShoppingCart;
 import static com.algaworks.algashop.ordering.core.domain.model.order.OrderStatusEnum.PLACED;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
