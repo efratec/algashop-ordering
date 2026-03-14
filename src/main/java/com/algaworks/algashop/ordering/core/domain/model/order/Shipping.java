@@ -1,0 +1,30 @@
+package com.algaworks.algashop.ordering.core.domain.model.order;
+
+import com.algaworks.algashop.ordering.core.domain.model.commons.Address;
+import com.algaworks.algashop.ordering.core.domain.model.commons.Money;
+import lombok.Builder;
+
+import java.time.LocalDate;
+
+import static com.algaworks.algashop.ordering.core.domain.validator.FieldValidations.requireAllNonNull;
+
+@Builder(toBuilder = true)
+public record Shipping(
+        Money cost,
+        LocalDate expectedDate,
+        Recipient recipient,
+        Address address) {
+
+    public Shipping {
+        requireAllNonNull("Cost", cost, "ExpectedDate", expectedDate,
+                "Recipient", recipient, "Address", address);
+    }
+
+    public static Shipping of(Money cost,
+                              LocalDate expectedDate,
+                              Recipient recipient,
+                              Address address) {
+        return new Shipping(cost, expectedDate, recipient, address);
+    }
+
+}

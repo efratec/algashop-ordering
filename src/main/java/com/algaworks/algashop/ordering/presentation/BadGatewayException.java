@@ -1,6 +1,6 @@
 package com.algaworks.algashop.ordering.presentation;
 
-import com.algaworks.algashop.ordering.domain.exception.DomainException;
+import com.algaworks.algashop.ordering.core.domain.exception.DomainException;
 
 public class BadGatewayException extends DomainException {
 

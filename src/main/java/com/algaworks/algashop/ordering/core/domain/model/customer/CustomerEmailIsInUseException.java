@@ -1,0 +1,20 @@
+package com.algaworks.algashop.ordering.core.domain.model.customer;
+
+import com.algaworks.algashop.ordering.core.domain.exception.DomainEntityNotFoundException;
+
+import java.util.UUID;
+
+import static com.algaworks.algashop.ordering.core.domain.exception.enums.ReasonMessageEnum.CUSTOMER_EMAIL_IS_ALREADY_USED;
+
+public class CustomerEmailIsInUseException extends DomainEntityNotFoundException {
+
+    public CustomerEmailIsInUseException(String message) {
+        super(message);
+    }
+
+    public static CustomerEmailIsInUseException because(UUID id) {
+        return of(CustomerEmailIsInUseException::new, CUSTOMER_EMAIL_IS_ALREADY_USED, id);
+    }
+
+
+}

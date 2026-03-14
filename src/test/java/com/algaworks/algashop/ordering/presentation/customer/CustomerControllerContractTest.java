@@ -1,13 +1,12 @@
 package com.algaworks.algashop.ordering.presentation.customer;
 
-import com.algaworks.algashop.ordering.application.customer.management.CustomerInput;
-import com.algaworks.algashop.ordering.application.customer.management.CustomerManagementApplicationService;
-import com.algaworks.algashop.ordering.application.customer.management.CustomerUpdateInput;
-import com.algaworks.algashop.ordering.application.customer.query.*;
-import com.algaworks.algashop.ordering.application.shoppingcart.query.ShoppingCartQueryService;
-import com.algaworks.algashop.ordering.domain.exception.DomainException;
-import com.algaworks.algashop.ordering.domain.model.customer.CustomerEmailIsInUseException;
-import com.algaworks.algashop.ordering.domain.model.customer.CustomerNotFoundException;
+import com.algaworks.algashop.ordering.core.ports.in.customer.*;
+import com.algaworks.algashop.ordering.core.application.customer.query.*;
+import com.algaworks.algashop.ordering.core.application.shoppingcart.query.ShoppingCartQueryService;
+import com.algaworks.algashop.ordering.core.domain.exception.DomainException;
+import com.algaworks.algashop.ordering.core.domain.model.customer.CustomerEmailIsInUseException;
+import com.algaworks.algashop.ordering.core.domain.model.customer.CustomerNotFoundException;
+import com.algaworks.algashop.ordering.infrastructure.adapters.in.web.customer.CustomerController;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import lombok.RequiredArgsConstructor;
 import org.hamcrest.Matchers;
@@ -37,10 +36,10 @@ class CustomerControllerContractTest {
     private final WebApplicationContext context;
 
     @MockitoBean
-    private CustomerManagementApplicationService customerManagementApplicationService;
+    private ForManagingCustomers forManagingCustomers;
 
     @MockitoBean
-    private CustomerQueryService customerQueryService;
+    private ForQueryingCustomers forQueryingCustomers;
 
     @MockitoBean
     private ShoppingCartQueryService shoppingCartQueryService;
@@ -58,9 +57,9 @@ class CustomerControllerContractTest {
         var customerOutput = CustomerOutputTestFixture.existing().build();
         var customerId = UUID.randomUUID();
 
-        when(customerManagementApplicationService.create(Mockito.any(CustomerInput.class)))
+        when(forManagingCustomers.create(Mockito.any(CustomerInput.class)))
                 .thenReturn(customerId);
-        when(customerQueryService.findById(Mockito.any(UUID.class)))
+        when(forQueryingCustomers.findById(Mockito.any(UUID.class)))
                 .thenReturn(customerOutput);
 
         String jsonInput = """
@@ -169,7 +168,7 @@ class CustomerControllerContractTest {
         var customer1 = CustomerSummaryOutputTestFixture.existing().build();
         var customer2 = CustomerSummaryOutputTestFixture.existingAlt1().build();
 
-        when(customerQueryService.filter(Mockito.any(CustomerFilter.class)))
+        when(forQueryingCustomers.filter(Mockito.any(CustomerFilter.class)))
                 .thenReturn(new PageImpl<>(List.of(customer1, customer2)));
 
         DateTimeFormatter formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
@@ -222,7 +221,7 @@ class CustomerControllerContractTest {
     public void findByIdContract() {
         CustomerOutput customer = CustomerOutputTestFixture.existing().build();
 
-        when(customerQueryService.findById(customer.getId())).thenReturn(customer);
+        when(forQueryingCustomers.findById(customer.getId())).thenReturn(customer);
 
         DateTimeFormatter formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
         var address = customer.getAddress();
@@ -265,7 +264,7 @@ class CustomerControllerContractTest {
         var address = customerOutPut.getAddress();
 
         UUID customerId = UUID.randomUUID();
-        when(customerQueryService.findById(Mockito.any(UUID.class)))
+        when(forQueryingCustomers.findById(Mockito.any(UUID.class)))
                 .thenReturn(customerOutPut);
 
         final String jsonInput = """
@@ -320,7 +319,7 @@ class CustomerControllerContractTest {
 
     @Test
     public void deleteCustomerContract() {
-        Mockito.doNothing().when(customerManagementApplicationService)
+        Mockito.doNothing().when(forManagingCustomers)
                 .archive(Mockito.any(UUID.class));
 
         UUID customerId = UUID.randomUUID();
@@ -340,7 +339,7 @@ class CustomerControllerContractTest {
     public void findByIdError404Contract() {
         UUID invalidCustomerId = UUID.randomUUID();
 
-        when(customerQueryService.findById(invalidCustomerId))
+        when(forQueryingCustomers.findById(invalidCustomerId))
                 .thenThrow(CustomerNotFoundException.class);
 
         RestAssuredMockMvc
@@ -362,7 +361,7 @@ class CustomerControllerContractTest {
 
     @Test
     public void createCustomerError409Contract() {
-        when(customerManagementApplicationService.create(Mockito.any(CustomerInput.class)))
+        when(forManagingCustomers.create(Mockito.any(CustomerInput.class)))
                 .thenThrow(CustomerEmailIsInUseException.class);
 
         String jsonInput = """
@@ -407,7 +406,7 @@ class CustomerControllerContractTest {
 
     @Test
     public void createCustomerError422Contract() {
-        when(customerManagementApplicationService.create(Mockito.any(CustomerInput.class)))
+        when(forManagingCustomers.create(Mockito.any(CustomerInput.class)))
                 .thenThrow(DomainException.class);
 
         String jsonInput = """
@@ -452,7 +451,7 @@ class CustomerControllerContractTest {
 
     @Test
     public void createCustomerError500Contract() {
-        when(customerManagementApplicationService.create(Mockito.any(CustomerInput.class)))
+        when(forManagingCustomers.create(Mockito.any(CustomerInput.class)))
                 .thenThrow(RuntimeException.class);
 
         String jsonInput = """
@@ -540,7 +539,7 @@ class CustomerControllerContractTest {
     void updateCustomerError404Contract() {
         UUID invalidCustomerId = UUID.randomUUID();
 
-        when(customerQueryService.findById(invalidCustomerId))
+        when(forQueryingCustomers.findById(invalidCustomerId))
                 .thenThrow(CustomerNotFoundException.class);
 
         String inputJson = """
@@ -586,7 +585,7 @@ class CustomerControllerContractTest {
         var customerID = UUID.randomUUID();
 
         Mockito.doThrow(CustomerEmailIsInUseException.class)
-                .when(customerManagementApplicationService)
+                .when(forManagingCustomers)
                 .update(Mockito.any(UUID.class), Mockito.any(CustomerUpdateInput.class));
 
         String inputJson = """
@@ -635,7 +634,7 @@ class CustomerControllerContractTest {
         var customerID = UUID.randomUUID();
 
         Mockito.doThrow(DomainException.class)
-                .when(customerManagementApplicationService)
+                .when(forManagingCustomers)
                 .update(Mockito.any(UUID.class), Mockito.any(CustomerUpdateInput.class));
 
         String inputJson = """
@@ -684,7 +683,7 @@ class CustomerControllerContractTest {
         var invalidCustomerId = UUID.randomUUID();
 
         Mockito.doThrow(CustomerNotFoundException.class).
-                when(customerManagementApplicationService)
+                when(forManagingCustomers)
                 .archive(Mockito.any(UUID.class));
 
         RestAssuredMockMvc
@@ -710,7 +709,7 @@ class CustomerControllerContractTest {
         var invalidCustomerId = UUID.randomUUID();
 
         Mockito.doThrow(DomainException.class).
-                when(customerManagementApplicationService)
+                when(forManagingCustomers)
                 .archive(Mockito.any(UUID.class));
 
         RestAssuredMockMvc
@@ -737,7 +736,7 @@ class CustomerControllerContractTest {
         var invalidCustomerId = UUID.randomUUID();
 
         Mockito.doThrow(RuntimeException.class).
-                when(customerManagementApplicationService)
+                when(forManagingCustomers)
                 .archive(Mockito.any(UUID.class));
 
         RestAssuredMockMvc

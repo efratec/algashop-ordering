@@ -1,14 +1,14 @@
 package com.algaworks.algashop.ordering.infrastructure.persistence.entity;
 
-import com.algaworks.algashop.ordering.domain.model.commons.Address;
-import com.algaworks.algashop.ordering.domain.model.commons.ZipCode;
-import com.algaworks.algashop.ordering.infrastructure.persistence.customer.CustomerPersistenceEntity;
-import com.algaworks.algashop.ordering.infrastructure.persistence.customer.CustomerPersistenceEntity.CustomerPersistenceEntityBuilder;
+import com.algaworks.algashop.ordering.core.domain.model.commons.Address;
+import com.algaworks.algashop.ordering.core.domain.model.commons.ZipCode;
+import com.algaworks.algashop.ordering.infrastructure.adapters.out.persistence.customer.CustomerPersistenceEntity;
+import com.algaworks.algashop.ordering.infrastructure.adapters.out.persistence.customer.CustomerPersistenceEntity.CustomerPersistenceEntityBuilder;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
-import static com.algaworks.algashop.ordering.domain.model.entity.fixture.CustomerTestFixture.DEFAULT_CUSTOMER_ID;
+import static com.algaworks.algashop.ordering.core.domain.model.entity.fixture.CustomerTestFixture.DEFAULT_CUSTOMER_ID;
 import static com.algaworks.algashop.ordering.infrastructure.persistence.order.OrderPersistenceEntityAssembler.convertAddressToEmbeddable;
 
 public class CustomerPersistenceEntityTestFixture {
