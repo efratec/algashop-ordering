@@ -48,13 +48,11 @@ class OrderControllerTestIT extends AbstractPresentationIT {
 
         wireMockRapidex = new WireMockServer(options()
                 .port(8780)
-                .usingFilesUnderDirectory("src/test/resources/wiremock/rapidex")
-                .extensions(new ResponseTemplateTransformer(true)));
+                .usingFilesUnderDirectory("src/test/resources/wiremock/rapidex"));
 
         wireMockProductCatalog = new WireMockServer(options()
                 .port(8781)
-                .usingFilesUnderDirectory("src/test/resources/wiremock/product-catalog")
-                .extensions(new ResponseTemplateTransformer(true)));
+                .usingFilesUnderDirectory("src/test/resources/wiremock/product-catalog"));
 
         wireMockRapidex.start();
         wireMockProductCatalog.start();

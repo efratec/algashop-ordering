@@ -1,5 +1,6 @@
 package com.algaworks.algashop.ordering.infrastructure.adapters.out.persistence.order;
 
+import jakarta.validation.constraints.NotNull;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -40,7 +41,7 @@ public interface OrderPersistenceEntityRepository extends JpaRepository<OrderPer
     BigDecimal totalSoldForCustomer(UUID customerId);
 
     @Override
-    @NonNull
+    @NotNull
     @EntityGraph(attributePaths = {"customer", "items"})
     Optional<OrderPersistenceEntity> findById(@NonNull Long id);
 

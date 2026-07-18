@@ -7,7 +7,7 @@ public class GatewayTimeoutException extends DomainException {
     public GatewayTimeoutException() {
     }
 
-    private GatewayTimeoutException(String message, Throwable cause) {
+    public GatewayTimeoutException(String message, Throwable cause) {
         super(message, cause);
     }
 
