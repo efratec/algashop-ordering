@@ -34,10 +34,14 @@ public class ResilientRapidexApiClient {
 
     @ConcurrencyLimit(10)
     public DeliveryCostResponse calculate(DeliveryCostRequest request) {
+        assert circuitBreaker.getCircuitBreakerPolicy() != null;
         circuitBreaker.getCircuitBreakerPolicy().canRetry();
         log.info("Rapidex Api CB state is {}", circuitBreaker.getCircuitBreakerPolicy().getState());
         try {
-            DeliveryCostResponse response = circuitBreaker.run(() -> doCalculate(request));
+            DeliveryCostResponse response = circuitBreaker.run(()
+                    -> doCalculate(request),
+                    ex -> doInternalFallback(request, ex)
+                    );
             if (response == null) {
                 throw new BadGatewayException.ClientErrorException("Invalid zip code provided");
             }
@@ -45,6 +49,11 @@ public class ResilientRapidexApiClient {
         } catch (NoFallbackAvailableException e) {
             throw unwrapException(e);
         }
+    }
+
+    private DeliveryCostResponse doInternalFallback(DeliveryCostRequest request, Throwable exThrowable) {
+        log.warn("Rapidex API call failed for request {}", request, exThrowable);
+        return new DeliveryCostResponse("20.0", 10L);
     }
 
     private DeliveryCostResponse doCalculate(DeliveryCostRequest deliveryCostRequest) {
