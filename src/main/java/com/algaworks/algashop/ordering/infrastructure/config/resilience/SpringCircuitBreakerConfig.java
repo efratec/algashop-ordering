@@ -1,4 +1,4 @@
-package com.algaworks.algashop.ordering.infrastructure.config.spring;
+package com.algaworks.algashop.ordering.infrastructure.config.resilience;
 
 import com.algaworks.algashop.ordering.infrastructure.adapters.in.web.exceptionhandler.BadGatewayException;
 import com.algaworks.algashop.ordering.infrastructure.adapters.in.web.exceptionhandler.GatewayTimeoutException;
@@ -13,6 +13,9 @@ import java.time.Duration;
 @Configuration
 public class SpringCircuitBreakerConfig {
 
+    public static final String PRODUCT_CATALOG_CB = "productCatalogCB";
+    public static final String RAPIDEX_API_CB = "rapidexApiCB";
+
     @Bean
     public Customizer<FrameworkRetryCircuitBreakerFactory> defaultCustomizer() {
         var retryPolicy = RetryPolicy.builder()
@@ -26,13 +29,13 @@ public class SpringCircuitBreakerConfig {
                     .retryPolicy(retryPolicy)
                     .openTimeout(Duration.ofSeconds(10))
                     .resetTimeout(Duration.ofSeconds(25))
-                    .build(), "productCatalogCB"
+                    .build(), PRODUCT_CATALOG_CB
             );
             factory.configure(builder -> builder
                     .retryPolicy(retryPolicy)
                     .openTimeout(Duration.ofSeconds(30))
                     .resetTimeout(Duration.ofSeconds(60))
-                    .build(), "rapidexApiCB"
+                    .build(), RAPIDEX_API_CB
             );
         };
     }
