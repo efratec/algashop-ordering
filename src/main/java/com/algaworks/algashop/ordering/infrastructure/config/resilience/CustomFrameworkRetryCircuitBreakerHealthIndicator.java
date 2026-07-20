@@ -64,5 +64,4 @@ public class CustomFrameworkRetryCircuitBreakerHealthIndicator implements Health
         return builder.build();
     }
 
-
 }
